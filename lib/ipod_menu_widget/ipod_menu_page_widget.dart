@@ -1,0 +1,285 @@
+/*
+  
+  Controls how the menu list looks and handles basic menu animations.
+
+*/
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
+import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+class IPodMenuPageWidget extends StatefulWidget {
+  final IPodSubMenu subMenu;
+  final LinearGradient selectionColor;
+  final Decoration decoration;
+  final bool isAnimated;
+  final VoidCallback onBackAnimationComplete;
+  final TextStyle itemTextStyle;
+  final TextStyle selectedItemTextStyle;
+  final Widget subMenuIcon;
+  final Widget selectedSubMenuIcon;
+
+  IPodMenuPageWidget({
+    Key key,
+    @required IPodSubMenu subMenu,
+    LinearGradient selectionColor,
+    this.decoration,
+    bool isAnimated,
+    this.onBackAnimationComplete,
+    TextStyle itemTextStyle,
+    TextStyle selectedItemTextStyle,
+    Widget subMenuIcon,
+    Widget selectedSubMenuIcon,
+  })  : assert(subMenu != null),
+        this.subMenu = subMenu,
+        this.selectionColor = selectionColor ??
+            LinearGradient(
+              colors: [
+                Color(0xFF0168C7),
+                Color(0xFF39AFDA),
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+        this.isAnimated = isAnimated ?? true,
+        this.itemTextStyle = itemTextStyle ??
+            TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        this.selectedItemTextStyle = selectedItemTextStyle ??
+            TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        this.subMenuIcon =
+            subMenuIcon ?? 
+              Transform(
+                  transform: Matrix4.translationValues(10, 0.0, 0.0),
+                  child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.transparent,
+                    size: 15,
+                  ))),
+        this.selectedSubMenuIcon = selectedSubMenuIcon ??
+              Transform(
+                  transform: Matrix4.translationValues(10, 0.0, 0.0),
+                  child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 15,
+                  ))),
+        super(key: key);
+
+  @override
+  IPodMenuPageWidgetState createState() => IPodMenuPageWidgetState();
+}
+
+class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
+    with SingleTickerProviderStateMixin {
+  int _selectedIndex = 0;
+  int _startVisibleIndex;
+  int _endVisibleIndex;
+  int _visibleItemsCount;
+  final ItemScrollController _scrollController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener =
+      ItemPositionsListener.create();
+
+  List<IPodMenuItem> _menuItems;
+  Widget _captionItem;
+
+  AnimationController _animationController;
+  Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initValues();
+    _initAnimation();
+    _itemPositionsListener.itemPositions.addListener(_positionListener);
+  }
+  
+  void _positionListener() {
+    final positions = _itemPositionsListener.itemPositions.value;
+    if (positions.isNotEmpty) {
+      if (positions.first.itemLeadingEdge >= 0 || positions.length == 1) {
+        _startVisibleIndex = positions.first.index;
+      } else {
+        _startVisibleIndex = positions.toList()[1].index;
+      }
+
+      if (positions.last.itemTrailingEdge <= 1 || positions.length == 1) {
+        _endVisibleIndex = positions.last.index;
+      } else {
+        _endVisibleIndex = positions.toList()[positions.length - 2].index;
+      }
+    } else {
+      _startVisibleIndex = 0;
+      _endVisibleIndex = 0;
+    }
+  }
+
+  void _initValues() {
+    _startVisibleIndex = 0;
+    _endVisibleIndex = 0;
+    _visibleItemsCount = widget.subMenu.visibleItemsCount;
+    _menuItems = widget.subMenu.items;
+    _captionItem = widget.subMenu.caption;
+  }
+
+  void _initAnimation() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    );
+    _animation = Tween<double>(begin: 1, end: 0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.linear,
+        reverseCurve: Curves.linear,
+      ),
+    );
+    if (widget.isAnimated) {
+      _animationController.forward();
+    } else {
+      _animationController.value = 1;
+    }
+  }
+
+  @override
+  void dispose() {
+    _itemPositionsListener.itemPositions.removeListener(_positionListener);
+    _animationController?.dispose();
+    super.dispose();
+  }
+
+  // panning to the right on the wheel
+
+  void increaseSelectedIndex() {
+    if (_selectedIndex < _menuItems.length - 1) {
+      _selectedIndex++;
+      if (_endVisibleIndex < _selectedIndex) {
+        final int jumpIndex =
+            _selectedIndex - (_endVisibleIndex - _startVisibleIndex);
+        _scrollController.jumpTo(index: jumpIndex);
+      }
+      setState(() {});
+      HapticFeedback.lightImpact();
+      SystemSound.play(SystemSoundType.click);
+    }
+  }
+
+  // panning to the left
+  void decreaseSelectedIndex() {
+    if (_selectedIndex > 0) {
+      _selectedIndex--;
+
+      if (_startVisibleIndex > _selectedIndex) {
+        _scrollController.jumpTo(index: _selectedIndex);
+      }
+      setState(() {});
+      HapticFeedback.lightImpact();
+      SystemSound.play(SystemSoundType.click);
+    }
+  }
+
+  IPodSubMenu tap() {
+    HapticFeedback.mediumImpact();
+    SystemSound.play(SystemSoundType.click);
+    final IPodMenuItem item = _menuItems[_selectedIndex];
+    final VoidCallback tap = item.onTap;
+    if (tap != null) tap();
+    return item.subMenu;
+  }
+
+  void back() {
+    HapticFeedback.mediumImpact();
+    SystemSound.play(SystemSoundType.click);
+    if (widget.onBackAnimationComplete != null) {
+      _animationController.addStatusListener((status) {
+        if (status == AnimationStatus.dismissed)
+          widget.onBackAnimationComplete();
+      });
+    }
+
+    _animationController.reverse();
+  }
+
+  @override
+  Widget build(BuildContext ctx) {
+    return LayoutBuilder(
+      builder: (context, constraints) => AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) => Transform.translate(
+          offset: Offset(constraints.maxWidth * _animation.value, 0),
+          child: child,
+        ),
+        child: _buildBody(),
+      ),
+    );
+  }
+
+  Container _buildBody() {
+    return Container(
+      decoration: widget.decoration,
+      child: Column(
+        children: <Widget>[
+          _captionItem,
+          Expanded(
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              final double itemHeight =
+                  constraints.maxHeight / _visibleItemsCount;
+
+              return ScrollablePositionedList.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemScrollController: _scrollController,
+                itemPositionsListener: _itemPositionsListener,
+                itemCount: _menuItems.length,
+                itemBuilder: (BuildContext context, int index) => _buildItem(
+                  index: index,
+                  height: itemHeight,
+                  isSelected: index == _selectedIndex,
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItem({
+    @required int index,
+    @required double height,
+    @required bool isSelected,
+  }) {
+    assert(index != null);
+    assert(height != null);
+    assert(isSelected != null);
+
+    final IPodMenuItem item = _menuItems[index];
+    final double itemHeight = 160 / _visibleItemsCount;
+    final double biggerHeight = 280 / _visibleItemsCount;
+    return Container(
+      height: itemHeight,
+      decoration:
+          isSelected ? BoxDecoration(gradient: widget.selectionColor) : null,
+      child: ListTile(
+        title: Transform(
+                transform: Matrix4.translationValues(-10, 0.0, 0.0),
+                  child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                  child: Text(item.text,
+                  maxLines: 1,
+                  style: isSelected
+                      ? widget.selectedItemTextStyle
+                      : widget.itemTextStyle))),
+        dense: true,
+        trailing: item.subMenu != null
+            ? (isSelected ? widget.selectedSubMenuIcon : widget.subMenuIcon)
+            : FittedBox(),
+      ),
+    );
+  }
+}

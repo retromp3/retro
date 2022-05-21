@@ -54,3 +54,8 @@ This is a list of all the things that are left to complete (there's likely more 
 | Clickwheel feedback | ✅ | ✅ |
 | Menu Layout | ✅ | ✅ |
 | Music Player functions | 🚧 | 🚧 |
+| Migrate to Android embedding v2 | N/A | ✅ |
+| Migrate to Flutter 3 | 🚧 | 🚧 |
+| Splash screen | 🚧 | 🚧 |
+| Dynamic Menu Sizes | 🚧 | 🚧 |
+| Responsive to all screens | 🚧 | 🚧 |
