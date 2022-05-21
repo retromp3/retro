@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(getSkin(state)),
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
           ),

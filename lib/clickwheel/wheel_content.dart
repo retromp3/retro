@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/main.dart';
 
@@ -27,10 +28,10 @@ Widget fastForward() {
   return Container(
     child: IconButton(
         icon: Icon(
-          Icons.fast_forward,
+          SFSymbols.forward_end_alt_fill,
           color: controlsColor,
         ),
-        iconSize: 40,
+        iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
         }),
@@ -43,10 +44,10 @@ Widget fastRewind() {
   return Container(
     child: IconButton(
         icon: Icon(
-          Icons.fast_rewind,
+          SFSymbols.backward_end_alt_fill,
           color: controlsColor,
         ),
-        iconSize: 40,
+        iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
         }),
@@ -60,8 +61,8 @@ Widget playButton() {
     child: 
       IconButton(
         icon: Icon(
-          Icons.play_arrow,
-          size: 40,
+          SFSymbols.playpause_fill,
+          size: 25,
           color: controlsColor,
         ),
           onPressed: () async {
@@ -72,7 +73,7 @@ Widget playButton() {
           },
       ),
     alignment: Alignment.bottomCenter,
-    margin: EdgeInsets.only(bottom: 10),
+    margin: EdgeInsets.only(bottom: 5),
   );
 }
 

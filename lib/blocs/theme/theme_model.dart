@@ -9,8 +9,8 @@ class ThemeModel {
   final WheelColor wheelColor;
 
   ThemeModel({SkinTheme skinTheme, WheelColor wheelColor})
-      : this.skinTheme = skinTheme ?? SkinTheme.retro,
-        this.wheelColor = wheelColor ?? WheelColor.black;
+      : this.skinTheme = skinTheme ?? SkinTheme.silver,
+        this.wheelColor = wheelColor ?? WheelColor.white;
 
   Map<String, dynamic> toJson() => _$ThemeModelToJson(this);
 

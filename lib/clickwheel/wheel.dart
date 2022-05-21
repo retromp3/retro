@@ -16,10 +16,10 @@ Widget clickWheel(BuildContext context, ThemeState state) {
         
  
     controlsColor = state.wheelColor == WheelColor.white
-        ? const Color(0xff919194)
+        ? Color.fromARGB(255, 185, 185, 190)
         : Colors.white;
 
-    centreColor = state.wheelColor == WheelColor.white ? Colors.grey[300] : Color(0xFF1B1B1B);
+    centreColor = state.wheelColor == WheelColor.white ? Color.fromARGB(255, 231, 231, 231) : Color(0xFF1B1B1B);
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -54,7 +54,7 @@ Widget clickWheel(BuildContext context, ThemeState state) {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFF5e5e5e),
+                    Color.fromARGB(255, 147, 147, 147),
                     centreColor,
                   ],
                   begin: Alignment.bottomCenter,

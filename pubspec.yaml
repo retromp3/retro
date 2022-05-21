@@ -31,6 +31,7 @@ dependencies:
   flutter_bloc: ^7.3.3
   json_serializable: ^6.2.0
   shared_preferences: ^2.0.15
+  flutter_sfsymbols: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -94,3 +95,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: sficonsets
+      fonts:
+        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf

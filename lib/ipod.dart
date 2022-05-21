@@ -157,21 +157,9 @@ class _IPodState extends State<IPod> {
       caption: MenuCaption(text: "Skin"),
       items: <IPodMenuItem>[
         IPodMenuItem(
-          text: "Retro",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            SkinThemeChanged(SkinTheme.retro),
-          ),
-        ),
-        IPodMenuItem(
           text: "Black",
           onTap: () => BlocProvider.of<ThemeBloc>(context).add(
             SkinThemeChanged(SkinTheme.black),
-          ),
-        ),
-        IPodMenuItem(
-          text: "Carbon Fiber",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            SkinThemeChanged(SkinTheme.carbonfiber),
           ),
         ),
         IPodMenuItem(
@@ -227,6 +215,13 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu settingsMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Settings"),
+      items: <IPodMenuItem>[
+        IPodMenuItem(text: "Themes", subMenu: themeMenu),
+      ],
+    );
+
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
@@ -235,7 +230,7 @@ class _IPodState extends State<IPod> {
         IPodMenuItem(text: "Playlists"),
         IPodMenuItem(text: "Shuffle"),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
-        IPodMenuItem(text: "Settings"),
+        IPodMenuItem(text: "Settings", subMenu: settingsMenu),
       ],
     );
 
