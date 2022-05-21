@@ -81,6 +81,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
   int _startVisibleIndex;
   int _endVisibleIndex;
   int _visibleItemsCount;
+  bool _backInProgress;
   final ItemScrollController _scrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
@@ -94,9 +95,14 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
   @override
   void initState() {
     super.initState();
+    _backInProgress = false;
     _initValues();
     _initAnimation();
     _itemPositionsListener.itemPositions.addListener(_positionListener);
+
+    setState(() {
+      _backInProgress = false;
+    });
   }
   
   void _positionListener() {
@@ -130,7 +136,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
   void _initAnimation() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 170),
     );
     _animation = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(
@@ -195,7 +201,8 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
   void back() {
     HapticFeedback.mediumImpact();
     SystemSound.play(SystemSoundType.click);
-    if (widget.onBackAnimationComplete != null) {
+    if (!_backInProgress && widget.onBackAnimationComplete != null) {
+      _backInProgress = true;
       _animationController.addStatusListener((status) {
         if (status == AnimationStatus.dismissed)
           widget.onBackAnimationComplete();
