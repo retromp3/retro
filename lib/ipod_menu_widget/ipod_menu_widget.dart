@@ -26,8 +26,8 @@ class IPodMenuWidget extends StatefulWidget {
         this.selectionColor = selectionColor ??
             LinearGradient(
               colors: [
-                Color(0xFF0168C7),
-                Color(0xFF39AFDA),
+                Color(0xFF1F7BC4),
+                Color(0xFF3BB3EF),
               ],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
