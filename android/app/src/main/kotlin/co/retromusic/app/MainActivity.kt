@@ -1,4 +1,4 @@
-package com.example.eight
+package co.retromusic.app
 
 import io.flutter.embedding.android.FlutterActivity
 
