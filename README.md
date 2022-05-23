@@ -27,7 +27,7 @@ This version of Retro will eventually succeed the current [build that's availabl
 4. ```flutter pub get && flutter run```
 5. That's it! 
 
-_Note: If you want to develop on this, you're going to need an Apple Developer Account_
+_Note: If you want to develop on this, you're going to need a mac as well as an Apple Developer Account (paid or free)_
 
 ## Contributing
 
@@ -55,7 +55,7 @@ This is a list of all the things that are left to complete (there's likely more 
 | Menu Layout | ✅ | ✅ |
 | Music Player functions | 🚧 | 🚧 |
 | Migrate to Android embedding v2 | N/A | ✅ |
-| Migrate to Flutter 3 | 🚧 | 🚧 |
+| Migrate to Flutter 3 | ✅ | ✅ |
 | Splash screen | 🚧 | 🚧 |
 | Dynamic Menu Sizes | 🚧 | 🚧 |
 | Responsive to all screens | 🚧 | 🚧 |
