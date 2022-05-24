@@ -161,7 +161,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
 
   // panning to the right on the wheel
 
-  void increaseSelectedIndex() {
+  void increaseSelectedIndex(bool haptics) {
     if (_selectedIndex < _menuItems.length - 1) {
       _selectedIndex++;
       if (_endVisibleIndex < _selectedIndex) {
@@ -170,13 +170,16 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
         _scrollController.jumpTo(index: jumpIndex);
       }
       setState(() {});
-      HapticFeedback.lightImpact();
-      SystemSound.play(SystemSoundType.click);
+      if (haptics) {
+        HapticFeedback.lightImpact();
+        SystemSound.play(SystemSoundType.click);
+      }
+
     }
   }
 
   // panning to the left
-  void decreaseSelectedIndex() {
+  void decreaseSelectedIndex(bool haptics) {
     if (_selectedIndex > 0) {
       _selectedIndex--;
 
@@ -184,8 +187,10 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
         _scrollController.jumpTo(index: _selectedIndex);
       }
       setState(() {});
-      HapticFeedback.lightImpact();
-      SystemSound.play(SystemSoundType.click);
+      if (haptics) {
+        HapticFeedback.lightImpact();
+        SystemSound.play(SystemSoundType.click);
+      }
     }
   }
 

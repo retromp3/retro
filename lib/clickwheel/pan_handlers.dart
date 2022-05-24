@@ -3,6 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:retro/main.dart';
 
+final stopwatch = Stopwatch(); //On iPod, fast scrolling begins about 1-2 seconds after the start of scrolling
+int oldTime = 0;
+bool previousDirection;
+
 void panUpdateHandler(DragUpdateDetails updateDetails) {
   final double cartesianCurX = halfSize - updateDetails.localPosition.dx;
   final double cartesianCurY = halfSize - updateDetails.localPosition.dy;
@@ -29,10 +33,20 @@ void panUpdateHandler(DragUpdateDetails updateDetails) {
   final double teta = acos(cosTeta) * (determinate > 0 ? 1.0 : -1.0);
 
   if (teta.abs() > tickAngel) {
-    if (teta > 0) {
-      menuKey?.currentState?.down();
+    if (stopwatch.elapsedMilliseconds - 120 < oldTime) {
+      if (!stopwatch.isRunning) stopwatch.start();
+      oldTime = stopwatch.elapsedMilliseconds;
     } else {
-      menuKey?.currentState?.up();
+      stopwatch.reset();
+    }
+    if (teta > 0) {
+      scroll(false, stopwatch.elapsedMicroseconds);
+      if (previousDirection == true) stopwatch.reset();
+      previousDirection = false;
+    } else {
+      scroll(true, stopwatch.elapsedMicroseconds);
+      if (previousDirection == false) stopwatch.reset();
+      previousDirection = true;
     }
     setCartesianStart(
       updateDetails.localPosition.dx,
@@ -60,4 +74,15 @@ bool testExtraRadius(double radius) {
     wasExtraRadius = false;
   }
   return wasExtraRadius;
+}
+
+void scroll (bool up, int micros) {
+  int count = pow(2, (micros/1000000).floor()) - 1;
+  if (up) menuKey?.currentState?.up(true); //play sound and haptics
+  else menuKey?.currentState?.down(true);
+
+  for (int i = 0; i < count; i++) {
+    if (up) menuKey?.currentState?.up(false); //don't play them
+    else menuKey?.currentState?.down(false);
+  }
 }
