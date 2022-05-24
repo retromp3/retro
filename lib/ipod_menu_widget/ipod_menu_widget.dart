@@ -64,12 +64,12 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     return Stack(children: _pages);
   }
 
-  void up() {
-    _keys.last?.currentState?.decreaseSelectedIndex();
+  void up(bool haptics) {
+    _keys.last?.currentState?.decreaseSelectedIndex(haptics);
   }
 
-  void down() {
-    _keys.last?.currentState?.increaseSelectedIndex();
+  void down(bool haptics) {
+    _keys.last?.currentState?.increaseSelectedIndex(haptics);
   }
 
   void select() {
@@ -107,3 +107,4 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     }
   }
 }
+
