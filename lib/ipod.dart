@@ -29,7 +29,8 @@ class _IPodState extends State<IPod> {
   bool fetchingAllSong = false;
   bool playing = false;
   double time = 0.0;
-  
+
+  bool debugMenu = true;
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -222,6 +223,13 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu testMenu = IPodSubMenu(
+      caption: MenuCaption(text: "useless scroll list"),
+      items: <IPodMenuItem>[
+          for (int i = 0; i < 4096; i++) IPodMenuItem(text: i.toString()),
+      ],
+    );
+
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
@@ -231,6 +239,7 @@ class _IPodState extends State<IPod> {
         IPodMenuItem(text: "Shuffle"),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),
+        if (debugMenu) IPodMenuItem(text: "test", subMenu: testMenu),
       ],
     );
 
