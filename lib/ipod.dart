@@ -30,7 +30,7 @@ class _IPodState extends State<IPod> {
   bool playing = false;
   double time = 0.0;
 
-  bool debugMenu = false;
+  bool debugMenu = true;
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
