@@ -30,7 +30,7 @@ class _IPodState extends State<IPod> {
   bool playing = false;
   double time = 0.0;
 
-  bool debugMenu = true;
+  bool debugMenu = false;
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -239,7 +239,7 @@ class _IPodState extends State<IPod> {
         IPodMenuItem(text: "Shuffle"),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),
-        if (debugMenu) IPodMenuItem(text: "test", subMenu: testMenu),
+        if (debugMenu) IPodMenuItem(text: "useless scroll list", subMenu: testMenu),
       ],
     );
 
