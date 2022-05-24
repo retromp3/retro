@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:retro/appearance/inner_shadow.dart';
+import 'package:retro/appearance/skins.dart';
+import 'package:retro/blocs/theme/theme_bloc.dart';
+import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/main.dart';
+import 'package:retro/helpers/size_helpers.dart';
 
 Widget menuButton() {
   return InkWell(
@@ -78,33 +84,25 @@ Widget playButton() {
 }
 
 Widget selectButton() {
-  return GestureDetector(
-    onTap: () {
-      HapticFeedback.mediumImpact();
-      SystemSound.play(SystemSoundType.click);
-      menuKey.currentState?.select();
+  return BlocBuilder<ThemeBloc, ThemeState>(
+    buildWhen: (ThemeState prev, ThemeState cur) =>
+        prev.skinTheme != cur.skinTheme,
+    builder: (BuildContext context, ThemeState state) {
+      return InnerShadow(
+        blur: 2,
+        color: const Color(0xff707070),
+        offset: const Offset(0, 0),
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 120, maxHeight: 120),
+          width: displayWidth(context) * 0.25,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(getSkin(state)),
+              fit: BoxFit.none,
+            ),
+            shape: BoxShape.circle, 
+          ),
+      ));
     },
-    child: Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFF5e5e5e),
-            centreColor,
-          ],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-        ),
-        borderRadius: BorderRadius.circular(50),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(5, 5),
-            blurRadius: 10,
-          )
-        ],
-      ),
-    ),
   );
 }

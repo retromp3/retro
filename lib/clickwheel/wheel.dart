@@ -7,7 +7,6 @@ import 'package:retro/main.dart';
 
 Color wheelColor;
 Color controlsColor;
-Color centreColor;
 
 Widget clickWheel(BuildContext context, ThemeState state) {
     wheelColor = state.wheelColor == WheelColor.black
@@ -18,8 +17,6 @@ Widget clickWheel(BuildContext context, ThemeState state) {
     controlsColor = state.wheelColor == WheelColor.white
         ? Color.fromARGB(255, 185, 185, 190)
         : Colors.white;
-
-    centreColor = state.wheelColor == WheelColor.white ? Color.fromARGB(255, 231, 231, 231) : Color(0xFF1B1B1B);
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -48,28 +45,7 @@ Widget clickWheel(BuildContext context, ThemeState state) {
               SystemSound.play(SystemSoundType.click);
               menuKey.currentState?.select();
             },
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(255, 147, 147, 147),
-                    centreColor,
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(5, 5),
-                    blurRadius: 10,
-                  )
-                ],
-              ),
-            ),
+            child: selectButton()
           ),
         ],
       ),
