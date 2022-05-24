@@ -52,6 +52,7 @@ This is a list of all the things that are left to complete (there's likely more 
 | iPod Themes | 🚧 | 🚧 |
 | Configurable app icons | 🚧 | 🚧 |
 | Clickwheel feedback | ✅ | ✅ |
+| Exponential scrolling | ✅ | ✅ |
 | Menu Layout | ✅ | ✅ |
 | Music Player functions | 🚧 | 🚧 |
 | Migrate to Android embedding v2 | N/A | ✅ |
