@@ -77,7 +77,7 @@ class _IPodState extends State<IPod> {
     }
     return _songs
         .map((Song song) =>
-            IPodMenuItem(text: '${song.artistName} - ${song.title}'))
+            IPodMenuItem(text: '${song.title}', subText: '${song.artistName}'))
         .toList();
   }
 

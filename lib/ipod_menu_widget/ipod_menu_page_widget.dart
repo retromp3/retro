@@ -287,6 +287,14 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
                   style: isSelected
                       ? widget.selectedItemTextStyle
                       : widget.itemTextStyle))),
+        subtitle: item.subText != null
+            ? Text(item.subText,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: isSelected
+                    ? widget.selectedItemTextStyle
+                    : widget.itemTextStyle)
+            : null,
         dense: true,
         trailing: item.subMenu != null
             ? (isSelected ? widget.selectedSubMenuIcon : widget.subMenuIcon)
