@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:playify/playify.dart';
+import 'package:retro/blocs/songs/song_list.dart';
+import 'package:retro/blocs/songs/song_list_bloc.dart';
 import 'package:retro/blocs/theme/theme.dart';
 import 'package:retro/ipod.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
@@ -34,17 +37,29 @@ bool wasExtraRadius;
 GlobalKey<IPodMenuWidgetState> menuKey = GlobalKey();
 IPodSubMenu menu;
 
-void main() => runApp(MyApp());
+void main() => runApp(MyApp(playify: Playify()));
 
 class MyApp extends StatelessWidget {
+  final Playify playify;
+
+  const MyApp({Key key, this.playify}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return MaterialApp(
       theme: ThemeData(brightness: Brightness.dark),
       debugShowCheckedModeBanner: false,
-      home: BlocProvider<ThemeBloc>(
-          create: (ctx) => ThemeBloc()..add(PreferencesFetched()), child: _buildBody()),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeBloc>(create: (ctx) => ThemeBloc()),
+          BlocProvider<SongListBloc>(
+            lazy: false,
+            create: (ctx) => SongListBloc(playify)..add(SongListFetched()),
+          ),
+        ],
+        child: _buildBody()
+      )
     );
   }
 

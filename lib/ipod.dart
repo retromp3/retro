@@ -7,6 +7,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:playify/playify.dart';
+import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_event.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
@@ -19,16 +21,28 @@ import 'package:retro/menu.dart';
 import 'ipod_menu_widget/menu_design.dart';
 
 class IPod extends StatefulWidget {
-  IPod({Key key}) : super(key: key);
+  final List<Song> songs;
+
+  IPod({Key key, this.songs}) : super(key: key);
+  
 
   @override
   _IPodState createState() => _IPodState();
 }
 
 class _IPodState extends State<IPod> {
-  bool fetchingAllSong = false;
+  bool fetchingAllSongs = false;
   bool playing = false;
+  SongInformation data;
+  Shuffle shufflemode = Shuffle.off;
+  Repeat repeatmode = Repeat.none;
+  var myplayer = Playify();
+  List<Artist> artists = [];
   double time = 0.0;
+  double volume = 0.0;
+  List<String> genres = [];
+  List<Song> _songs = [];
+  String selectedGenre = "";
 
   bool debugMenu = false;
 
@@ -57,75 +71,93 @@ class _IPodState extends State<IPod> {
    // updateInfo();
   }
 
+  List<IPodMenuItem> _songListBuilder() {
+    if (_songs == null || _songs.isEmpty) {
+      return [IPodMenuItem(text: 'No songs fetched')];
+    }
+    return _songs
+        .map((Song song) =>
+            IPodMenuItem(text: '${song.artistName} - ${song.title}'))
+        .toList();
+  }
+
+  void _songStateListener(BuildContext context, SongListState state) {
+    if (state is SongListFetchSuccess) {
+      _songs = state.songs;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 25, left: 8, right: 8),
-            constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
-            height: 300,
-            //300
-            //height: 235,
-            width: 385,
-
-            decoration: new BoxDecoration(
-              color: const Color(0xFF1c1c1c),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(5.8), child: buildMenu()),
-              ],) 
-          ),
-          /*Container(
-              margin: EdgeInsets.only(top: 25),
+    return BlocListener<SongListBloc, SongListState>(
+      listener: _songStateListener,
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 25, left: 8, right: 8),
+              constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
               height: 300,
+              //300
+              //height: 235,
               width: 385,
+
               decoration: new BoxDecoration(
-                color: Colors.black,
-                
+                color: const Color(0xFF1c1c1c),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
               ),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Flexible(child: buildMenu()),
+
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(5.8), child: buildMenu()),
+                ],) 
+            ),
+            /*Container(
+                margin: EdgeInsets.only(top: 25),
+                height: 300,
+                width: 385,
+                decoration: new BoxDecoration(
+                  color: Colors.black,
+                  
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Flexible(child: buildMenu()),
 
 
-                        // this enables the split screen view, will work on this later
-                        /*Expanded(
-                          child: PageView(
-                            children: <Widget>[
-                              MainContent(1),
-                            ],
-                          ),
-                        ),*/
-                      ],
-                    ),
-                  )
-                ],
-              )
-              ),*/
-          Spacer(),
-          BlocBuilder<ThemeBloc, ThemeState>(
-            buildWhen: (ThemeState prev, ThemeState cur) =>
-                prev.wheelColor != cur.wheelColor,
-            builder: clickWheel,
-          ),
-          Spacer(),
-        ],
-      ),
-    );
+                          // this enables the split screen view, will work on this later
+                          /*Expanded(
+                            child: PageView(
+                              children: <Widget>[
+                                MainContent(1),
+                              ],
+                            ),
+                          ),*/
+                        ],
+                      ),
+                    )
+                  ],
+                )
+                ),*/
+            Spacer(),
+            BlocBuilder<ThemeBloc, ThemeState>(
+              buildWhen: (ThemeState prev, ThemeState cur) =>
+                  prev.wheelColor != cur.wheelColor,
+              builder: clickWheel,
+            ),
+            Spacer(),
+          ],
+        ),
+      ));
   }
 
 
@@ -193,11 +225,21 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu songs = IPodSubMenu(
+      caption: MenuCaption(text: "Songs"),
+      items: <IPodMenuItem>[],
+      itemsBuilder: _songListBuilder
+    );
+
+
+
     // Music Menu
 
     final IPodSubMenu musicMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Songs"),
-      items: <IPodMenuItem>[],
+      caption: MenuCaption(text: "Music"),
+      items: <IPodMenuItem>[
+        IPodMenuItem(text: "Songs", subMenu: songs),
+      ],
     );
 
     // Games Menu
@@ -216,10 +258,18 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu resetMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Reset"),
+      items: <IPodMenuItem>[
+        IPodMenuItem(text: "Reset All Settings", onTap: () {}),
+      ],
+    );
+
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
+        IPodMenuItem(text: "Reset", subMenu: resetMenu),
       ],
     );
 
