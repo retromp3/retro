@@ -8,6 +8,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:playify/playify.dart';
+import 'package:retro/blocs/player/player_bloc.dart';
+import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_event.dart';
@@ -17,6 +19,9 @@ import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
 import 'package:retro/menu.dart';
+import 'package:retro/music_models/apple_music/artist/artist_model.dart';
+import 'package:retro/music_models/apple_music/song/song_model.dart';
+import 'package:retro/music_models/playlist/playlist_model.dart';
 
 import 'ipod_menu_widget/menu_design.dart';
 
@@ -41,8 +46,11 @@ class _IPodState extends State<IPod> {
   double time = 0.0;
   double volume = 0.0;
   List<String> genres = [];
-  List<Song> _songs = [];
   String selectedGenre = "";
+  List<SongModel> _songs;
+  List<String> _songIDs;
+  List<ArtistModel> _artists;
+  List<PlaylistModel> _playlists;
 
   bool debugMenu = false;
 
@@ -61,6 +69,10 @@ class _IPodState extends State<IPod> {
     ticksPerCircle = 20;
     tickAngel = 2 * pi / ticksPerCircle;
     wasExtraRadius = false;
+    _songs = [];
+    _artists = [];
+    _songIDs = [];
+    _playlists = [];
 
     _pageCtrl.addListener(() {
       setState(() {
@@ -76,14 +88,38 @@ class _IPodState extends State<IPod> {
       return [IPodMenuItem(text: 'No songs fetched')];
     }
     return _songs
-        .map((Song song) =>
-            IPodMenuItem(text: '${song.title}', subText: '${song.artistName}'))
+        .map(
+          (SongModel song) => IPodMenuItem(
+            text: '${song.title}',
+            subText: '${song.artistName}',
+            onTap: () => BlocProvider.of<PlayerBloc>(context)
+                .add(SetQueueItem(song.songID)),
+          ),
+        )
+        .toList();
+  }
+
+  List<IPodMenuItem> _playListBuilder() {
+    if (_playlists == null || _playlists.isEmpty) {
+      return [IPodMenuItem(text: 'No playlist fetched')];
+    }
+    return _playlists
+        .map(
+          (PlaylistModel playlist) => IPodMenuItem(
+            text: '${playlist.name}',
+            onTap: () => BlocProvider.of<SongListBloc>(context)
+                .add(SongListFetched(playlist.id)),
+          ),
+        )
         .toList();
   }
 
   void _songStateListener(BuildContext context, SongListState state) {
     if (state is SongListFetchSuccess) {
-      _songs = state.songs;
+      _songs = state.songList;
+      _artists = state.artistsList;
+      _songIDs = state.songList.map((SongModel song) => song.songID).toList();
+      _playlists = state.playlists;
     }
   }
 
@@ -217,7 +253,11 @@ class _IPodState extends State<IPod> {
       caption: MenuCaption(text: "Link Account"),
       items: <IPodMenuItem>[
         IPodMenuItem(
-            text: "Spotify"),
+            text: "Spotify",
+            onTap: () {
+              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+            }
+        ),
         IPodMenuItem(
           text:
               "Apple Music",
@@ -268,6 +308,7 @@ class _IPodState extends State<IPod> {
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
+        IPodMenuItem(text: "Link Account", subMenu: linkAccountMenu),
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
         IPodMenuItem(text: "Reset", subMenu: resetMenu),
       ],
@@ -280,12 +321,18 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu playlistMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Playlists"),
+      itemsBuilder: _playListBuilder,
+    );
+
+
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
         IPodMenuItem(text: "Now Playing"),
         IPodMenuItem(text: "Music", subMenu: musicMenu),
-        IPodMenuItem(text: "Playlists"),
+        IPodMenuItem(text: "Playlists", subMenu: playlistMenu),
         IPodMenuItem(text: "Shuffle"),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),

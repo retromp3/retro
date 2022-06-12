@@ -275,6 +275,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.4"
   http_multi_server:
     dependency: transitive
     description:
@@ -311,7 +318,7 @@ packages:
     source: hosted
     version: "0.6.4"
   json_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
@@ -460,9 +467,9 @@ packages:
   playify:
     dependency: "direct main"
     description:
-      name: playify
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: playify
+      relative: true
+    source: path
     version: "2.1.0"
   plugin_platform_interface:
     dependency: transitive

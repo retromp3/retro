@@ -10,4 +10,14 @@ abstract class SongListEvent extends Equatable {
   bool get stringify => super.stringify;
 }
 
-class SongListFetched extends SongListEvent {}
+class SongListFetched extends SongListEvent {
+  final String playlistID;
+
+  const SongListFetched(this.playlistID);
+}
+
+class PlayListsFetched extends SongListEvent {}
+
+class SpotifyConnected extends SongListEvent {}
+
+class SongListPreferencesFetched extends SongListEvent {}

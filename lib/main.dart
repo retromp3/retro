@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:playify/playify.dart';
+import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/songs/song_list_bloc.dart';
 import 'package:retro/blocs/theme/theme.dart';
 import 'package:retro/ipod.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
+import 'package:retro/resources/main_player_repository.dart';
 
 import 'ipod_menu_widget/ipod_sub_menu.dart';
 
@@ -55,8 +57,13 @@ class MyApp extends StatelessWidget {
           BlocProvider<ThemeBloc>(create: (ctx) => ThemeBloc()),
           BlocProvider<SongListBloc>(
             lazy: false,
-            create: (ctx) => SongListBloc(playify)..add(SongListFetched()),
+            create: (ctx) => SongListBloc(MainPlayerRepository())
+              ..add(SongListPreferencesFetched()),
           ),
+          BlocProvider<PlayerBloc>(
+            lazy: false,
+            create: (ctx) => PlayerBloc(MainPlayerRepository()),
+          )
         ],
         child: _buildBody()
       )
