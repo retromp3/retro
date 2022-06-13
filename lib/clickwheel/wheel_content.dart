@@ -4,16 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:retro/appearance/inner_shadow.dart';
 import 'package:retro/appearance/skins.dart';
+import 'package:retro/blocs/player/player_bloc.dart';
+import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/main.dart';
 import 'package:retro/helpers/size_helpers.dart';
-
+  
 Widget menuButton() {
   return InkWell(
     onTap: () {
-      menuKey?.currentState?.back();
+      if (mainViewMode == MainViewMode.menu ||
+        mainViewMode == MainViewMode.player) {
+      menuKey?.currentState?.homePressed();
+      HapticFeedback.lightImpact();
+      
+    }
     },
     child: Container(
       child: Text(
@@ -40,6 +47,9 @@ Widget fastForward() {
         iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
+          if(mainViewMode == MainViewMode.player || mainViewMode == MainViewMode.menu) {
+            menuKey?.currentState?.playNextSong();
+          }
         }),
     alignment: Alignment.centerRight,
     //margin: EdgeInsets.only(right: 30),
@@ -56,6 +66,9 @@ Widget fastRewind() {
         iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
+          if(mainViewMode == MainViewMode.player || mainViewMode == MainViewMode.menu) {
+            menuKey?.currentState?.playPrevSong();
+          }
         }),
     alignment: Alignment.centerLeft,
     //margin: EdgeInsets.only(left: 30),

@@ -38,6 +38,10 @@ double tickAngel;
 bool wasExtraRadius;
 GlobalKey<IPodMenuWidgetState> menuKey = GlobalKey();
 IPodSubMenu menu;
+List<String> songIDs;
+MainViewMode mainViewMode;
+
+enum MainViewMode {menu, player}
 
 void main() => runApp(MyApp(playify: Playify()));
 

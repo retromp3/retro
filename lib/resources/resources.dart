@@ -75,3 +75,10 @@ abstract class PreferencesProvider {
 
   void dispose();
 }
+
+String getHumanTime(double value) {
+  final int min = value ~/ 60;
+  final int sec = (value - min * 60).toInt();
+
+  return '$min:${sec < 10 ? '0' : ''}$sec';
+}

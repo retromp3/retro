@@ -6,6 +6,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:playify/playify.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
@@ -16,12 +17,14 @@ import 'package:retro/blocs/theme/theme_event.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
+import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
 import 'package:retro/menu.dart';
 import 'package:retro/music_models/apple_music/artist/artist_model.dart';
 import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
+import 'package:retro/music_player_widget/music_player_screen.dart';
 
 import 'ipod_menu_widget/menu_design.dart';
 
@@ -48,7 +51,6 @@ class _IPodState extends State<IPod> {
   List<String> genres = [];
   String selectedGenre = "";
   List<SongModel> _songs;
-  List<String> _songIDs;
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
 
@@ -60,6 +62,7 @@ class _IPodState extends State<IPod> {
   
   @override
   void initState() {
+    mainViewMode = MainViewMode.menu;
     menu = getIPodMenu();
     widgetSize = 300.0;
     halfSize = widgetSize / 2;
@@ -71,7 +74,7 @@ class _IPodState extends State<IPod> {
     wasExtraRadius = false;
     _songs = [];
     _artists = [];
-    _songIDs = [];
+    songIDs = [];
     _playlists = [];
 
     _pageCtrl.addListener(() {
@@ -81,6 +84,21 @@ class _IPodState extends State<IPod> {
     });
     super.initState();
    // updateInfo();
+  }
+
+  Widget buildMainView() {
+    switch (mainViewMode) {
+      case MainViewMode.menu:
+        return buildMenu();
+      case MainViewMode.player:
+        return NowPlayingScreen();
+    }
+    return FittedBox();
+  }
+
+  void showPlayer() {
+    BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
+    setState(() => mainViewMode = MainViewMode.player);
   }
 
   List<IPodMenuItem> _songListBuilder() {
@@ -118,7 +136,7 @@ class _IPodState extends State<IPod> {
     if (state is SongListFetchSuccess) {
       _songs = state.songList;
       _artists = state.artistsList;
-      _songIDs = state.songList.map((SongModel song) => song.songID).toList();
+      songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
     }
   }
@@ -149,7 +167,7 @@ class _IPodState extends State<IPod> {
               child: Stack(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(5.8), child: buildMenu()),
+                    padding: EdgeInsets.all(5.8), child: buildMainView()),
                 ],) 
             ),
             /*Container(
@@ -330,7 +348,7 @@ class _IPodState extends State<IPod> {
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Now Playing"),
+        IPodMenuItem(text: "Now Playing", onTap: showPlayer),
         IPodMenuItem(text: "Music", subMenu: musicMenu),
         IPodMenuItem(text: "Playlists", subMenu: playlistMenu),
         IPodMenuItem(text: "Shuffle"),

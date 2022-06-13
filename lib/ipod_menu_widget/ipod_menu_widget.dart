@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:retro/blocs/player/player_bloc.dart';
+import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_page_widget.dart';
+import 'package:retro/main.dart';
 
 import 'ipod_sub_menu.dart';
 
@@ -105,6 +110,24 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     if (_keys.length > 1) {
       _keys.last.currentState?.back();
     }
+  }
+
+  void homePressed() {
+    if (mainViewMode == MainViewMode.player) {
+      setState(() => mainViewMode = MainViewMode.menu);
+    } else {
+      menuKey?.currentState?.back();
+    }
+    HapticFeedback.lightImpact();
+    //SystemSound.play(SystemSoundType.click);
+  }
+
+  void playNextSong() {
+    BlocProvider.of<PlayerBloc>(context).add(NextCalled(songIDs));
+  }
+
+  void playPrevSong() {
+    BlocProvider.of<PlayerBloc>(context).add(PrevCalled(songIDs));
   }
 }
 
