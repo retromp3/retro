@@ -77,9 +77,9 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         child: Column(
           children: <Widget>[
             SizedBox(height: 5.0),
-            _buildStatusBar(),
+            _statusBar(),
             SizedBox(height: 33.0),
-            _buildWidgetArtistPhoto(mediaQuery),
+            _albumArt(mediaQuery),
             SizedBox(height: 35.0),
             _linearProgressIndicator(),
           ],
@@ -88,7 +88,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
     );
   }
 
-  Widget _buildStatusBar() {
+  Widget _statusBar() {
     return Container(
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -202,7 +202,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
     });
   }
 
-  Widget _buildWidgetArtistPhoto(MediaQueryData mediaQuery) {
+  Widget _albumArt(MediaQueryData mediaQuery) {
     return BlocBuilder<PlayerBloc, PlayerState>(
         buildWhen: (PlayerState prev, PlayerState cur) =>
             (prev is NowPlayingState &&
