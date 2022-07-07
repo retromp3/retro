@@ -6,29 +6,53 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:playify/playify.dart';
+import 'package:retro/blocs/player/player_bloc.dart';
+import 'package:retro/blocs/player/player_event.dart';
+import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_event.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
+import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
 import 'package:retro/menu.dart';
+import 'package:retro/music_models/apple_music/artist/artist_model.dart';
+import 'package:retro/music_models/apple_music/song/song_model.dart';
+import 'package:retro/music_models/playlist/playlist_model.dart';
+import 'package:retro/music_player_widget/music_player_screen.dart';
 
 import 'ipod_menu_widget/menu_design.dart';
 
 class IPod extends StatefulWidget {
-  IPod({Key key}) : super(key: key);
+  final List<Song> songs;
+
+  IPod({Key key, this.songs}) : super(key: key);
+  
 
   @override
   _IPodState createState() => _IPodState();
 }
 
 class _IPodState extends State<IPod> {
-  bool fetchingAllSong = false;
+  bool fetchingAllSongs = false;
   bool playing = false;
+  SongInformation data;
+  Shuffle shufflemode = Shuffle.off;
+  Repeat repeatmode = Repeat.none;
+  var myplayer = Playify();
+  List<Artist> artists = [];
   double time = 0.0;
+  double volume = 0.0;
+  List<String> genres = [];
+  String selectedGenre = "";
+  List<SongModel> _songs;
+  List<ArtistModel> _artists;
+  List<PlaylistModel> _playlists;
 
   bool debugMenu = false;
 
@@ -38,6 +62,7 @@ class _IPodState extends State<IPod> {
   
   @override
   void initState() {
+    mainViewMode = MainViewMode.menu;
     menu = getIPodMenu();
     widgetSize = 300.0;
     halfSize = widgetSize / 2;
@@ -47,6 +72,10 @@ class _IPodState extends State<IPod> {
     ticksPerCircle = 20;
     tickAngel = 2 * pi / ticksPerCircle;
     wasExtraRadius = false;
+    _songs = [];
+    _artists = [];
+    songIDs = [];
+    _playlists = [];
 
     _pageCtrl.addListener(() {
       setState(() {
@@ -57,75 +86,132 @@ class _IPodState extends State<IPod> {
    // updateInfo();
   }
 
+  Widget buildMainView() {
+    switch (mainViewMode) {
+      case MainViewMode.menu:
+        return buildMenu();
+      case MainViewMode.player:
+        return NowPlayingScreen();
+    }
+    return FittedBox();
+  }
+
+  void showPlayer() {
+    BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
+    setState(() => mainViewMode = MainViewMode.player);
+  }
+
+  List<IPodMenuItem> _songListBuilder() {
+    if (_songs == null || _songs.isEmpty) {
+      return [IPodMenuItem(text: 'No songs fetched')];
+    }
+    return _songs
+        .map(
+          (SongModel song) => IPodMenuItem(
+            text: '${song.title}',
+            subText: '${song.artistName}',
+            onTap: () => BlocProvider.of<PlayerBloc>(context)
+                .add(SetQueueItem(song.songID)),
+          ),
+        )
+        .toList();
+  }
+
+  List<IPodMenuItem> _playListBuilder() {
+    if (_playlists == null || _playlists.isEmpty) {
+      return [IPodMenuItem(text: 'No playlist fetched')];
+    }
+    return _playlists
+        .map(
+          (PlaylistModel playlist) => IPodMenuItem(
+            text: '${playlist.name}',
+            onTap: () => BlocProvider.of<SongListBloc>(context)
+                .add(SongListFetched(playlist.id)),
+          ),
+        )
+        .toList();
+  }
+
+  void _songStateListener(BuildContext context, SongListState state) {
+    if (state is SongListFetchSuccess) {
+      _songs = state.songList;
+      _artists = state.artistsList;
+      songIDs = state.songList.map((SongModel song) => song.songID).toList();
+      _playlists = state.playlists;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 25, left: 8, right: 8),
-            constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
-            height: 300,
-            //300
-            //height: 235,
-            width: 385,
-
-            decoration: new BoxDecoration(
-              color: const Color(0xFF1c1c1c),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(5.8), child: buildMenu()),
-              ],) 
-          ),
-          /*Container(
-              margin: EdgeInsets.only(top: 25),
+    return BlocListener<SongListBloc, SongListState>(
+      listener: _songStateListener,
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 25, left: 8, right: 8),
+              constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
               height: 300,
+              //300
+              //height: 235,
               width: 385,
+
               decoration: new BoxDecoration(
-                color: Colors.black,
-                
+                color: const Color(0xFF1c1c1c),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
               ),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Flexible(child: buildMenu()),
+
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(5.8), child: buildMainView()),
+                ],) 
+            ),
+            /*Container(
+                margin: EdgeInsets.only(top: 25),
+                height: 300,
+                width: 385,
+                decoration: new BoxDecoration(
+                  color: Colors.black,
+                  
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Flexible(child: buildMenu()),
 
 
-                        // this enables the split screen view, will work on this later
-                        /*Expanded(
-                          child: PageView(
-                            children: <Widget>[
-                              MainContent(1),
-                            ],
-                          ),
-                        ),*/
-                      ],
-                    ),
-                  )
-                ],
-              )
-              ),*/
-          Spacer(),
-          BlocBuilder<ThemeBloc, ThemeState>(
-            buildWhen: (ThemeState prev, ThemeState cur) =>
-                prev.wheelColor != cur.wheelColor,
-            builder: clickWheel,
-          ),
-          Spacer(),
-        ],
-      ),
-    );
+                          // this enables the split screen view, will work on this later
+                          /*Expanded(
+                            child: PageView(
+                              children: <Widget>[
+                                MainContent(1),
+                              ],
+                            ),
+                          ),*/
+                        ],
+                      ),
+                    )
+                  ],
+                )
+                ),*/
+            Spacer(),
+            BlocBuilder<ThemeBloc, ThemeState>(
+              buildWhen: (ThemeState prev, ThemeState cur) =>
+                  prev.wheelColor != cur.wheelColor,
+              builder: clickWheel,
+            ),
+            Spacer(),
+          ],
+        ),
+      ));
   }
 
 
@@ -185,7 +271,11 @@ class _IPodState extends State<IPod> {
       caption: MenuCaption(text: "Link Account"),
       items: <IPodMenuItem>[
         IPodMenuItem(
-            text: "Spotify"),
+            text: "Spotify",
+            onTap: () {
+              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+            }
+        ),
         IPodMenuItem(
           text:
               "Apple Music",
@@ -193,11 +283,21 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu songs = IPodSubMenu(
+      caption: MenuCaption(text: "Songs"),
+      items: <IPodMenuItem>[],
+      itemsBuilder: _songListBuilder
+    );
+
+
+
     // Music Menu
 
     final IPodSubMenu musicMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Songs"),
-      items: <IPodMenuItem>[],
+      caption: MenuCaption(text: "Music"),
+      items: <IPodMenuItem>[
+        IPodMenuItem(text: "Songs", subMenu: songs),
+      ],
     );
 
     // Games Menu
@@ -216,10 +316,19 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu resetMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Reset"),
+      items: <IPodMenuItem>[
+        IPodMenuItem(text: "Reset All Settings", onTap: () {}),
+      ],
+    );
+
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
+        IPodMenuItem(text: "Link Account", subMenu: linkAccountMenu),
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
+        IPodMenuItem(text: "Reset", subMenu: resetMenu),
       ],
     );
 
@@ -230,12 +339,18 @@ class _IPodState extends State<IPod> {
       ],
     );
 
+    final IPodSubMenu playlistMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Playlists"),
+      itemsBuilder: _playListBuilder,
+    );
+
+
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Now Playing"),
+        IPodMenuItem(text: "Now Playing", onTap: showPlayer),
         IPodMenuItem(text: "Music", subMenu: musicMenu),
-        IPodMenuItem(text: "Playlists"),
+        IPodMenuItem(text: "Playlists", subMenu: playlistMenu),
         IPodMenuItem(text: "Shuffle"),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),
