@@ -53,6 +53,7 @@ class _IPodState extends State<IPod> {
   List<SongModel> _songs;
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
+  GlobalKey<IPodMenuWidgetState> _menuKey = GlobalKey();
 
   bool debugMenu = false;
 
@@ -138,6 +139,7 @@ class _IPodState extends State<IPod> {
       _artists = state.artistsList;
       songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
+       _menuKey?.currentState?.refresh();
     }
   }
 

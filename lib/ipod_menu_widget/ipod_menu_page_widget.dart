@@ -97,12 +97,27 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     super.initState();
     _backInProgress = false;
     _initValues();
+    _menuItems = widget.subMenu.itemsBuilder != null
+        ? widget.subMenu.itemsBuilder()
+        : widget.subMenu.items;
+    _captionItem = widget.subMenu.caption;
     _initAnimation();
     _itemPositionsListener.itemPositions.addListener(_positionListener);
 
     setState(() {
       _backInProgress = false;
     });
+  }
+
+  void refresh() {
+    if (widget.subMenu.itemsBuilder != null) {
+      _startVisibleIndex = 0;
+      _endVisibleIndex = 0;
+      _selectedIndex = 0;
+      _visibleItemsCount = widget.subMenu.visibleItemsCount;
+      _menuItems = widget.subMenu.itemsBuilder();
+      if (mounted) setState(() {});
+    }
   }
   
   void _positionListener() {
