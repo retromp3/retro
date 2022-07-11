@@ -129,5 +129,9 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
   void playPrevSong() {
     BlocProvider.of<PlayerBloc>(context).add(PrevCalled(songIDs));
   }
+
+  void refresh() {
+    _keys.last?.currentState?.refresh();
+  }
 }
 

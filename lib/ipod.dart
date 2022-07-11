@@ -1,6 +1,6 @@
 /*
   
-  The actual iPod menu. List of all the menus/sub-menus. Tap functionality, etc.
+  The actual iPod menu. List of all the menus/sub-menus, songs, tap functionality, etc.
 
 */
 import 'dart:math';
@@ -53,6 +53,7 @@ class _IPodState extends State<IPod> {
   List<SongModel> _songs;
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
+  GlobalKey<IPodMenuWidgetState> _menuKey = GlobalKey();
 
   bool debugMenu = false;
 
@@ -117,14 +118,53 @@ class _IPodState extends State<IPod> {
         .toList();
   }
 
+  List<IPodMenuItem> _songListBuilderPlaylist() {
+
+    if (((_songs == null || _songs.isEmpty))) {
+      _songs.sort((a, b) => a.title.compareTo(b.title));
+    }
+    
+    _songs.sort((a, b) => a.title.compareTo(b.title));
+
+    //var coverArt = (SongModel song) => MemoryImage(song.coverArtBytes);
+
+    final List<IPodMenuItem> items = _songs
+        .map(
+          (SongModel song) => IPodMenuItem(
+            //img: Image.memory(song.coverArtBytes),
+            text: '${song.title}',
+            subText: '${song.artistName}',
+            onTap: () => BlocProvider.of<PlayerBloc>(context)
+                .add(SetQueueItem(song.songID)),
+          ),
+        )
+        .toList();
+
+    /*if(_songs.isNotEmpty) {
+      items.insert(
+        0,
+        IPodMenuItem(
+          text: 'Shuffle Playlist',
+          onTap: _shuffle,
+        ),
+      );
+    }*/
+    return items;
+  }
+
   List<IPodMenuItem> _playListBuilder() {
     if (_playlists == null || _playlists.isEmpty) {
       return [IPodMenuItem(text: 'No playlist fetched')];
     }
+    final IPodSubMenu songsInPlaylistMenu =  IPodSubMenu(
+      caption: MenuCaption(text: "Songs"),
+      itemsBuilder: _songListBuilderPlaylist,
+    );
     return _playlists
         .map(
           (PlaylistModel playlist) => IPodMenuItem(
             text: '${playlist.name}',
+            subMenu: songsInPlaylistMenu,
             onTap: () => BlocProvider.of<SongListBloc>(context)
                 .add(SongListFetched(playlist.id)),
           ),
@@ -138,6 +178,7 @@ class _IPodState extends State<IPod> {
       _artists = state.artistsList;
       songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
+       _menuKey?.currentState?.refresh();
     }
   }
 
@@ -255,7 +296,6 @@ class _IPodState extends State<IPod> {
             SkinThemeChanged(SkinTheme.silver),
           ),
         ),
-        //IPodMenuItem(text: "Pewds"),
       ],
     );
 
