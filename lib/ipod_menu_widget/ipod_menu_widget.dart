@@ -112,7 +112,7 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     }
   }
 
-  void homePressed() {
+  void homePressed() async {
     if (mainViewMode == MainViewMode.player) {
       setState(() => mainViewMode = MainViewMode.menu);
     } else {

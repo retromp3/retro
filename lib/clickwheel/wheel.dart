@@ -43,7 +43,7 @@ Widget clickWheel(BuildContext context, ThemeState state) {
             onTap: () {
               HapticFeedback.mediumImpact();
               SystemSound.play(SystemSoundType.click);
-              menuKey.currentState?.select();
+              menuKey?.currentState?.select();
             },
             child: selectButton()
           ),

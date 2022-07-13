@@ -72,25 +72,30 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         color: Colors.white,
         shape: BoxShape.rectangle,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
+      child: Column(
           children: <Widget>[
-            SizedBox(height: 5.0),
             _statusBar(),
-            SizedBox(height: 33.0),
-            _albumArt(mediaQuery),
-            SizedBox(height: 35.0),
-            _linearProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 33.0),
+                _albumArt(mediaQuery),
+                SizedBox(height: 35.0),
+                _linearProgressIndicator(),
+                ],))
           ],
         ),
-      ),
     );
   }
 
   Widget _statusBar() {
     return Container(
-        child: Row(
+        height: 25,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
           Icon(
@@ -108,7 +113,16 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   fontSize: 12.0)),
           Spacer(),
           _buildBatteryStatus()
-        ]));
+        ]),
+        ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Color(0xFF9A9B9E), Color(0xFFFFFFFF)],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              tileMode: TileMode.clamp),
+          ),
+      );
   }
 
   Widget _buildBatteryStatus() {
@@ -244,8 +258,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                 state.songInfo.title,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: "Calibre-Semibold",
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 20.0,
                                 ),
                                 maxLines: 2,
@@ -258,8 +271,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               child: Text(
                                 state.songInfo.artistName,
                                 style: TextStyle(
-                                  fontFamily: "Calibre-Semibold",
-                                  color: Color(0xFF7D9AFF),
+                                  color: Color.fromARGB(255, 33, 33, 33),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

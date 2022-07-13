@@ -11,16 +11,13 @@ import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/main.dart';
 import 'package:retro/helpers/size_helpers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
   
 Widget menuButton() {
   return InkWell(
     onTap: () {
-      if (mainViewMode == MainViewMode.menu ||
-        mainViewMode == MainViewMode.player) {
       menuKey?.currentState?.homePressed();
       HapticFeedback.lightImpact();
-      
-    }
     },
     child: Container(
       child: Text(

@@ -53,8 +53,6 @@ class _IPodState extends State<IPod> {
   List<SongModel> _songs;
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
-  GlobalKey<IPodMenuWidgetState> _menuKey = GlobalKey();
-
   bool debugMenu = false;
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
@@ -101,6 +99,7 @@ class _IPodState extends State<IPod> {
     BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
     setState(() => mainViewMode = MainViewMode.player);
   }
+  
 
   List<IPodMenuItem> _songListBuilder() {
     if (_songs == null || _songs.isEmpty) {
@@ -178,7 +177,7 @@ class _IPodState extends State<IPod> {
       _artists = state.artistsList;
       songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
-       _menuKey?.currentState?.refresh();
+       menuKey?.currentState?.refresh();
     }
   }
 
