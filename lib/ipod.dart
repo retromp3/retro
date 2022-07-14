@@ -54,6 +54,7 @@ class _IPodState extends State<IPod> {
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
   bool debugMenu = false;
+  GlobalKey<IPodMenuWidgetState> menuKey = GlobalKey<IPodMenuWidgetState>();
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -315,10 +316,10 @@ class _IPodState extends State<IPod> {
               BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
             }
         ),
-        IPodMenuItem(
+        /*IPodMenuItem(
           text:
               "Apple Music",
-        ),
+        ),*/
       ],
     );
 
@@ -335,6 +336,7 @@ class _IPodState extends State<IPod> {
     final IPodSubMenu musicMenu = IPodSubMenu(
       caption: MenuCaption(text: "Music"),
       items: <IPodMenuItem>[
+        IPodMenuItem(text: "Music Service", subMenu: linkAccountMenu),
         IPodMenuItem(text: "Songs", subMenu: songs),
       ],
     );
@@ -365,7 +367,6 @@ class _IPodState extends State<IPod> {
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Link Account", subMenu: linkAccountMenu),
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
         IPodMenuItem(text: "Reset", subMenu: resetMenu),
       ],

@@ -275,6 +275,16 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                state.songInfo.albumTitle,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 33, 33, 33),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             )
                           ],
                         ),
