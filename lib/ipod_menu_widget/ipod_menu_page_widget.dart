@@ -255,7 +255,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
           Expanded(
             child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
-              final double itemHeight =
+              final double normalHeight =
                   constraints.maxHeight / _visibleItemsCount;
 
               return ScrollablePositionedList.builder(
@@ -265,7 +265,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
                 itemCount: _menuItems.length,
                 itemBuilder: (BuildContext context, int index) => _buildItem(
                   index: index,
-                  height: itemHeight,
+                  height: normalHeight,
                   isSelected: index == _selectedIndex,
                 ),
               );
@@ -286,10 +286,10 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     assert(isSelected != null);
 
     final IPodMenuItem item = _menuItems[index];
-    final double itemHeight = 160 / _visibleItemsCount;
-    final double biggerHeight = 280 / _visibleItemsCount;
+    final double normalHeight = 160 / _visibleItemsCount;
+    final double withSubtext = 280 / _visibleItemsCount;
     return Container(
-      height: itemHeight,
+      height: item.subText != null ? withSubtext : normalHeight,
       decoration:
           isSelected ? BoxDecoration(gradient: widget.selectionColor) : null,
       child: ListTile(
@@ -303,12 +303,14 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
                       ? widget.selectedItemTextStyle
                       : widget.itemTextStyle))),
         subtitle: item.subText != null
-            ? Text(item.subText,
+            ? Transform(
+                  transform: Matrix4.translationValues(-10, -5.0, 0.0),
+                child: Text(item.subText,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: isSelected
                     ? widget.selectedItemTextStyle
-                    : widget.itemTextStyle)
+                    : widget.itemTextStyle))
             : null,
         dense: true,
         trailing: item.subMenu != null
