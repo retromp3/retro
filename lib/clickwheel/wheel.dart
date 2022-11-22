@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/pan_handlers.dart';
 import 'package:retro/clickwheel/wheel_content.dart';
+import 'package:retro/games/breakout/breakout.dart';
 import 'package:retro/main.dart';
 
 Color wheelColor;
@@ -16,7 +17,7 @@ Widget clickWheel(BuildContext context, ThemeState state) {
  
     controlsColor = state.wheelColor == WheelColor.white
         ? Color.fromARGB(255, 185, 185, 190)
-        : Colors.white;
+        : Color.fromARGB(255, 222, 222, 222);
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -41,9 +42,16 @@ Widget clickWheel(BuildContext context, ThemeState state) {
           ),
           GestureDetector(
             onTap: () {
+              if(mainViewMode == MainViewMode.breakoutGame){
+                if(breakoutGame.currentState?.isBreakoutGameOver == true && breakoutGame.currentState?.gameState == Game.fail){
+                  breakoutGame.currentState?.restart();
+                }
+              }
+              else {
+                menuKey?.currentState?.select();
+              }
               HapticFeedback.mediumImpact();
               SystemSound.play(SystemSoundType.click);
-              menuKey?.currentState?.select();
             },
             child: selectButton()
           ),

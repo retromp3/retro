@@ -11,13 +11,13 @@ String gen7BlackSkin = "assets/skins/gen7_black.png";
 String getSkin(ThemeState state) {
   switch (state.skinTheme) {
     case SkinTheme.black:
-      return blackSkin;
+      return gen7BlackSkin;
+    case SkinTheme.silver:
+      return gen7SilverSkin;
     case SkinTheme.retro:
       return retroSkin;
     case SkinTheme.carbonfiber:
       return carbonFiberSkin;
-    case SkinTheme.silver:
-      return gen7SilverSkin;
   }
   return retroSkin;
 }

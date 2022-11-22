@@ -14,6 +14,10 @@ import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/resources/resources.dart';
 
 class NowPlayingScreen extends StatefulWidget {
+
+  const NowPlayingScreen({Key key})
+      : super(key: key);
+
   @override
   _NowPlayingScreenState createState() => _NowPlayingScreenState();
 }

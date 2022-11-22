@@ -88,7 +88,7 @@ class SpotifyPlayerProvider extends PlayerProvider {
   @override
   Future<bool> connect() async {
     final bool isConnected = await SpotifySdk.connectToSpotifyRemote(
-        clientId: _clientID, redirectUrl: _redirectUrl);
+        clientId: _clientID, redirectUrl: _redirectUrl,);
         
     if (isConnected) {
 //      _stateSubscription?.cancel();

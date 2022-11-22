@@ -49,7 +49,7 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
 
   @override
   void initState() {
-    super.initState();
+    homePressed();
     _keys.add(GlobalKey());
     _pages.add(IPodMenuPageWidget(
       key: _keys.last,
@@ -62,6 +62,7 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
       subMenuIcon: widget.subMenuIcon,
       selectedSubMenuIcon: widget.selectedSubMenuIcon,
     ));
+    super.initState();
   }
 
   @override
@@ -112,14 +113,12 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     }
   }
 
-  void homePressed() async {
-    if (mainViewMode == MainViewMode.player) {
+  void homePressed() {
+    if (mainViewMode == MainViewMode.player || mainViewMode == MainViewMode.breakoutGame) {
       setState(() => mainViewMode = MainViewMode.menu);
     } else {
       menuKey?.currentState?.back();
-    }
-    HapticFeedback.lightImpact();
-    //SystemSound.play(SystemSoundType.click);
+      }
   }
 
   void playNextSong() {

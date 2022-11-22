@@ -11,6 +11,7 @@ import 'package:retro/ipod.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/resources/main_player_repository.dart';
 
+import 'games/breakout/breakout.dart';
 import 'ipod_menu_widget/ipod_sub_menu.dart';
 
 import 'package:retro/appearance/skins.dart';
@@ -36,11 +37,13 @@ int ticksPerCircle;
 double tickAngel;
 bool wasExtraRadius;
 GlobalKey<IPodMenuWidgetState> menuKey = new GlobalKey<IPodMenuWidgetState>();
+GlobalKey<BreakoutGameState> breakoutGame = GlobalKey();
+
 IPodSubMenu menu;
 List<String> songIDs;
 MainViewMode mainViewMode;
 
-enum MainViewMode {menu, player}
+enum MainViewMode {menu, player, breakoutGame}
 
 void main() => runApp(MyApp(playify: Playify()));
 

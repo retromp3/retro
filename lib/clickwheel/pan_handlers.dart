@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:retro/main.dart';
 
 final stopwatch = Stopwatch(); //On iPod, fast scrolling begins about 1-2 seconds after the start of scrolling
@@ -43,10 +44,18 @@ void panUpdateHandler(DragUpdateDetails updateDetails) {
       scroll(false, stopwatch.elapsedMicroseconds);
       if (previousDirection == true) stopwatch.reset();
       previousDirection = false;
+      if (mainViewMode == MainViewMode.breakoutGame) {
+          breakoutGame.currentState?.moveRight();
+          HapticFeedback.lightImpact();
+      }
     } else {
       scroll(true, stopwatch.elapsedMicroseconds);
       if (previousDirection == false) stopwatch.reset();
       previousDirection = true;
+      if (mainViewMode == MainViewMode.breakoutGame) {
+          breakoutGame.currentState?.moveLeft();
+          HapticFeedback.lightImpact();
+      }
     }
     setCartesianStart(
       updateDetails.localPosition.dx,

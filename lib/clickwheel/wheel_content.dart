@@ -9,14 +9,22 @@ import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/clickwheel/wheel.dart';
+import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/main.dart';
 import 'package:retro/helpers/size_helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final IPodMenuWidgetState controls = new IPodMenuWidgetState();
   
 Widget menuButton() {
   return InkWell(
     onTap: () {
-      menuKey?.currentState?.homePressed();
+      if(mainViewMode == MainViewMode.player) {
+        menuKey.currentState?.homePressed();
+      }
+      if(mainViewMode == MainViewMode.breakoutGame) {
+        menuKey.currentState?.homePressed();
+      }
       HapticFeedback.lightImpact();
     },
     child: Container(
@@ -44,9 +52,11 @@ Widget fastForward() {
         iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
-          if(mainViewMode == MainViewMode.player || mainViewMode == MainViewMode.menu) {
-            menuKey?.currentState?.playNextSong();
+          if (mainViewMode == MainViewMode.menu ||
+                mainViewMode == MainViewMode.player) {
+                  controls.playNextSong();
           }
+
         }),
     alignment: Alignment.centerRight,
     //margin: EdgeInsets.only(right: 30),
@@ -63,9 +73,7 @@ Widget fastRewind() {
         iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
-          if(mainViewMode == MainViewMode.player || mainViewMode == MainViewMode.menu) {
-            menuKey?.currentState?.playPrevSong();
-          }
+          controls.playPrevSong();
         }),
     alignment: Alignment.centerLeft,
     //margin: EdgeInsets.only(left: 30),

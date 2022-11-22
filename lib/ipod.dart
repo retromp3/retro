@@ -26,6 +26,7 @@ import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
 
+import 'games/breakout/breakout.dart';
 import 'ipod_menu_widget/menu_design.dart';
 
 class IPod extends StatefulWidget {
@@ -35,10 +36,10 @@ class IPod extends StatefulWidget {
   
 
   @override
-  _IPodState createState() => _IPodState();
+  IPodState createState() => IPodState();
 }
 
-class _IPodState extends State<IPod> {
+class IPodState extends State<IPod> {
   bool fetchingAllSongs = false;
   bool playing = false;
   SongInformation data;
@@ -54,7 +55,6 @@ class _IPodState extends State<IPod> {
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
   bool debugMenu = false;
-  GlobalKey<IPodMenuWidgetState> menuKey = GlobalKey<IPodMenuWidgetState>();
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -92,6 +92,9 @@ class _IPodState extends State<IPod> {
         return buildMenu();
       case MainViewMode.player:
         return NowPlayingScreen();
+      case MainViewMode.breakoutGame:
+        return BreakoutGame(key: breakoutGame);
+        break;
     }
     return FittedBox();
   }
@@ -99,6 +102,12 @@ class _IPodState extends State<IPod> {
   void showPlayer() {
     BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
     setState(() => mainViewMode = MainViewMode.player);
+  }
+
+  void showBreakoutGame() {
+    setState(() {
+      mainViewMode = MainViewMode.breakoutGame;
+    });
   }
   
 
@@ -119,14 +128,6 @@ class _IPodState extends State<IPod> {
   }
 
   List<IPodMenuItem> _songListBuilderPlaylist() {
-
-    if (((_songs == null || _songs.isEmpty))) {
-      _songs.sort((a, b) => a.title.compareTo(b.title));
-    }
-    
-    _songs.sort((a, b) => a.title.compareTo(b.title));
-
-    //var coverArt = (SongModel song) => MemoryImage(song.coverArtBytes);
 
     final List<IPodMenuItem> items = _songs
         .map(
@@ -346,7 +347,7 @@ class _IPodState extends State<IPod> {
     final IPodSubMenu gamesMenu = IPodSubMenu(
       caption: MenuCaption(text: "Games"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Breakout"),
+        IPodMenuItem(text: "Breakout", onTap: showBreakoutGame),
       ],
     );
 
