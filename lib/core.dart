@@ -67,7 +67,7 @@ class IPodState extends State<IPod> {
   void initState() {
     mainViewMode = MainViewMode.menu;
     menu = getIPodMenu();
-    altMenu = getAltMenu();
+    altMenu = getAltMenu(context);
     widgetSize = 300.0;
     halfSize = widgetSize / 2;
     cartesianStartX = 1;
@@ -356,9 +356,11 @@ class IPodState extends State<IPod> {
                   breakoutGame.currentState?.restart();
                 }
               }
+              else if(popUp == true) {
+                altMenuKey?.currentState?.select();
+              }
               else {
                 menuKey?.currentState?.select();
-                altMenuKey?.currentState?.select();
               }
               HapticFeedback.mediumImpact();
               SystemSound.play(SystemSoundType.click);
@@ -370,13 +372,13 @@ class IPodState extends State<IPod> {
     );
   }
 
-  AltSubMenu getAltMenu() {
+  AltSubMenu getAltMenu(context) {
     return AltSubMenu(
       items: [
         AltMenuItem(
           text: 'Spotify',
           onTap: () {
-              //BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
           }
         ),
         AltMenuItem(
@@ -384,7 +386,11 @@ class IPodState extends State<IPod> {
         ),
         AltMenuItem(
           text: 'Cancel',
+          onTap:() => setState(() {
+                popUp = false;
+          }),
         ),
+        
       ],
     );
   }

@@ -6,7 +6,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:retro/alt_menu/alt_menu_item.dart';
-import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
 
 typedef AltMenuItemBuilder = List<AltMenuItem> Function();
 

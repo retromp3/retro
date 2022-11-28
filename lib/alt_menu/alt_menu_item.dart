@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:retro/alt_menu/alt_sub_menu.dart';
-import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 
 class AltMenuItem {
   final String text;
