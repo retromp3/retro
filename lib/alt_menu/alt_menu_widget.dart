@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
-import 'package:retro/ipod_menu_widget/ipod_menu_page_widget.dart';
+import 'package:retro/alt_menu/alt_menu_page_widget.dart';
 import 'package:retro/main.dart';
 
-import 'ipod_sub_menu.dart';
+import 'alt_sub_menu.dart';
 
-class IPodMenuWidget extends StatefulWidget {
-  final IPodSubMenu subMenu;
+class AltMenuWidget extends StatefulWidget {
+  final AltSubMenu subMenu;
   final LinearGradient selectionColor;
   final Decoration decoration;
   final TextStyle itemTextStyle;
@@ -17,9 +17,9 @@ class IPodMenuWidget extends StatefulWidget {
   final Widget subMenuIcon;
   final Widget selectedSubMenuIcon;
 
-  IPodMenuWidget({
+  AltMenuWidget({
     Key key,
-    @required IPodSubMenu subMenu,
+    @required AltSubMenu subMenu,
     Color selectionColor,
     this.decoration,
     this.itemTextStyle,
@@ -40,26 +40,23 @@ class IPodMenuWidget extends StatefulWidget {
         super(key: key);
 
   @override
-  IPodMenuWidgetState createState() => IPodMenuWidgetState();
+  AltMenuWidgetState createState() => AltMenuWidgetState();
 }
 
-class IPodMenuWidgetState extends State<IPodMenuWidget> {
+class AltMenuWidgetState extends State<AltMenuWidget> {
   final List<Widget> _pages = [];
-  final List<GlobalKey<IPodMenuPageWidgetState>> _keys = [];
+  final List<GlobalKey<AltMenuPageWidgetState>> _keys = [];
 
   @override
   void initState() {
     _keys.add(GlobalKey());
-    _pages.add(IPodMenuPageWidget(
+    _pages.add(AltMenuPageWidget(
       key: _keys.last,
       subMenu: widget.subMenu,
       decoration: widget.decoration,
       selectionColor: widget.selectionColor,
-      isAnimated: false,
       itemTextStyle: widget.itemTextStyle,
       selectedItemTextStyle: widget.selectedItemTextStyle,
-      subMenuIcon: widget.subMenuIcon,
-      selectedSubMenuIcon: widget.selectedSubMenuIcon,
     ));
     super.initState();
   }
@@ -78,50 +75,23 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
   }
 
   void select() {
-    final IPodSubMenu newMenu = _keys.last?.currentState?.tap();
+    final AltSubMenu newMenu = _keys.last?.currentState?.tap();
     if (newMenu != null) {
       setState(() {
         _keys.add(GlobalKey());
         _pages.add(
-          IPodMenuPageWidget(
+          AltMenuPageWidget(
             key: _keys.last,
             subMenu: newMenu,
             decoration: widget.decoration,
             selectionColor: widget.selectionColor,
-            onBackAnimationComplete: _backAnimationCompleteListener,
             itemTextStyle: widget.itemTextStyle,
             selectedItemTextStyle: widget.selectedItemTextStyle,
-            subMenuIcon: widget.subMenuIcon,
-            selectedSubMenuIcon: widget.selectedSubMenuIcon,
           ),
         );
       });
     }
   }
 
-  void _backAnimationCompleteListener() {
-    setState(() {
-      _keys.removeLast();
-      _pages.removeLast();
-    });
-  }
-
-  void back() {
-    if (_keys.length > 1) {
-      _keys.last.currentState?.back();
-    }
-  }
-
-  void playNextSong(context) {
-    BlocProvider.of<PlayerBloc>(context).add(NextCalled(songIDs));
-  }
-
-  void playPrevSong(context) {
-    BlocProvider.of<PlayerBloc>(context).add(PrevCalled(songIDs));
-  }
-
-  void refresh() {
-    _keys.last?.currentState?.refresh();
-  }
 }
 

@@ -87,11 +87,19 @@ bool testExtraRadius(double radius) {
 
 void scroll (bool up, int micros) {
   int count = pow(2, (micros/1000000).floor()) - 1;
-  if (up) menuKey?.currentState?.up(true); //play sound and haptics
-  else menuKey?.currentState?.down(true);
+  if(up) {
+      popUp ? altMenuKey?.currentState?.up(true) : menuKey?.currentState?.up(true);
+  }
+  else {
+      popUp ? altMenuKey?.currentState?.down(true) : menuKey?.currentState?.down(true);
+  }
 
   for (int i = 0; i < count; i++) {
-    if (up) menuKey?.currentState?.up(false); //don't play them
-    else menuKey?.currentState?.down(false);
+    if(up) {
+      popUp ? altMenuKey?.currentState?.up(false) : menuKey?.currentState?.up(false);
+    }
+    else {
+      popUp ? altMenuKey?.currentState?.down(false) : menuKey?.currentState?.down(false);
+    }
   }
 }

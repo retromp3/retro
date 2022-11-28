@@ -8,41 +8,16 @@ import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
-import 'package:retro/clickwheel/wheel.dart';
+import 'package:retro/core.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/main.dart';
 import 'package:retro/helpers/size_helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final IPodMenuWidgetState controls = new IPodMenuWidgetState();
-  
-Widget menuButton() {
-  return InkWell(
-    onTap: () {
-      if(mainViewMode == MainViewMode.player) {
-        menuKey.currentState?.homePressed();
-      }
-      if(mainViewMode == MainViewMode.breakoutGame) {
-        menuKey.currentState?.homePressed();
-      }
-      HapticFeedback.lightImpact();
-    },
-    child: Container(
-      child: Text(
-        'MENU',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: controlsColor,
-        ),
-      ),
-      alignment: Alignment.topCenter,
-      margin: EdgeInsets.only(top: 15),
-    ),
-  );
-}
+final IPodMenuWidgetState musicControls = new IPodMenuWidgetState();
+final IPodState home = new IPodState();
 
-Widget fastForward() {
+Widget fastForward(context) {
   return Container(
     child: IconButton(
         icon: Icon(
@@ -52,10 +27,7 @@ Widget fastForward() {
         iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
-          if (mainViewMode == MainViewMode.menu ||
-                mainViewMode == MainViewMode.player) {
-                  controls.playNextSong();
-          }
+          musicControls.playNextSong(context);
 
         }),
     alignment: Alignment.centerRight,
@@ -63,7 +35,7 @@ Widget fastForward() {
   );
 }
 
-Widget fastRewind() {
+Widget fastRewind(context) {
   return Container(
     child: IconButton(
         icon: Icon(
@@ -73,14 +45,14 @@ Widget fastRewind() {
         iconSize: 25,
         onPressed: () async {
           HapticFeedback.mediumImpact();
-          controls.playPrevSong();
+          musicControls.playPrevSong(context);
         }),
     alignment: Alignment.centerLeft,
     //margin: EdgeInsets.only(left: 30),
   );
 }
 
-Widget playButton() {
+Widget playButton(context) {
   return Container(
     child: 
       IconButton(

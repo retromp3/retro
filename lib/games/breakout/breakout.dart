@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
+import 'package:retro/main.dart';
 
 enum Game{running, fail}
 
@@ -572,6 +573,10 @@ class BreakoutGameState extends State<BreakoutGame>
         paddle.position = Offset(paddle.position.dx - paddle.speed * deltaS, paddle.position.dy);
       });
     }
+  }
+
+  void homePressed(context) async {
+    setState(() => mainViewMode = MainViewMode.menu);
   }
 
   void moveRight(){

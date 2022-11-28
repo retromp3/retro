@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:battery_indicator/battery_indicator.dart';
 import 'package:battery_plus/battery_plus.dart';
@@ -6,12 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/widgets.dart';
+import 'package:marquee/marquee.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/player/player_state.dart';
 import 'package:intl/intl.dart';
+import 'package:retro/helpers/marquee.dart';
 import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/resources/resources.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class NowPlayingScreen extends StatefulWidget {
 
@@ -57,6 +61,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
     super.dispose();
   }
 
+  // display the current time
   void _getTime() {
     DateTime _now = DateTime.now();
     final String formattedDateTime = _formatDateTime(_now);
@@ -80,14 +85,18 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           children: <Widget>[
             _statusBar(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Stack(
                 children: [
-                  SizedBox(height: 33.0),
-                _albumArt(mediaQuery),
-                SizedBox(height: 35.0),
-                _linearProgressIndicator(),
-                ],))
+                  _albumArt(mediaQuery),
+                 /* Positioned(
+                    top: 100,
+                    left: 0,
+                    right: 0,
+                    child: _linearProgressIndicator()
+                  ),*/
+                ],
+              ),)
           ],
         ),
     );
@@ -98,7 +107,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         height: 25,
         width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -179,7 +188,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 3, 0),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                child: Text(
                 getHumanTime(state.playBackTime),
                 style: TextStyle(
@@ -189,19 +198,53 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                     fontSize: 12.0),
                 )
             ),
-            SizedBox(
-              height: 15,
-              width: displayWidth(context) * 0.6,
-              child: LinearProgressIndicator(
-                value: value,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Color(0xFF63beff),
-                ),
-                backgroundColor: Colors.grey[300],
+            Column(children: [
+              SizedBox(
+                height: 15,
+                width: displayWidth(context) * 0.65,
+                child: LinearPercentIndicator(
+                  clipLinearGradient: true,
+                  lineHeight: 24,
+                  backgroundColor: Colors.grey[100],
+                  percent: value,
+                  linearGradient: LinearGradient(
+                    stops: [0.0, 0.4, 1.0],
+                      colors: [
+                        Color(0xFF91B7F1),
+                        Color(0xff7DB1F8),
+                        Color(0xFF96DFFC),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                )
               ),
-            ),
+              Opacity(
+                opacity: 0.1,
+                child: SizedBox(
+                height: 10,
+                width: displayWidth(context) * 0.65,
+                child: LinearPercentIndicator(
+                  clipLinearGradient: true,
+                  lineHeight: 10,
+                  backgroundColor: Colors.grey[100],
+                  percent: value,
+                  linearGradient: LinearGradient(
+                    stops: [0.0, 0.4, 1.0],
+                      colors: [
+                        Color(0xFF91B7F1),
+                        Color(0xff7DB1F8),
+                        Color(0xFF96DFFC),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                )
+              ),
+              )
+            ],),
             Padding(
-              padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: Text(
               getHumanTime(state.songInfo.duration),
               style: TextStyle(
@@ -233,20 +276,44 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      width: mediaQuery.size.width / 2.5,
-                      height: mediaQuery.size.width / 2.5,
-                      child: state.songInfo.coverArt ?? FittedBox(),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(24.0),
+                  Column(children: [
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..setEntry(3, 2, 0.005)
+                        ..rotateY(-0.3),
+                      alignment: FractionalOffset.center,
+                        child: Expanded(
+                        flex: 2,
+                        child: Container(
+                          width: mediaQuery.size.width / 3,
+                          height: mediaQuery.size.width / 3,
+                          child: state.songInfo.coverArt ?? FittedBox(),
+            
                         ),
                       ),
                     ),
-                  ),
+                    // reflect the album art accross the x axis
+                    Opacity(
+                      opacity: 0.1,
+                      child: Transform(
+                        transform: Matrix4.identity()
+                          ..setEntry(3, 2, 0.005)
+                          ..rotateY(-0.3)
+                          ..rotateX(pi),
+                        alignment: FractionalOffset.center,
+                          child: Container(
+                            
+                            width: mediaQuery.size.width / 3,
+                            height: mediaQuery.size.width / 3,
+                            child: state.songInfo.coverArt ?? FittedBox(),
+              
+                      
+                        ),
+                      ),
+                    )
+                   
+                  ],),
+                  
                   Expanded(
                     flex: 3,
                     child: Container(
@@ -258,37 +325,52 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                           children: <Widget>[
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                state.songInfo.title,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
+                              child: MarqueeWidget(
+                                  direction: Axis.horizontal,
+                                  child: Text(
+                                    state.songInfo.title, 
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Calibre-Semibold",
+                    
+                                    )
+                                  )
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
                             ),
-                            SizedBox(height: 4.0),
+                            SizedBox(height: 5.0),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 state.songInfo.artistName,
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 33, 33, 33),
-                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 106, 106, 106),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15
                                 ),
                               ),
                             ),
+                            SizedBox(height: 5.0),
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                state.songInfo.albumTitle,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 33, 33, 33),
-                                  fontWeight: FontWeight.w600,
+                              child: MarqueeWidget(
+                                  direction: Axis.horizontal,
+                                  child: Text(
+                                    state.songInfo.albumTitle,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 106, 106, 106),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Calibre-Semibold",
+                    
+                                    )
+                                  )
                                 ),
-                              ),
                             )
                           ],
                         ),

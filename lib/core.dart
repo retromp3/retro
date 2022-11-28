@@ -9,15 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:playify/playify.dart';
+import 'package:retro/alt_menu/alt_menu_item.dart';
+import 'package:retro/alt_menu/alt_sub_menu.dart';
+import 'package:retro/alt_menu/alt_menu_design.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_event.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
-import 'package:retro/clickwheel/wheel.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
-import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
 import 'package:retro/menu.dart';
@@ -26,6 +27,8 @@ import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
 
+import 'clickwheel/pan_handlers.dart';
+import 'clickwheel/wheel_content.dart';
 import 'games/breakout/breakout.dart';
 import 'ipod_menu_widget/menu_design.dart';
 
@@ -64,6 +67,7 @@ class IPodState extends State<IPod> {
   void initState() {
     mainViewMode = MainViewMode.menu;
     menu = getIPodMenu();
+    altMenu = getAltMenu();
     widgetSize = 300.0;
     halfSize = widgetSize / 2;
     cartesianStartX = 1;
@@ -83,7 +87,9 @@ class IPodState extends State<IPod> {
       });
     });
     super.initState();
-   // updateInfo();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+       homePressed(context);
+    });
   }
 
   Widget buildMainView() {
@@ -98,19 +104,27 @@ class IPodState extends State<IPod> {
     }
     return FittedBox();
   }
+  
+  
 
+  // sends the user back to the menu
+  void homePressed(context) {
+    setState(() => mainViewMode = MainViewMode.menu);
+  }
+
+  // sends the user to the player
   void showPlayer() {
     BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
     setState(() => mainViewMode = MainViewMode.player);
   }
 
+  // sends the user to Breakout
   void showBreakoutGame() {
     setState(() {
       mainViewMode = MainViewMode.breakoutGame;
     });
   }
   
-
   List<IPodMenuItem> _songListBuilder() {
     if (_songs == null || _songs.isEmpty) {
       return [IPodMenuItem(text: 'No songs fetched')];
@@ -127,6 +141,7 @@ class IPodState extends State<IPod> {
         .toList();
   }
 
+  // list the songs in a playlist
   List<IPodMenuItem> _songListBuilderPlaylist() {
 
     final List<IPodMenuItem> items = _songs
@@ -153,6 +168,7 @@ class IPodState extends State<IPod> {
     return items;
   }
 
+  // makes playlists accessible
   List<IPodMenuItem> _playListBuilder() {
     if (_playlists == null || _playlists.isEmpty) {
       return [IPodMenuItem(text: 'No playlist fetched')];
@@ -208,8 +224,19 @@ class IPodState extends State<IPod> {
 
               child: Stack(
                 children: [
+                  
                   Padding(
                     padding: EdgeInsets.all(5.8), child: buildMainView()),
+                  Padding(
+                    padding: EdgeInsets.all(5.5), 
+                      child: AnimatedOpacity(
+                        opacity: popUp ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 200),
+                        child: Container(color: Colors.black.withOpacity(0.5)),
+                      ),
+                    ),
+                  signIn(context),
+                  
                 ],) 
             ),
             /*Container(
@@ -256,6 +283,111 @@ class IPodState extends State<IPod> {
       ));
   }
 
+  /* technically this should be in wheel_content.dart but for some reason it doesn't work when its there lol */
+  Widget menuButton(context) {
+    return InkWell(
+      onTap: () {
+        if(mainViewMode != MainViewMode.menu) {
+          homePressed(context);
+        }
+        else if(popUp == true) {
+          setState(() {
+            popUp = false;
+          });
+        }
+        else {
+          
+          menuKey.currentState?.back();
+        }
+        HapticFeedback.mediumImpact();
+        
+      },
+      child: Container(
+        child: Text(
+          'MENU',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: controlsColor,
+          ),
+        ),
+        alignment: Alignment.topCenter,
+        margin: EdgeInsets.only(top: 15),
+      ),
+    );
+  }
+
+  Widget clickWheel(BuildContext context, ThemeState state) {
+    wheelColor = state.wheelColor == WheelColor.black
+        ? const Color(0xff151516)
+        : Colors.white;
+        
+ 
+    controlsColor = state.wheelColor == WheelColor.white
+        ? Color.fromARGB(255, 185, 185, 190)
+        : Color.fromARGB(255, 222, 222, 222);
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          GestureDetector(
+            onPanUpdate: panUpdateHandler,
+            onPanStart: panStartHandler,
+            child: Container(
+              height: widgetSize,
+              width: widgetSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Color.fromARGB(255, 139, 139, 139)),
+                color: wheelColor,
+              ),
+              child: Stack(children: [
+                menuButton(context),
+                fastForward(context),
+                fastRewind(context),
+                playButton(context)
+              ]),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              if(mainViewMode == MainViewMode.breakoutGame){
+                if(breakoutGame.currentState?.isBreakoutGameOver == true && breakoutGame.currentState?.gameState == Game.fail){
+                  breakoutGame.currentState?.restart();
+                }
+              }
+              else {
+                menuKey?.currentState?.select();
+                altMenuKey?.currentState?.select();
+              }
+              HapticFeedback.mediumImpact();
+              SystemSound.play(SystemSoundType.click);
+            },
+            child: selectButton()
+          ),
+        ],
+      ),
+    );
+  }
+
+  AltSubMenu getAltMenu() {
+    return AltSubMenu(
+      items: [
+        AltMenuItem(
+          text: 'Spotify',
+          onTap: () {
+              //BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+          }
+        ),
+        AltMenuItem(
+          text: 'Apple Music',
+        ),
+        AltMenuItem(
+          text: 'Cancel',
+        ),
+      ],
+    );
+  }
 
   IPodSubMenu getIPodMenu() {
     final IPodSubMenu wheelMenu = IPodSubMenu(
@@ -273,12 +405,6 @@ class IPodState extends State<IPod> {
             WheelColorChanged(WheelColor.black),
           ),
         ),
-       /* IPodMenuItem(
-          text: "Red",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            WheelColorChanged(WheelColor.red),
-          ),
-        ),*/
       ],
     );
 
@@ -308,22 +434,6 @@ class IPodState extends State<IPod> {
       ],
     );
 
-    final IPodSubMenu linkAccountMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Link Account"),
-      items: <IPodMenuItem>[
-        IPodMenuItem(
-            text: "Spotify",
-            onTap: () {
-              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
-            }
-        ),
-        /*IPodMenuItem(
-          text:
-              "Apple Music",
-        ),*/
-      ],
-    );
-
     final IPodSubMenu songs = IPodSubMenu(
       caption: MenuCaption(text: "Songs"),
       items: <IPodMenuItem>[],
@@ -337,7 +447,10 @@ class IPodState extends State<IPod> {
     final IPodSubMenu musicMenu = IPodSubMenu(
       caption: MenuCaption(text: "Music"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Music Service", subMenu: linkAccountMenu),
+        IPodMenuItem(text: "Sign In",
+          onTap:() => setState(() {
+                popUp = true;
+          }),),
         IPodMenuItem(text: "Songs", subMenu: songs),
       ],
     );

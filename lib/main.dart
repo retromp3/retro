@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:playify/playify.dart';
+import 'package:retro/alt_menu/alt_sub_menu.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme.dart';
-import 'package:retro/ipod.dart';
+import 'package:retro/core.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/resources/main_player_repository.dart';
 
+import 'alt_menu/alt_menu_widget.dart';
 import 'games/breakout/breakout.dart';
 import 'ipod_menu_widget/ipod_sub_menu.dart';
 
@@ -36,10 +38,15 @@ double cartesianStartRadius;
 int ticksPerCircle;
 double tickAngel;
 bool wasExtraRadius;
+Color wheelColor;
+Color controlsColor;
 GlobalKey<IPodMenuWidgetState> menuKey = new GlobalKey<IPodMenuWidgetState>();
+GlobalKey<AltMenuWidgetState> altMenuKey = new GlobalKey<AltMenuWidgetState>();
 GlobalKey<BreakoutGameState> breakoutGame = GlobalKey();
-
+bool popUp = false;
+bool showPlayerScreen = false;
 IPodSubMenu menu;
+AltSubMenu altMenu;
 List<String> songIDs;
 MainViewMode mainViewMode;
 
