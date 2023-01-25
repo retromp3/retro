@@ -67,4 +67,4 @@ This is a list of all the things that are left to complete (there's likely more 
 | Dynamic Menu Sizes | 🚧 | 🚧 |
 | Split screen | 🚧 | 🚧 |
 | Responsive to all screens | 🚧 | 🚧 |
-| Setting for  | 🚧 | 🚧 |
+| Setting for narow and wide aspect ratio | 🚧 | 🚧 |
