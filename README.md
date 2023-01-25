@@ -43,20 +43,25 @@ This is a list of all the things that are left to complete (there's likely more 
 | Description  | iOS | Android |
 |---|---|---|
 | Apple Music implementation | 🚧 | N/A |
+| iTunes local music implementation | 🚧 | N/A |
 | Spotify implementation | 🚧 | 🚧 |
 | Play Music from files | 🚧 | 🚧 |
 | Skins (Background) | ✅ | ✅ |
 | Skins (Wheel) | 🚧 | 🚧 |
+| User created Skins (.zip) | 🚧 | 🚧 |
 | iPod Animations | 🚧 | 🚧 |
 | Games | 🚧 | 🚧 |
-| iPod Themes | 🚧 | 🚧 |
+| iPod Themes Presets | 🚧 | 🚧 |
+| iPod 3g buttons | 🚧 | 🚧 |
 | Configurable app icons | 🚧 | 🚧 |
 | Clickwheel feedback | ✅ | ✅ |
 | Exponential scrolling | ✅ | ✅ |
 | Menu Layout | ✅ | ✅ |
 | Music Player functions | 🚧 | 🚧 |
+| Fetching and displaying album art | ? | ? |
 | Migrate to Android embedding v2 | N/A | ✅ |
 | Migrate to Flutter 3 | ✅ | ✅ |
 | Splash screen | 🚧 | 🚧 |
 | Dynamic Menu Sizes | 🚧 | 🚧 |
+| Split screen | 🚧 | 🚧 |
 | Responsive to all screens | 🚧 | 🚧 |
