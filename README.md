@@ -25,7 +25,9 @@ This version of Retro will eventually succeed the current [build that's availabl
 2. Clone this repository
 3. ```cd retro```
 4. ```flutter pub get && flutter run```
-5. That's it! 
+5. That's it!
+
+Congratulations Retro should now be running on your iDevice or Android Device!
 
 _Note: If you want to develop on this, you're going to need a mac as well as an Apple Developer Account (paid or free)_
 
@@ -65,3 +67,4 @@ This is a list of all the things that are left to complete (there's likely more 
 | Dynamic Menu Sizes | 🚧 | 🚧 |
 | Split screen | 🚧 | 🚧 |
 | Responsive to all screens | 🚧 | 🚧 |
+| Setting for  | 🚧 | 🚧 |
