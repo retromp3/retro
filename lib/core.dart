@@ -225,10 +225,10 @@ class IPodState extends State<IPod> {
                 ),
                 child: Stack(
                   children: [
-                    Padding(
+                    /*Padding(
                       padding: EdgeInsets.all(5.8),
                       child: CoverCycle(autoScroll: true),
-                    ),
+                    ),*/
                     
                     Padding(
                       padding: EdgeInsets.all(5.8),
@@ -240,7 +240,7 @@ class IPodState extends State<IPod> {
                             
                             Flexible(child: buildMainView()),
                             Expanded(
-                              child: MainContent(1)
+                              child: CoverCycle(autoScroll: true),
                               ),
                             
                           ],

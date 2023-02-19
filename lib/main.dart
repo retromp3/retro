@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:playify/playify.dart';
 import 'package:retro/alt_menu/alt_sub_menu.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
@@ -52,7 +53,10 @@ MainViewMode mainViewMode;
 
 enum MainViewMode {menu, player, breakoutGame}
 
-void main() => runApp(MyApp(playify: Playify()));
+Future<void> main() async {
+  await dotenv.load();
+  runApp(MyApp(playify: Playify()));
+}
 
 class MyApp extends StatelessWidget {
   final Playify playify;

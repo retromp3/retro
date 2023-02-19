@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:retro/music_models/apple_music/album/album_model.dart';
 import 'package:retro/music_models/apple_music/artist/artist_model.dart';
 import 'package:retro/music_models/apple_music/song/song_info_model.dart';
@@ -15,8 +16,8 @@ import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:http/http.dart' as http;
 
 class SpotifySongListProvider extends SongListProvider {
-  static const String _redirectUrl = 'comspotifytestsdk://co.retromusic';
-  static const String _clientID = 'f7c9fd5eae69474ea517f13175e082f6';
+  static String _redirectUrl = dotenv.env['SPOTIFY_REDIRECT_URL'];
+  static String _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
   static const String _spotifyHost = 'api.spotify.com';
   static const String _spotifyPlayListEndpoint = '/v1/me/playlists';
   static const String _authHeader = 'Authorization';
