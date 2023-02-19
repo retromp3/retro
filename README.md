@@ -21,13 +21,20 @@ This version of Retro will eventually succeed the current [build that's availabl
 
 ## Setup
 
-1. [Download and install Flutter](https://docs.flutter.dev/get-started/install)
-2. Clone this repository
-3. ```cd retro```
-4. ```flutter pub get && flutter run```
-5. That's it! 
+Long story short, we can't distribute the app as an IPA because the Spotify functionality won't work.
 
-_Note: If you want to develop on this, you're going to need a mac as well as an Apple Developer Account (paid or free)_
+The workaround for this is to compile the app yourself and insert your own Spotify API key and Redirect URIs in the .env file.
+
+# Instructions
+
+1. Download and install Flutter. You can find instructions on how to do this [here](https://flutter.dev/docs/get-started/install).
+2. Ensure you have an Apple Developer account (paid or free). You can find instructions on how to do this [here](https://developer.apple.com/programs/enroll/).
+3. Clone this repository.
+4. `cd retro`
+5. Open the ios folder in Xcode and select your Apple Developer account for signing.
+6. Create a Spotify app [here](https://developer.spotify.com/dashboard/applications) and insert the Client ID and Redirect URIs in the .env.example file. Make sure to rename it to .env.
+7. Head back to the terminal and run `flutter pub get && flutter run`.
+8. That should be it! The app should run fine on your iOS device.
 
 ## Contributing
 
