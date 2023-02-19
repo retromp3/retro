@@ -60,6 +60,12 @@ class MenuCaption extends StatelessWidget {
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               tileMode: TileMode.clamp),
+          border: Border(
+            bottom: BorderSide(
+              color: Color.fromARGB(255, 140, 140, 140),
+              width: 1.0,
+            ),
+          ),
           ),
     );
   }

@@ -18,6 +18,7 @@ import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_event.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
+import 'package:retro/coverflow/covercycle.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
@@ -124,11 +125,25 @@ class IPodState extends State<IPod> {
       mainViewMode = MainViewMode.breakoutGame;
     });
   }
+
+  void shuffleSongs(context) {
+    BlocProvider.of<PlayerBloc>(context).add(ShuffleCalled());
+  }
+
+  List<IPodMenuItem> allSongs() {
+    List<IPodMenuItem> combineSongs = [];
+    List<IPodMenuItem> allPlayLists = _playListBuilder();
+    List<IPodMenuItem> songsInPlaylist = _songListBuilderPlaylist();
+
+    combineSongs.addAll(allPlayLists);
+
+  }
   
   List<IPodMenuItem> _songListBuilder() {
     if (_songs == null || _songs.isEmpty) {
       return [IPodMenuItem(text: 'No songs fetched')];
     }
+
     return _songs
         .map(
           (SongModel song) => IPodMenuItem(
@@ -141,7 +156,6 @@ class IPodState extends State<IPod> {
         .toList();
   }
 
-  // list the songs in a playlist
   List<IPodMenuItem> _songListBuilderPlaylist() {
 
     final List<IPodMenuItem> items = _songs
@@ -156,19 +170,9 @@ class IPodState extends State<IPod> {
         )
         .toList();
 
-    /*if(_songs.isNotEmpty) {
-      items.insert(
-        0,
-        IPodMenuItem(
-          text: 'Shuffle Playlist',
-          onTap: _shuffle,
-        ),
-      );
-    }*/
     return items;
   }
 
-  // makes playlists accessible
   List<IPodMenuItem> _playListBuilder() {
     if (_playlists == null || _playlists.isEmpty) {
       return [IPodMenuItem(text: 'No playlist fetched')];
@@ -207,26 +211,43 @@ class IPodState extends State<IPod> {
       child: SafeArea(
         child: Column(
           children: <Widget>[
+            
             Container(
-              margin: EdgeInsets.only(top: 25, left: 8, right: 8),
-              constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
-              height: 300,
-              //300
-              //height: 235,
-              width: 385,
-
-              decoration: new BoxDecoration(
-                color: const Color(0xFF1c1c1c),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
+                margin: EdgeInsets.only(top: 25, left: 8, right: 8),
+                constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
+                height: 300,
+                width: 385,
+                decoration: new BoxDecoration(
+                  color: const Color(0xFF1c1c1c),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
                 ),
-              ),
-
-              child: Stack(
-                children: [
-                  
-                  Padding(
-                    padding: EdgeInsets.all(5.8), child: buildMainView()),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(5.8),
+                      child: CoverCycle(autoScroll: true),
+                    ),
+                    
+                    Padding(
+                      padding: EdgeInsets.all(5.8),
+                      child: Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            
+                            Flexible(child: buildMainView()),
+                            Expanded(
+                              child: MainContent(1)
+                              ),
+                            
+                          ],
+                        ),
+                      ),
+                    ),
+                   
                   Padding(
                     padding: EdgeInsets.all(5.5), 
                       child: AnimatedOpacity(
@@ -235,42 +256,9 @@ class IPodState extends State<IPod> {
                         child: Container(color: Colors.black.withOpacity(0.5)),
                       ),
                     ),
-                  signIn(context),
-                  
-                ],) 
-            ),
-            /*Container(
-                margin: EdgeInsets.only(top: 25),
-                height: 300,
-                width: 385,
-                decoration: new BoxDecoration(
-                  color: Colors.black,
-                  
+                  altIpodMenu(context),
+                ])
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Flexible(child: buildMenu()),
-
-
-                          // this enables the split screen view, will work on this later
-                          /*Expanded(
-                            child: PageView(
-                              children: <Widget>[
-                                MainContent(1),
-                              ],
-                            ),
-                          ),*/
-                        ],
-                      ),
-                    )
-                  ],
-                )
-                ),*/
             Spacer(),
             BlocBuilder<ThemeBloc, ThemeState>(
               buildWhen: (ThemeState prev, ThemeState cur) =>
@@ -338,7 +326,7 @@ class IPodState extends State<IPod> {
               width: widgetSize,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Color.fromARGB(255, 139, 139, 139)),
+                border: Border.all(color: Color.fromARGB(255, 95, 95, 95), width: 0.5),
                 color: wheelColor,
               ),
               child: Stack(children: [
@@ -373,6 +361,29 @@ class IPodState extends State<IPod> {
   }
 
   AltSubMenu getAltMenu(context) {
+    return AltSubMenu(
+      items: [
+        AltMenuItem(
+          text: 'Spotify',
+          onTap: () {
+              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+          }
+        ),
+        AltMenuItem(
+          text: 'Apple Music',
+        ),
+        AltMenuItem(
+          text: 'Cancel',
+          onTap:() => setState(() {
+                popUp = false;
+          }),
+        ),
+        
+      ],
+    );
+  }
+
+  AltSubMenu getAltMenu2(context) {
     return AltSubMenu(
       items: [
         AltMenuItem(
@@ -511,7 +522,7 @@ class IPodState extends State<IPod> {
         IPodMenuItem(text: "Now Playing", onTap: showPlayer),
         IPodMenuItem(text: "Music", subMenu: musicMenu),
         IPodMenuItem(text: "Playlists", subMenu: playlistMenu),
-        IPodMenuItem(text: "Shuffle"),
+        IPodMenuItem(text: "Shuffle", onTap: () {musicControls.shuffleSongs(context);}),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),
         if (debugMenu) IPodMenuItem(text: "useless scroll list", subMenu: testMenu),

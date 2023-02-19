@@ -14,6 +14,12 @@ Widget buildMenu() {
     decoration: BoxDecoration(
       color: Colors.white,
       shape: BoxShape.rectangle,
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 8.0,
+          offset: Offset(1.0, 0),
+        ),
+      ],
     ),
   );
 }

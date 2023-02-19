@@ -394,6 +394,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.5.4"
+  kenburns_nullsafety:
+    dependency: "direct main"
+    description:
+      name: kenburns_nullsafety
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   logger:
     dependency: transitive
     description:

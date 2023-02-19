@@ -18,6 +18,8 @@ abstract class PlayerRepository {
 
   Future<void> pause();
 
+  Future<void> toggleShuffle();
+
   Future<void> setQueue(String songId);
 
   Future<void> setPlaybackTime(double time);
@@ -43,6 +45,8 @@ abstract class PlayerProvider {
   Future<void> play();
 
   Future<void> pause();
+
+  Future<void> toggleShuffle();
 
   Future<void> setQueue(
     List<String> songId, {

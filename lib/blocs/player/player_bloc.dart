@@ -22,6 +22,8 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
       yield* _mapSetQueueItem(event);
     } else if (event is PauseCalled) {
       yield* _mapPauseCalled(event);
+    } else if (event is ShuffleCalled) {
+      yield* _mapToggleShuffleCalled(event);
     } else if (event is PrevCalled) {
       yield* _mapPrevCalled(event);
     } else if (event is NextCalled) {
@@ -83,6 +85,15 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   Stream<PlayerState> _mapPauseCalled(PauseCalled event) async* {
     try {
       await _playerRepository.pause();
+      yield* _getNowPlayingState();
+    } catch (e) {
+      yield PlayerErrorState(lastSongID: state.lastSongID);
+    }
+  }
+
+  Stream<PlayerState> _mapToggleShuffleCalled(ShuffleCalled event) async* {
+    try {
+      await _playerRepository.toggleShuffle();
       yield* _getNowPlayingState();
     } catch (e) {
       yield PlayerErrorState(lastSongID: state.lastSongID);

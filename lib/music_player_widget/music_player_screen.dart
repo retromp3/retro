@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:marquee/marquee.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
@@ -28,14 +29,6 @@ class NowPlayingScreen extends StatefulWidget {
 
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
   StreamSubscription _subscription;
-  var _styleIndex = 1;
-  var _colorful = true;
-  var _showPercentNum = false;
-  var _size = 13.0;
-  var _ratio = 2.0;
-  Color _color = Colors.grey[600];
-  Battery battery = new Battery();
-  var _charging = false;
 
   String _timeString;
 
@@ -88,13 +81,13 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Stack(
                 children: [
-                  _albumArt(mediaQuery),
-                 /* Positioned(
-                    top: 100,
-                    left: 0,
-                    right: 0,
-                    child: _linearProgressIndicator()
-                  ),*/
+                  Column(
+                    children: [
+                        SizedBox(height: 33.0),
+                      _albumArt(mediaQuery),
+                      SizedBox(height: 35.0),
+                      _linearProgressIndicator(),
+                    ],)
                 ],
               ),)
           ],
@@ -125,7 +118,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   color: Colors.black,
                   fontSize: 12.0)),
           Spacer(),
-          _buildBatteryStatus()
+          Icon(
+            SFSymbols.battery_100,
+            color: Colors.black,
+            size: 14.5,
+          ),
         ]),
         ),
         decoration: BoxDecoration(
@@ -138,13 +135,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
       );
   }
 
-  Widget _buildBatteryStatus() {
-    battery.onBatteryStateChanged.listen((onData) {
-      var charging = onData == BatteryState.charging;
-      this.setState(() {
-        _charging = charging;
-      });
-    });
+  /*Widget _buildBatteryStatus() {
     return Container(
       child: SizedBox(
         child: new Center(
@@ -177,7 +168,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         ),
       ),
     );
-  }
+  }*/
 
   Widget _linearProgressIndicator() {
     return BlocBuilder<PlayerBloc, PlayerState>(
@@ -264,6 +255,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   }
 
   Widget _albumArt(MediaQueryData mediaQuery) {
+    
     return BlocBuilder<PlayerBloc, PlayerState>(
         buildWhen: (PlayerState prev, PlayerState cur) =>
             (prev is NowPlayingState &&
@@ -271,6 +263,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 prev.songInfo.coverArt != cur.songInfo.coverArt) ||
             (!(prev is NowPlayingState && cur is NowPlayingState)),
         builder: (BuildContext ctx, PlayerState state) {
+          
           if (state is NowPlayingState) {
             return Center(
               child: Row(
@@ -293,7 +286,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       ),
                     ),
                     // reflect the album art accross the x axis
-                    Opacity(
+                    /*Opacity(
                       opacity: 0.1,
                       child: Transform(
                         transform: Matrix4.identity()
@@ -310,7 +303,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       
                         ),
                       ),
-                    )
+                    )*/
                    
                   ],),
                   

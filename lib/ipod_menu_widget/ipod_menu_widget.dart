@@ -112,6 +112,10 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     }
   }
 
+  void shuffleSongs(context) {
+    BlocProvider.of<PlayerBloc>(context).add(ShuffleCalled());
+  }
+
   void playNextSong(context) {
     BlocProvider.of<PlayerBloc>(context).add(NextCalled(songIDs));
   }

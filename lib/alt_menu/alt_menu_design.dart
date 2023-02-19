@@ -30,7 +30,7 @@ Widget buildAltMenu() {
   );
 }
 
-Widget signIn(context) {
+Widget altIpodMenu(context) {
     return AnimatedPositioned(
       bottom: 5,
       left: 5.5,

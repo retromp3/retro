@@ -52,6 +52,12 @@ class MainPlayerRepository implements PlayerRepository {
   }
 
   @override
+  Future<void> toggleShuffle() async {
+    return _currentPlayerProvider?.toggleShuffle();
+  }
+  
+
+  @override
   Future<void> setPlaybackTime(double time) async {
     return _currentPlayerProvider?.setPlaybackTime(time);
   }

@@ -70,6 +70,10 @@ class SpotifyPlayerProvider extends PlayerProvider {
     await SpotifySdk.resume();
   }
   
+  @override
+  Future<void> toggleShuffle() async {
+    await SpotifySdk.toggleShuffle();
+  }
 
   @override
   Future<void> setPlaybackTime(double time) async {

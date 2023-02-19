@@ -11,8 +11,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc()
       : super(
           ThemeState(
-            skinTheme: SkinTheme.silver,
-            wheelColor: WheelColor.white,
+            skinTheme: SkinTheme.black,
+            wheelColor: WheelColor.black,
           ),
         );
 

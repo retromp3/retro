@@ -16,6 +16,8 @@ class PlayCalled extends PlayerEvent {}
 
 class PauseCalled extends PlayerEvent {}
 
+class ShuffleCalled extends PlayerEvent {}
+
 class NextCalled extends PlayerEvent {
   final List<String> songIDs;
 
