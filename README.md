@@ -19,13 +19,13 @@ This version of Retro will eventually succeed the current [build that's availabl
 * Flutter/Dart
 * API: [Spotify SDK](https://github.com/brim-borium/spotify_sdk), [MusicKit](https://github.com/iberatkaya/playify)
 
-## Setup
+# Setup
 
 Long story short, we can't distribute the app as an IPA because the Spotify functionality won't work.
 
 The workaround for this is to compile the app yourself and insert your own Spotify API key and Redirect URIs in the .env file.
 
-# Instructions
+### Instructions
 
 1. Download and install Flutter. You can find instructions on how to do this [here](https://flutter.dev/docs/get-started/install).
 2. Ensure you have an Apple Developer account (paid or free). You can find instructions on how to do this [here](https://developer.apple.com/programs/enroll/).
