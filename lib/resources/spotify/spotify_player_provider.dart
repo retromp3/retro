@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:retro/music_models/apple_music/song/song_info_model.dart';
 import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
@@ -11,8 +12,8 @@ import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:retro/resources/resources.dart';
 
 class SpotifyPlayerProvider extends PlayerProvider {
-  static const String _redirectUrl = 'comspotifytestsdk://co.retromusic';
-  static const String _clientID = 'f7c9fd5eae69474ea517f13175e082f6';
+  static String _redirectUrl = dotenv.env['SPOTIFY_REDIRECT_URL'];
+  static String _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
 
   static SpotifyPlayerProvider _instance = SpotifyPlayerProvider._internal();
 

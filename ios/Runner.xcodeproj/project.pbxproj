@@ -14,8 +14,33 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		E0778B9429A30F56003B9D71 /* ShuffleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778B9329A30F56003B9D71 /* ShuffleApp.swift */; };
+		E0778B9629A30F56003B9D71 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778B9529A30F56003B9D71 /* ContentView.swift */; };
+		E0778B9829A30F5A003B9D71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0778B9729A30F5A003B9D71 /* Assets.xcassets */; };
+		E0778B9B29A30F5A003B9D71 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0778B9A29A30F5A003B9D71 /* Preview Assets.xcassets */; };
+		E0778BA529A30F5C003B9D71 /* Shuffle_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778BA429A30F5C003B9D71 /* Shuffle_Watch_AppTests.swift */; };
+		E0778BAF29A30F5D003B9D71 /* Shuffle_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778BAE29A30F5D003B9D71 /* Shuffle_Watch_AppUITests.swift */; };
+		E0778BB129A30F5D003B9D71 /* Shuffle_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778BB029A30F5D003B9D71 /* Shuffle_Watch_AppUITestsLaunchTests.swift */; };
+		E0778BBF29A32433003B9D71 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778BBE29A32432003B9D71 /* HexColor.swift */; };
 		E0A0FFB828559BA400F454D3 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A0FFB728559BA400F454D3 /* SpotifyiOS.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E0778BA129A30F5B003B9D71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0778B9029A30F56003B9D71;
+			remoteInfo = "Shuffle Watch App";
+		};
+		E0778BAB29A30F5C003B9D71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0778B9029A30F56003B9D71;
+			remoteInfo = "Shuffle Watch App";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
@@ -47,6 +72,17 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2689EBF9492344D4AB7D9BC /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		E0778B9129A30F56003B9D71 /* Shuffle Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuffle Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0778B9329A30F56003B9D71 /* ShuffleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleApp.swift; sourceTree = "<group>"; };
+		E0778B9529A30F56003B9D71 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E0778B9729A30F5A003B9D71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E0778B9A29A30F5A003B9D71 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E0778BA029A30F5B003B9D71 /* Shuffle Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shuffle Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0778BA429A30F5C003B9D71 /* Shuffle_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shuffle_Watch_AppTests.swift; sourceTree = "<group>"; };
+		E0778BAA29A30F5C003B9D71 /* Shuffle Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shuffle Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0778BAE29A30F5D003B9D71 /* Shuffle_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shuffle_Watch_AppUITests.swift; sourceTree = "<group>"; };
+		E0778BB029A30F5D003B9D71 /* Shuffle_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shuffle_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E0778BBE29A32432003B9D71 /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		E0A0FFB728559BA400F454D3 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyiOS.framework; path = "../../../Downloads/ios-sdk-1.2.2 2/SpotifyiOS.framework"; sourceTree = "<group>"; };
 		E67DDAC8C6BB8EDABC56BDFC /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +94,27 @@
 			files = (
 				45D9962CE0007987B291759E /* Pods_Runner.framework in Frameworks */,
 				E0A0FFB828559BA400F454D3 /* SpotifyiOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778B8E29A30F56003B9D71 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778B9D29A30F5B003B9D71 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778BA729A30F5C003B9D71 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +148,9 @@
 				E0A0FFB728559BA400F454D3 /* SpotifyiOS.framework */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
+				E0778B9229A30F56003B9D71 /* Shuffle Watch App */,
+				E0778BA329A30F5C003B9D71 /* Shuffle Watch AppTests */,
+				E0778BAD29A30F5D003B9D71 /* Shuffle Watch AppUITests */,
 				97C146EF1CF9000F007C117D /* Products */,
 				21D86334DCB24F8D6AFF8016 /* Pods */,
 				F02B228040FB49653A36975F /* Frameworks */,
@@ -101,6 +161,9 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
+				E0778B9129A30F56003B9D71 /* Shuffle Watch App.app */,
+				E0778BA029A30F5B003B9D71 /* Shuffle Watch AppTests.xctest */,
+				E0778BAA29A30F5C003B9D71 /* Shuffle Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,6 +181,43 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		E0778B9229A30F56003B9D71 /* Shuffle Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				E0778B9329A30F56003B9D71 /* ShuffleApp.swift */,
+				E0778B9529A30F56003B9D71 /* ContentView.swift */,
+				E0778BBE29A32432003B9D71 /* HexColor.swift */,
+				E0778B9729A30F5A003B9D71 /* Assets.xcassets */,
+				E0778B9929A30F5A003B9D71 /* Preview Content */,
+			);
+			path = "Shuffle Watch App";
+			sourceTree = "<group>";
+		};
+		E0778B9929A30F5A003B9D71 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E0778B9A29A30F5A003B9D71 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E0778BA329A30F5C003B9D71 /* Shuffle Watch AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				E0778BA429A30F5C003B9D71 /* Shuffle_Watch_AppTests.swift */,
+			);
+			path = "Shuffle Watch AppTests";
+			sourceTree = "<group>";
+		};
+		E0778BAD29A30F5D003B9D71 /* Shuffle Watch AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E0778BAE29A30F5D003B9D71 /* Shuffle_Watch_AppUITests.swift */,
+				E0778BB029A30F5D003B9D71 /* Shuffle_Watch_AppUITestsLaunchTests.swift */,
+			);
+			path = "Shuffle Watch AppUITests";
 			sourceTree = "<group>";
 		};
 		F02B228040FB49653A36975F /* Frameworks */ = {
@@ -153,18 +253,83 @@
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E0778B9029A30F56003B9D71 /* Shuffle Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0778BBB29A30F5D003B9D71 /* Build configuration list for PBXNativeTarget "Shuffle Watch App" */;
+			buildPhases = (
+				E0778B8D29A30F56003B9D71 /* Sources */,
+				E0778B8E29A30F56003B9D71 /* Frameworks */,
+				E0778B8F29A30F56003B9D71 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Shuffle Watch App";
+			productName = "Shuffle Watch App";
+			productReference = E0778B9129A30F56003B9D71 /* Shuffle Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E0778B9F29A30F5B003B9D71 /* Shuffle Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0778BBC29A30F5D003B9D71 /* Build configuration list for PBXNativeTarget "Shuffle Watch AppTests" */;
+			buildPhases = (
+				E0778B9C29A30F5B003B9D71 /* Sources */,
+				E0778B9D29A30F5B003B9D71 /* Frameworks */,
+				E0778B9E29A30F5B003B9D71 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E0778BA229A30F5B003B9D71 /* PBXTargetDependency */,
+			);
+			name = "Shuffle Watch AppTests";
+			productName = "Shuffle Watch AppTests";
+			productReference = E0778BA029A30F5B003B9D71 /* Shuffle Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E0778BA929A30F5C003B9D71 /* Shuffle Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0778BBD29A30F5D003B9D71 /* Build configuration list for PBXNativeTarget "Shuffle Watch AppUITests" */;
+			buildPhases = (
+				E0778BA629A30F5C003B9D71 /* Sources */,
+				E0778BA729A30F5C003B9D71 /* Frameworks */,
+				E0778BA829A30F5C003B9D71 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E0778BAC29A30F5C003B9D71 /* PBXTargetDependency */,
+			);
+			name = "Shuffle Watch AppUITests";
+			productName = "Shuffle Watch AppUITests";
+			productReference = E0778BAA29A30F5C003B9D71 /* Shuffle Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
+					};
+					E0778B9029A30F56003B9D71 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+					E0778B9F29A30F5B003B9D71 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = E0778B9029A30F56003B9D71;
+					};
+					E0778BA929A30F5C003B9D71 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = E0778B9029A30F56003B9D71;
 					};
 				};
 			};
@@ -182,6 +347,9 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
+				E0778B9029A30F56003B9D71 /* Shuffle Watch App */,
+				E0778B9F29A30F5B003B9D71 /* Shuffle Watch AppTests */,
+				E0778BA929A30F5C003B9D71 /* Shuffle Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -195,6 +363,29 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778B8F29A30F56003B9D71 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0778B9B29A30F5A003B9D71 /* Preview Assets.xcassets in Resources */,
+				E0778B9829A30F5A003B9D71 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778B9E29A30F5B003B9D71 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778BA829A30F5C003B9D71 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +471,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0778B8D29A30F56003B9D71 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0778B9629A30F56003B9D71 /* ContentView.swift in Sources */,
+				E0778BBF29A32433003B9D71 /* HexColor.swift in Sources */,
+				E0778B9429A30F56003B9D71 /* ShuffleApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778B9C29A30F5B003B9D71 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0778BA529A30F5C003B9D71 /* Shuffle_Watch_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0778BA629A30F5C003B9D71 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0778BB129A30F5D003B9D71 /* Shuffle_Watch_AppUITestsLaunchTests.swift in Sources */,
+				E0778BAF29A30F5D003B9D71 /* Shuffle_Watch_AppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E0778BA229A30F5B003B9D71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0778B9029A30F56003B9D71 /* Shuffle Watch App */;
+			targetProxy = E0778BA129A30F5B003B9D71 /* PBXContainerItemProxy */;
+		};
+		E0778BAC29A30F5C003B9D71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0778B9029A30F56003B9D71 /* Shuffle Watch App */;
+			targetProxy = E0778BAB29A30F5C003B9D71 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
@@ -360,7 +591,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = ZSH4D499WW;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -501,7 +732,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = ZSH4D499WW;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -536,7 +767,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = ZSH4D499WW;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -562,6 +793,302 @@
 			};
 			name = Release;
 		};
+		E0778BB229A30F5D003B9D71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Shuffle Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Shuffle;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		E0778BB329A30F5D003B9D71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Shuffle Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Shuffle;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+		E0778BB429A30F5D003B9D71 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Shuffle Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Shuffle;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Profile;
+		};
+		E0778BB529A30F5D003B9D71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.retromusic.Shuffle-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shuffle Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Shuffle Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		E0778BB629A30F5D003B9D71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.retromusic.Shuffle-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shuffle Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Shuffle Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+		E0778BB729A30F5D003B9D71 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.retromusic.Shuffle-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shuffle Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Shuffle Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Profile;
+		};
+		E0778BB829A30F5D003B9D71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.retromusic.Shuffle-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Shuffle Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		E0778BB929A30F5D003B9D71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.retromusic.Shuffle-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Shuffle Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+		E0778BBA29A30F5D003B9D71 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZSH4D499WW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.retromusic.Shuffle-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Shuffle Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -581,6 +1108,36 @@
 				97C147061CF9000F007C117D /* Debug */,
 				97C147071CF9000F007C117D /* Release */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0778BBB29A30F5D003B9D71 /* Build configuration list for PBXNativeTarget "Shuffle Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0778BB229A30F5D003B9D71 /* Debug */,
+				E0778BB329A30F5D003B9D71 /* Release */,
+				E0778BB429A30F5D003B9D71 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0778BBC29A30F5D003B9D71 /* Build configuration list for PBXNativeTarget "Shuffle Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0778BB529A30F5D003B9D71 /* Debug */,
+				E0778BB629A30F5D003B9D71 /* Release */,
+				E0778BB729A30F5D003B9D71 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0778BBD29A30F5D003B9D71 /* Build configuration list for PBXNativeTarget "Shuffle Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0778BB829A30F5D003B9D71 /* Debug */,
+				E0778BB929A30F5D003B9D71 /* Release */,
+				E0778BBA29A30F5D003B9D71 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

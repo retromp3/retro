@@ -44,6 +44,7 @@ class IPod extends StatefulWidget {
 }
 
 class IPodState extends State<IPod> {
+  final _channel = const MethodChannel("co.retromusic.app");
   bool fetchingAllSongs = false;
   bool playing = false;
   SongInformation data;
@@ -81,6 +82,26 @@ class IPodState extends State<IPod> {
     _artists = [];
     songIDs = [];
     _playlists = [];
+
+    _channel.setMethodCallHandler((call) async {
+      final methodName = call.method;
+      switch (methodName) {
+        case "fastForwardFromWatch":
+          musicControls.playNextSong(context);
+          return;
+        case "fastRewindFromWatch":
+          musicControls.playPrevSong(context);
+          return;
+        /*case "increaseVolumeFromWatch":
+          musicControls.increaseVolume();
+          return;
+        case "decreaseVolumeFromWatch":
+          musicControls.increaseVolume();
+          return;*/
+        default:
+          return;
+      }
+    });
 
     _pageCtrl.addListener(() {
       setState(() {
