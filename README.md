@@ -16,14 +16,13 @@ This version of Retro will eventually succeed the current [build that's availabl
 
 ## Stack
 
-* Flutter/Dart
+* Flutter/Dart for main app
+* Swift/SwiftUI for WatchOS companion app (Retro Shuffle)
 * API: [Spotify SDK](https://github.com/brim-borium/spotify_sdk), [MusicKit](https://github.com/iberatkaya/playify)
 
 # Setup
 
-Long story short, we can't distribute the app as an IPA because the Spotify functionality won't work.
-
-The workaround for this is to compile the app yourself and insert your own Spotify API key and Redirect URIs in the .env file.
+If you'd like to run the app on your own device and compile from the source, you can do so by following the instructions below.
 
 ### Instructions
 
