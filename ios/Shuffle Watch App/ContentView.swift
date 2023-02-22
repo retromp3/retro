@@ -9,6 +9,8 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
+    @ObservedObject private var manager = WatchCommunicationManager()
+    
     var body: some View {
         ZStack {
             Image("gen7_black")
@@ -62,18 +64,14 @@ struct ContentView: View {
                 }
                 
                 HStack(spacing: 120) {
-                    Button(action: {
-                        print("fast rewind")
-                    }) {
+                    Button(action: prevSong) {
                         Image("fastrewind")
                             .resizable()
                             .frame(width: 25, height: 24.13)
                     }
                     .buttonStyle(.plain)
                     
-                    Button(action: {
-                        print("fast forward")
-                    }) {
+                    Button(action: nextSong) {
                         Image("fastforward")
                             .resizable()
                             .frame(width: 25, height: 24.13)
@@ -83,6 +81,14 @@ struct ContentView: View {
             }
             
         }
+    }
+    
+    private func nextSong() {
+        manager.playNextSong()
+    }
+
+    private func prevSong() {
+        manager.playPrevSong()
     }
 }
 

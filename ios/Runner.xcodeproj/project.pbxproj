@@ -14,6 +14,7 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		E00B1DBC29A5D58300FE47C5 /* WatchCommunicationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B1DBB29A5D58300FE47C5 /* WatchCommunicationManager.swift */; };
 		E0778B9429A30F56003B9D71 /* ShuffleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778B9329A30F56003B9D71 /* ShuffleApp.swift */; };
 		E0778B9629A30F56003B9D71 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0778B9529A30F56003B9D71 /* ContentView.swift */; };
 		E0778B9829A30F5A003B9D71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0778B9729A30F5A003B9D71 /* Assets.xcassets */; };
@@ -72,6 +73,7 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2689EBF9492344D4AB7D9BC /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		E00B1DBB29A5D58300FE47C5 /* WatchCommunicationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCommunicationManager.swift; sourceTree = "<group>"; };
 		E0778B9129A30F56003B9D71 /* Shuffle Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuffle Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0778B9329A30F56003B9D71 /* ShuffleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleApp.swift; sourceTree = "<group>"; };
 		E0778B9529A30F56003B9D71 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				E0778BBE29A32432003B9D71 /* HexColor.swift */,
 				E0778B9729A30F5A003B9D71 /* Assets.xcassets */,
 				E0778B9929A30F5A003B9D71 /* Preview Content */,
+				E00B1DBB29A5D58300FE47C5 /* WatchCommunicationManager.swift */,
 			);
 			path = "Shuffle Watch App";
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 			files = (
 				E0778B9629A30F56003B9D71 /* ContentView.swift in Sources */,
 				E0778BBF29A32433003B9D71 /* HexColor.swift in Sources */,
+				E00B1DBC29A5D58300FE47C5 /* WatchCommunicationManager.swift in Sources */,
 				E0778B9429A30F56003B9D71 /* ShuffleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

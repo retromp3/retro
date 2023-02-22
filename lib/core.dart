@@ -86,10 +86,10 @@ class IPodState extends State<IPod> {
     _channel.setMethodCallHandler((call) async {
       final methodName = call.method;
       switch (methodName) {
-        case "fastForwardFromWatch":
+        case "nextSongFromWatch":
           musicControls.playNextSong(context);
           return;
-        case "fastRewindFromWatch":
+        case "prevSongFromWatch":
           musicControls.playPrevSong(context);
           return;
         /*case "increaseVolumeFromWatch":
