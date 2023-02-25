@@ -38,8 +38,6 @@ dependencies:
   permission_handler: ^9.2.0
   spotify_sdk: ^2.3.0
   http: ^0.13.4
-  battery_indicator: ^0.1.1
-  battery_plus: ^2.1.4
   intl: ^0.17.0
   marquee: ^2.2.3
   percent_indicator: ^4.0.1

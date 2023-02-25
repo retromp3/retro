@@ -1,46 +1,41 @@
 PODS:
-  - battery_plus (1.0.0):
-    - Flutter
   - Flutter (1.0.0)
   - permission_handler_apple (9.0.4):
     - Flutter
   - playify (0.0.1):
     - Flutter
-  - shared_preferences_ios (0.0.1):
+  - shared_preferences_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - spotify_sdk (0.0.1):
     - Flutter
 
 DEPENDENCIES:
-  - battery_plus (from `.symlinks/plugins/battery_plus/ios`)
   - Flutter (from `Flutter`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - playify (from `.symlinks/plugins/playify/ios`)
-  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - spotify_sdk (from `.symlinks/plugins/spotify_sdk/ios`)
 
 EXTERNAL SOURCES:
-  battery_plus:
-    :path: ".symlinks/plugins/battery_plus/ios"
   Flutter:
     :path: Flutter
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   playify:
     :path: ".symlinks/plugins/playify/ios"
-  shared_preferences_ios:
-    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   spotify_sdk:
     :path: ".symlinks/plugins/spotify_sdk/ios"
 
 SPEC CHECKSUMS:
-  battery_plus: 7851ab482c336dd101ae735dc9363f01e1223c7c
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   playify: 011a349ff3652284046a563c0866e0bed7751ca8
-  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   spotify_sdk: 63cc13896c9ff93c4d023e03bb4b9b516602f355
 
-PODFILE CHECKSUM: 33f74cf6f4e5775ad35ae5df4008ad34eb3f5e59
+PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
 
 COCOAPODS: 1.11.3

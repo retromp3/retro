@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:battery_indicator/battery_indicator.dart';
-import 'package:battery_plus/battery_plus.dart';
+/*import 'package:battery_indicator/battery_indicator.dart';
+import 'package:battery_plus/battery_plus.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -275,15 +275,13 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                         ..setEntry(3, 2, 0.005)
                         ..rotateY(-0.3),
                       alignment: FractionalOffset.center,
-                        child: Expanded(
-                        flex: 2,
                         child: Container(
                           width: mediaQuery.size.width / 3,
                           height: mediaQuery.size.width / 3,
                           child: state.songInfo.coverArt ?? FittedBox(),
             
                         ),
-                      ),
+                     
                     ),
                     // reflect the album art accross the x axis
                     /*Opacity(

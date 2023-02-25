@@ -8,7 +8,7 @@ https://github.com/bedardjo/brickles
 
 import 'dart:math';
 
-import 'package:battery_indicator/battery_indicator.dart';
+//import 'package:battery_indicator/battery_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
@@ -644,15 +644,15 @@ class BreakoutGameState extends State<BreakoutGame>
                       Icons.bolt,
                       size: _size,
                       color: Colors.black),
-                  BatteryIndicator(
+                  /*BatteryIndicator(
                     style: BatteryIndicatorStyle.values[_styleIndex],
                     colorful: _colorful,
                     showPercentNum: _showPercentNum,
-                    //mainColor: batteryColor(state),
+                    mainColor: batteryColor(state),
                     size: _size,
                     ratio: _ratio,
-                    //showPercentSlide: _showPercentSlide,
-                  ),
+                    showPercentSlide: _showPercentSlide,
+                  ),*/
                 /*if (_charging)
                   Icon(
                     Icons.power,
