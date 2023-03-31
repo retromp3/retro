@@ -84,10 +84,12 @@ struct ContentView: View {
     }
     
     private func nextSong() {
+        WKInterfaceDevice.current().play(.success)
         manager.playNextSong()
     }
 
     private func prevSong() {
+        WKInterfaceDevice.current().play(.success)
         manager.playPrevSong()
     }
 }

@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holding_gesture/holding_gesture.dart';
 import 'package:playify/playify.dart';
 import 'package:retro/alt_menu/alt_menu_item.dart';
 import 'package:retro/alt_menu/alt_sub_menu.dart';
@@ -347,7 +348,7 @@ class IPodState extends State<IPod> {
               ),
               child: Stack(children: [
                 menuButton(context),
-                fastForward(context),
+                GestureDetector(onLongPress: musicControls.forward, child: fastForward(context)),
                 fastRewind(context),
                 playButton(context)
               ]),
