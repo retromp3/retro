@@ -22,7 +22,7 @@ class MainPlayerRepository implements PlayerRepository {
 
   @override
   Future<SongInfoModel> getNowPlaying() async {
-    return _currentPlayerProvider?.getNowPlaying();
+    return _currentPlayerProvider.getNowPlaying();
   }
 
   @override
@@ -33,38 +33,38 @@ class MainPlayerRepository implements PlayerRepository {
 
   @override
   Future<PlaybackStateModel> getPlaybackState() async {
-    return _currentPlayerProvider?.getPlaybackState();
+    return _currentPlayerProvider.getPlaybackState();
   }
 
   @override
   Future<double> getPlaybackTime() async {
-    return _currentPlayerProvider?.getPlaybackTime() ?? 0;
+    return _currentPlayerProvider.getPlaybackTime();
   }
 
   @override
   Future<void> pause() async {
-    return _currentPlayerProvider?.pause();
+    return _currentPlayerProvider.pause();
   }
 
   @override
   Future<void> play() async {
-    return _currentPlayerProvider?.play();
+    return _currentPlayerProvider.play();
   }
 
   @override
   Future<void> toggleShuffle() async {
-    return _currentPlayerProvider?.toggleShuffle();
+    return _currentPlayerProvider.toggleShuffle();
   }
   
 
   @override
   Future<void> setPlaybackTime(double time) async {
-    return _currentPlayerProvider?.setPlaybackTime(time);
+    return _currentPlayerProvider.setPlaybackTime(time);
   }
 
   @override
   Future<void> setQueue(String songId) async {
-    return _currentPlayerProvider?.setQueue([songId]);
+    return _currentPlayerProvider.setQueue([songId]);
   }
 
   @override

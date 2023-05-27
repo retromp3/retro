@@ -28,6 +28,8 @@ import 'package:retro/music_models/apple_music/artist/artist_model.dart';
 import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
+import 'package:audio_session/audio_session.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'clickwheel/pan_handlers.dart';
 import 'clickwheel/wheel_content.dart';
@@ -61,6 +63,7 @@ class IPodState extends State<IPod> {
   List<ArtistModel> _artists;
   List<PlaylistModel> _playlists;
   bool debugMenu = false;
+  PageController _pageController;
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -83,6 +86,7 @@ class IPodState extends State<IPod> {
     _artists = [];
     songIDs = [];
     _playlists = [];
+    _pageController = PageController(initialPage: 0);
 
     _channel.setMethodCallHandler((call) async {
       final methodName = call.method;
@@ -115,6 +119,8 @@ class IPodState extends State<IPod> {
     });
   }
 
+  
+
   Widget buildMainView() {
     switch (mainViewMode) {
       case MainViewMode.menu:
@@ -137,12 +143,12 @@ class IPodState extends State<IPod> {
 
   // sends the user to the player
   void showPlayer() {
-    BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
-    setState(() => mainViewMode = MainViewMode.player);
+    _pageController.animateToPage(1, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
   }
 
   // sends the user to Breakout
   void showBreakoutGame() {
+     _pageController.animateToPage(2, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
     setState(() {
       mainViewMode = MainViewMode.breakoutGame;
     });
@@ -154,11 +160,29 @@ class IPodState extends State<IPod> {
 
   List<IPodMenuItem> allSongs() {
     List<IPodMenuItem> combineSongs = [];
-    List<IPodMenuItem> allPlayLists = _playListBuilder();
-    List<IPodMenuItem> songsInPlaylist = _songListBuilderPlaylist();
+    List<IPodMenuItem> allPlaylists = _playlistBuilder();
+    List<IPodMenuItem> songsInPlaylist = _songsInEachPlaylist();
 
-    combineSongs.addAll(allPlayLists);
+    for(var i = 0; i < allPlaylists.length; i++) {
+      combineSongs.add(allPlaylists[i]);
+      for(var j = 0; j < songsInPlaylist.length; j++) {
+        combineSongs.add(songsInPlaylist[j]);
+      }
+    }
 
+    if (_songs == null || _songs.isEmpty) {
+      return [IPodMenuItem(text: 'No songs fetched')];
+    }
+    List<SongModel> sortedSongs = List.from(_songs)..sort((a, b) => a.title.compareTo(b.title));
+    
+    for(var i = 0; i < sortedSongs.length; i++) {
+      combineSongs.add(IPodMenuItem(
+            text: '${sortedSongs[i].title}',
+            subText: '${sortedSongs[i].artistName}',
+            onTap: () => BlocProvider.of<PlayerBloc>(context)
+                .add(SetQueueItem(sortedSongs[i].songID)),
+          ));
+    }
   }
   
   List<IPodMenuItem> _songListBuilder() {
@@ -166,7 +190,9 @@ class IPodState extends State<IPod> {
       return [IPodMenuItem(text: 'No songs fetched')];
     }
 
-    return _songs
+    List<SongModel> sortedSongs = List.from(_songs)..sort((a, b) => a.title.compareTo(b.title));
+
+    return sortedSongs
         .map(
           (SongModel song) => IPodMenuItem(
             text: '${song.title}',
@@ -176,9 +202,10 @@ class IPodState extends State<IPod> {
           ),
         )
         .toList();
-  }
+}
 
-  List<IPodMenuItem> _songListBuilderPlaylist() {
+
+  List<IPodMenuItem> _songsInEachPlaylist() {
 
     final List<IPodMenuItem> items = _songs
         .map(
@@ -195,13 +222,13 @@ class IPodState extends State<IPod> {
     return items;
   }
 
-  List<IPodMenuItem> _playListBuilder() {
+  List<IPodMenuItem> _playlistBuilder() {
     if (_playlists == null || _playlists.isEmpty) {
       return [IPodMenuItem(text: 'No playlist fetched')];
     }
     final IPodSubMenu songsInPlaylistMenu =  IPodSubMenu(
       caption: MenuCaption(text: "Songs"),
-      itemsBuilder: _songListBuilderPlaylist,
+      itemsBuilder: _songsInEachPlaylist,
     );
     return _playlists
         .map(
@@ -255,7 +282,16 @@ class IPodState extends State<IPod> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             
-                            Flexible(child: buildMainView()),
+                            Flexible(
+                              child: PageView(
+                                  controller: _pageController,
+                                  children: <Widget>[
+                                    buildMenu(),
+                                    NowPlayingScreen(),
+                                    BreakoutGame(key: breakoutGame),
+                                  ],
+                                )
+                            ),
                             /*Expanded(
                               child: CoverCycle(autoScroll: true),
                               ),*/
@@ -294,6 +330,7 @@ class IPodState extends State<IPod> {
       onTap: () {
         if(mainViewMode != MainViewMode.menu) {
           homePressed(context);
+          _pageController.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
         }
         else if(popUp == true) {
           setState(() {
@@ -303,6 +340,7 @@ class IPodState extends State<IPod> {
         else {
           
           menuKey.currentState?.back();
+          _pageController.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
         }
         HapticFeedback.mediumImpact();
         
@@ -348,8 +386,9 @@ class IPodState extends State<IPod> {
               ),
               child: Stack(children: [
                 menuButton(context),
-                GestureDetector(onLongPress: musicControls.forward, child: fastForward(context)),
                 fastRewind(context),
+                fastForward(context),
+                //fastRewind(context),
                 playButton(context)
               ]),
             ),
@@ -404,9 +443,9 @@ class IPodState extends State<IPod> {
     return AltSubMenu(
       items: [
         AltMenuItem(
-          text: 'Spotify',
+          text: 'bro',
           onTap: () {
-              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+              
           }
         ),
         AltMenuItem(
@@ -529,7 +568,7 @@ class IPodState extends State<IPod> {
 
     final IPodSubMenu playlistMenu = IPodSubMenu(
       caption: MenuCaption(text: "Playlists"),
-      itemsBuilder: _playListBuilder,
+      itemsBuilder: _playlistBuilder,
     );
 
 

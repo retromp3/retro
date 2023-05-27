@@ -132,17 +132,41 @@ class SpotifySongListProvider extends SongListProvider {
     return songList;
   }
 
-  @override
-  Future<List<PlaylistModel>> fetchUsersPlaylist() async {
-    final Uri uri = Uri.https(_spotifyHost, _spotifyPlayListEndpoint);
-    final http.Response response = await _client.get(
-      uri,
-      headers: await _getAuthHeader(),
-    );
-    if (response.statusCode != 200) return Future.error(response.body);
 
-    return _getPlayList(response.body);
-  }
+    @override
+    Future<List<PlaylistModel>> fetchUsersPlaylist() async {
+      final List<PlaylistModel> allPlaylists = [];
+      const int limit = 50;
+      int offset = 0;
+      while (true) {
+        final Uri uri = Uri.https(
+          _spotifyHost,
+          _spotifyPlayListEndpoint,
+          {
+            'limit': '$limit',
+            'offset': '$offset',
+          },
+        );
+        final http.Response response = await _client.get(
+          uri,
+          headers: await _getAuthHeader(),
+        );
+        if (response.statusCode != 200) {
+          return Future.error(response.body);
+        }
+
+        List<PlaylistModel> playlists = _getPlayList(response.body);
+        if (playlists.isEmpty) {
+          break; // exit the loop if no more playlists
+        }
+        allPlaylists.addAll(playlists);
+        offset += limit;
+      }
+      return allPlaylists;
+    }
+
+
+
 
   List<PlaylistModel> _getPlayList(String response) {
     final Map<String, dynamic> responseJson = jsonDecode(response);

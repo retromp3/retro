@@ -124,11 +124,11 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
     BlocProvider.of<PlayerBloc>(context).add(PrevCalled(songIDs));
   }
 
-  void forward() {
+  void forward(context) {
     BlocProvider.of<PlayerBloc>(context).add(BRewindCalled());
   }
 
-  void rewind() {
+  void rewind(context) {
     BlocProvider.of<PlayerBloc>(context).add(FRewindCalled());
   }
 

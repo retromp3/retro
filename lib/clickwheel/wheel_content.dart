@@ -16,15 +16,29 @@ import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:holding_gesture/holding_gesture.dart';
+import 'dart:async';
 
 final IPodMenuWidgetState musicControls = new IPodMenuWidgetState();
 final IPodState home = new IPodState();
 
-
-
-Widget fastForward(context) {
-  return Container(
-    child: IconButton(
+Widget fastForward(BuildContext context) {
+  Timer timer;
+  return GestureDetector(
+    onLongPressStart: (details) {
+      timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
+        musicControls.forward(context);
+        HapticFeedback.selectionClick();
+      });
+    },
+    onLongPressEnd: (details) {
+      if (timer != null) {
+        timer.cancel();
+        timer = null;
+        print('hold ended');
+      }
+    },
+    child: Container(
+      child: IconButton(
         icon: Icon(
           SFSymbols.forward_end_alt_fill,
           color: controlsColor,
@@ -33,16 +47,31 @@ Widget fastForward(context) {
         onPressed: () async {
           HapticFeedback.mediumImpact();
           musicControls.playNextSong(context);
-
         }),
-    alignment: Alignment.centerRight,
+      alignment: Alignment.centerRight,
+    )
     //margin: EdgeInsets.only(right: 30),
   );
 }
 
-Widget fastRewind(context) {
-  return Container(
-    child: IconButton(
+Widget fastRewind(BuildContext context) {
+  Timer timer;
+  return GestureDetector(
+    onLongPressStart: (details) {
+      timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
+        musicControls.rewind(context);
+        HapticFeedback.selectionClick();
+      });
+    },
+    onLongPressEnd: (details) {
+      if (timer != null) {
+        timer.cancel();
+        timer = null;
+        print('hold ended');
+      }
+    },
+    child: Container(
+      child: IconButton(
         icon: Icon(
           SFSymbols.backward_end_alt_fill,
           color: controlsColor,
@@ -52,10 +81,12 @@ Widget fastRewind(context) {
           HapticFeedback.mediumImpact();
           musicControls.playPrevSong(context);
         }),
-    alignment: Alignment.centerLeft,
-    //margin: EdgeInsets.only(left: 30),
+      alignment: Alignment.centerLeft,
+    )
+    //margin: EdgeInsets.only(right: 30),
   );
 }
+
 
 Widget playButton(context) {
   return BlocBuilder<PlayerBloc, PlayerState>(

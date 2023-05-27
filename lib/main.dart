@@ -19,18 +19,6 @@ import 'ipod_menu_widget/ipod_sub_menu.dart';
 
 import 'package:retro/appearance/skins.dart';
 
-List images = [
-  '',
-  '',
-  '',
-  '',
-  '',
-  '',
-  '',
-  '',
-  '',
-];
-
 double widgetSize;
 double halfSize;
 double cartesianStartX;
@@ -100,6 +88,7 @@ class MyApp extends StatelessWidget {
                 image: AssetImage(getSkin(state)),
                 fit: BoxFit.fill,
               ),
+              borderRadius: BorderRadius.circular(40),
             ),
           ),
         );

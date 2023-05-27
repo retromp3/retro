@@ -40,10 +40,14 @@ dependencies:
   http: ^0.13.4
   intl: ^0.17.0
   marquee: ^2.2.3
-  percent_indicator: ^4.0.1
+  percent_indicator: ^4.2.3
   kenburns_nullsafety: ^1.0.0
   flutter_dotenv: ^5.0.2
   holding_gesture: ^1.1.0
+  audio_session: ^0.1.14
+  audioplayers: ^4.0.1
+  soundpool: ^2.3.0
+  google_fonts: ^4.0.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -77,6 +81,7 @@ flutter:
   assets:
     - .env
     - assets/skins/
+    - assets/audio/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -112,3 +117,7 @@ flutter:
     - family: sficonsets
       fonts:
         - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
+    - family: Helvetica
+      fonts:
+        - asset: assets/fonts/Helvetica-Bold.ttf
+        - asset: assets/fonts/helvetica-light.ttf

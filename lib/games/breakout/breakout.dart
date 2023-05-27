@@ -44,17 +44,14 @@ class Ball extends GameObject {
   double speed;
 
   Ball({Offset position, this.direction, this.speed})
-      : super(position: position, size: Size(0.6, 1.0));
+      : super(position: position, size: Size(1.0, 1.0));
 
   @override
   Widget renderGameObject(Size unitSize) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(100.0)),
-          gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [const Color(0xffaaadaf), Colors.white,])
+          color: Colors.black,
+          shape: BoxShape.circle
             
       ),
     );
@@ -466,7 +463,7 @@ class BreakoutGameState extends State<BreakoutGame>
   Widget showGameScreen(){
     return Container(
           constraints: BoxConstraints(minHeight: 100, maxHeight: 270),
-          height: 270, //displayHeight(context) * 0.4,
+          height: 263, //displayHeight(context) * 0.4,
           width: double.infinity,
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -500,7 +497,7 @@ class BreakoutGameState extends State<BreakoutGame>
   Widget showGameOver(){
      return Container(
           constraints: BoxConstraints(minHeight: 100, maxHeight: 270),
-          height: 270, //displayHeight(context) * 0.328,
+          height: 263, //displayHeight(context) * 0.328,
           width: double.infinity,
           child: Center(
             child: Text(
@@ -596,13 +593,13 @@ class BreakoutGameState extends State<BreakoutGame>
       height: 25,
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 7.0),
+        padding: const EdgeInsets.symmetric(horizontal: 0.0),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
             Text(
               "$score",
-              style: TextStyle(color: Colors.white, fontSize: 14.0),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.5),
             ),
             SizedBox(width: 10),
             buildBatteryStatus(),
@@ -614,7 +611,13 @@ class BreakoutGameState extends State<BreakoutGame>
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               tileMode: TileMode.clamp),
-          ), //menuCaptionStyle(state),
+          border: Border(
+            bottom: BorderSide(
+              color: Color.fromARGB(255, 140, 140, 140),
+              width: 1.0,
+            ),
+          ),
+          ) //menuCaptionStyle(state),
     );
   }
 

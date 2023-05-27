@@ -6,6 +6,9 @@ class Coverflow extends StatelessWidget {
   final int idx;
   final double currentPage;
 
+  // list of images
+  final List images = [];
+
   Coverflow({this.color, this.idx, this.currentPage});
 
   @override

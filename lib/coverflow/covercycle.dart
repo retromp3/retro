@@ -176,8 +176,6 @@ class AlbumCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double relativePosition = idx - currentPage;
-    
   
     return Container(
       child: coverArt != null
