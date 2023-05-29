@@ -20,6 +20,7 @@ import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_event.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
 import 'package:retro/coverflow/covercycle.dart';
+import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
@@ -64,6 +65,8 @@ class IPodState extends State<IPod> {
   List<PlaylistModel> _playlists;
   bool debugMenu = false;
   PageController _pageController;
+  bool isCoverCycleVisible = true;
+  bool isNestedMenu = false;
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -235,8 +238,14 @@ class IPodState extends State<IPod> {
           (PlaylistModel playlist) => IPodMenuItem(
             text: '${playlist.name}',
             subMenu: songsInPlaylistMenu,
-            onTap: () => BlocProvider.of<SongListBloc>(context)
-                .add(SongListFetched(playlist.id)),
+            onTap: () {
+              BlocProvider.of<SongListBloc>(context)
+                .add(SongListFetched(playlist.id));
+              
+              setState(() {
+                isNestedMenu = true;
+              });
+            }
           ),
         )
         .toList();
@@ -264,8 +273,8 @@ class IPodState extends State<IPod> {
             Container(
                 margin: EdgeInsets.only(top: 25, left: 8, right: 8),
                 constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
-                height: 300,
-                width: 385,
+                height: displayHeight(context) * 0.8,
+                width: displayWidth(context) * 0.96,
                 decoration: new BoxDecoration(
                   color: const Color(0xFF1c1c1c),
                   borderRadius: BorderRadius.all(
@@ -277,29 +286,40 @@ class IPodState extends State<IPod> {
                     
                     Padding(
                       padding: EdgeInsets.all(5.8),
-                      child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            
-                            Flexible(
-                              child: PageView(
-                                  controller: _pageController,
-                                  children: <Widget>[
-                                    buildMenu(),
-                                    NowPlayingScreen(),
-                                    BreakoutGame(key: breakoutGame),
-                                  ],
-                                )
-                            ),
-                            /*Expanded(
+                      child: Stack(
+                        children: <Widget>[
+                          // Your PageView goes here
+                          PageView(
+                            controller: _pageController,
+                            children: <Widget>[
+                              FractionallySizedBox(
+                                widthFactor: isCoverCycleVisible ? 0.5 : 1.0, 
+                                alignment: Alignment.centerLeft,
+                                child: buildMenu(),
+                              ),
+                              NowPlayingScreen(),
+                              BreakoutGame(key: breakoutGame),
+                            ],
+                          ),
+
+                          // Position CoverCycle on the right half of the screen
+                          AnimatedPositioned(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 100),
+                            right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
+                            top: 0,
+                            bottom: 0,
+                            width: displayWidth(context) / 2.15,
+                            child: AnimatedOpacity(
+                              opacity: isCoverCycleVisible ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 100),
                               child: CoverCycle(autoScroll: true),
-                              ),*/
-                            
-                          ],
-                        ),
-                     
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+
                    
                   Padding(
                     padding: EdgeInsets.all(5.5), 
@@ -341,6 +361,18 @@ class IPodState extends State<IPod> {
           
           menuKey.currentState?.back();
           _pageController.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+          
+          if(isCoverCycleVisible == false /*&& isNestedMenu == true*/) {
+            setState(() {
+              isCoverCycleVisible = true;
+            });
+          }
+
+          /*if(isCoverCycleVisible == false && isNestedMenu == false) {
+            setState(() {
+              isCoverCycleVisible = true;
+            });
+          }*/
         }
         HapticFeedback.mediumImpact();
         
@@ -388,7 +420,6 @@ class IPodState extends State<IPod> {
                 menuButton(context),
                 fastRewind(context),
                 fastForward(context),
-                //fastRewind(context),
                 playButton(context)
               ]),
             ),
@@ -575,10 +606,32 @@ class IPodState extends State<IPod> {
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Now Playing", onTap: showPlayer),
+        IPodMenuItem(
+          text: "Now Playing", 
+          onTap: () {
+            showPlayer();
+            setState(() {
+              isCoverCycleVisible = false;
+            });
+          }
+        ),
         IPodMenuItem(text: "Music", subMenu: musicMenu),
-        IPodMenuItem(text: "Playlists", subMenu: playlistMenu),
-        IPodMenuItem(text: "Shuffle", onTap: () {musicControls.shuffleSongs(context);}),
+        IPodMenuItem(text: "Playlists",
+          subMenu: playlistMenu,
+          onTap: () {
+            setState(() {
+              isCoverCycleVisible = false;
+            });
+          }
+        ),
+        IPodMenuItem(text: "Shuffle Songs",
+          onTap: () {
+            //musicControls.shuffleSongs(context);
+            setState(() {
+              isCoverCycleVisible = !isCoverCycleVisible;
+            });
+          }
+        ),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),
         if (debugMenu) IPodMenuItem(text: "useless scroll list", subMenu: testMenu),

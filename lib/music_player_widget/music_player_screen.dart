@@ -191,7 +191,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: 12.0),
+                    fontSize: 13.0),
                 )
             ),
             Column(children: [ 
@@ -199,7 +199,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 Transform(
                   transform: Matrix4.translationValues(10, 0, 0),
                   child: SizedBox(
-                  height: 15,
+                  height: 17,
                   width: displayWidth(context) * 0.595,
                   child: Container(
                     decoration: BoxDecoration(
@@ -218,7 +218,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               ),
                 ),
               SizedBox(
-                height: 15,
+                height: 17,
                 width: displayWidth(context) * 0.65,
                 child: LinearPercentIndicator(
                         clipLinearGradient: false,
@@ -229,7 +229,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                           stops: [0.0, 0.4, 1.0],
                             colors: [
                               Color(0xFF91B7F1),
-                              Color(0xff7DB1F8),
+                              Color.fromARGB(255, 51, 136, 255),
                               Color(0xFF96DFFC),
                             ],
                             begin: Alignment.topCenter,
@@ -273,7 +273,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 //fontFamily: "Calibre-Semibold",
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 12.0,
+                fontSize: 13.0,
               ),
             ),
             )
@@ -302,10 +302,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               child: Row(
                 children: <Widget>[
                   Transform(
+                    alignment: Alignment(0, -1),
                     transform: Matrix4.identity()
-                              ..setEntry(3, 2, 0.003) //0.0003
-                              ..rotateY(-0.15), //0.3
-                              
+                              ..setEntry(3, 2, -0.003) //0.0003
+                              ..rotateY(0.3)//0.3
+                              ..scale(0.95, 0.95),
                     child: Column(children: [
                      Container(
                           width: mediaQuery.size.width / 2.3,
