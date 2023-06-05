@@ -187,7 +187,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
       setState(() {});
       if (haptics) {
         HapticFeedback.lightImpact();
-        SystemSound.play(SystemSoundType.click);
+        //SystemSound.play(SystemSoundType.click);
       }
 
     }
@@ -204,14 +204,14 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
       setState(() {});
       if (haptics) {
         HapticFeedback.lightImpact();
-        SystemSound.play(SystemSoundType.click);
+        //SystemSound.play(SystemSoundType.click);
       }
     }
   }
 
   IPodSubMenu tap() {
     HapticFeedback.mediumImpact();
-    SystemSound.play(SystemSoundType.click);
+    //SystemSound.play(SystemSoundType.click);
     final IPodMenuItem item = _menuItems[_selectedIndex];
     final VoidCallback tap = item.onTap;
     if (tap != null) tap();
@@ -220,7 +220,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
 
   void back() {
     HapticFeedback.mediumImpact();
-    SystemSound.play(SystemSoundType.click);
+    //SystemSound.play(SystemSoundType.click);
     if (!_backInProgress && widget.onBackAnimationComplete != null) {
       _backInProgress = true;
       _animationController.addStatusListener((status) {

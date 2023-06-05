@@ -8,7 +8,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:holding_gesture/holding_gesture.dart';
+import 'package:perfect_volume_control/perfect_volume_control.dart';
 import 'package:playify/playify.dart';
 import 'package:retro/alt_menu/alt_menu_item.dart';
 import 'package:retro/alt_menu/alt_sub_menu.dart';
@@ -31,6 +33,7 @@ import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'clickwheel/pan_handlers.dart';
 import 'clickwheel/wheel_content.dart';
@@ -67,6 +70,10 @@ class IPodState extends State<IPod> {
   PageController _pageController;
   bool isCoverCycleVisible = true;
   bool isNestedMenu = false;
+  final Uri _discord = Uri.parse('https://discord.retromusic.co');
+  final Uri _twitter = Uri.parse('https://twitter.com/retro_mp3');
+  final Uri _kofi = Uri.parse('https://ko-fi.com/retromp3');
+  final Uri _github = Uri.parse('https://github.com/retromp3/retro');
 
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
@@ -90,6 +97,9 @@ class IPodState extends State<IPod> {
     songIDs = [];
     _playlists = [];
     _pageController = PageController(initialPage: 0);
+
+    PerfectVolumeControl.hideUI = true;
+    
 
     _channel.setMethodCallHandler((call) async {
       final methodName = call.method;
@@ -136,6 +146,30 @@ class IPodState extends State<IPod> {
     }
     return FittedBox();
   }
+
+  _launchDiscord() async {
+    if (!await launchUrl(_discord)) {
+      throw Exception('Could not launch $_discord');
+    }
+  }
+
+  _launchTwitter() async {
+    if (!await launchUrl(_twitter)) {
+      throw Exception('Could not launch $_twitter');
+    }
+  }
+
+  _launchKofi() async {
+    if (!await launchUrl(_kofi)) {
+      throw Exception('Could not launch $_kofi');
+    }
+  }
+
+  _launchGithub() async {
+    if (!await launchUrl(_github)) {
+      throw Exception('Could not launch $_github');
+    }
+  }
   
   
 
@@ -147,6 +181,9 @@ class IPodState extends State<IPod> {
   // sends the user to the player
   void showPlayer() {
     _pageController.animateToPage(1, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+    setState(() {
+      mainViewMode = MainViewMode.player;
+    });
   }
 
   // sends the user to Breakout
@@ -227,7 +264,7 @@ class IPodState extends State<IPod> {
 
   List<IPodMenuItem> _playlistBuilder() {
     if (_playlists == null || _playlists.isEmpty) {
-      return [IPodMenuItem(text: 'No playlist fetched')];
+      return [IPodMenuItem(text: 'No playlists fetched')];
     }
     final IPodSubMenu songsInPlaylistMenu =  IPodSubMenu(
       caption: MenuCaption(text: "Songs"),
@@ -243,7 +280,7 @@ class IPodState extends State<IPod> {
                 .add(SongListFetched(playlist.id));
               
               setState(() {
-                isNestedMenu = true;
+                isCoverCycleVisible = false;
               });
             }
           ),
@@ -288,6 +325,21 @@ class IPodState extends State<IPod> {
                       padding: EdgeInsets.all(5.8),
                       child: Stack(
                         children: <Widget>[
+
+                          // Position CoverCycle on the right half of the screen
+                          AnimatedPositioned(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 200),
+                            right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
+                            top: 0,
+                            bottom: 0,
+                            width: displayWidth(context) / 2.15,
+                            child: AnimatedOpacity(
+                              opacity: isCoverCycleVisible ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 200),
+                              child: CoverCycle(autoScroll: true),
+                            ),
+                          ),
                           // Your PageView goes here
                           PageView(
                             controller: _pageController,
@@ -302,17 +354,16 @@ class IPodState extends State<IPod> {
                             ],
                           ),
 
-                          // Position CoverCycle on the right half of the screen
                           AnimatedPositioned(
                             curve: Curves.easeIn,
-                            duration: const Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 200),
                             right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
                             top: 0,
                             bottom: 0,
                             width: displayWidth(context) / 2.15,
                             child: AnimatedOpacity(
                               opacity: isCoverCycleVisible ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 100),
+                              duration: const Duration(milliseconds: 250),
                               child: CoverCycle(autoScroll: true),
                             ),
                           ),
@@ -347,10 +398,15 @@ class IPodState extends State<IPod> {
   /* technically this should be in wheel_content.dart but for some reason it doesn't work when its there lol */
   Widget menuButton(context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
         if(mainViewMode != MainViewMode.menu) {
           homePressed(context);
           _pageController.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+        }
+        if(mainViewMode == MainViewMode.player) {
+          setState(() {
+              isCoverCycleVisible = true;
+            });
         }
         else if(popUp == true) {
           setState(() {
@@ -375,6 +431,8 @@ class IPodState extends State<IPod> {
           }*/
         }
         HapticFeedback.mediumImpact();
+        await Future.delayed(Duration(milliseconds: 100));
+          HapticFeedback.lightImpact();
         
       },
       child: Container(
@@ -394,7 +452,7 @@ class IPodState extends State<IPod> {
 
   Widget clickWheel(BuildContext context, ThemeState state) {
     wheelColor = state.wheelColor == WheelColor.black
-        ? const Color(0xff151516)
+        ? Color.fromARGB(255, 36, 36, 37)
         : Colors.white;
         
  
@@ -409,8 +467,8 @@ class IPodState extends State<IPod> {
             onPanUpdate: panUpdateHandler,
             onPanStart: panStartHandler,
             child: Container(
-              height: widgetSize,
-              width: widgetSize,
+              height: displayWidth(context) * 0.77,
+              width: displayWidth(context) * 0.77,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Color.fromARGB(255, 95, 95, 95), width: 0.5),
@@ -425,7 +483,7 @@ class IPodState extends State<IPod> {
             ),
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               if(mainViewMode == MainViewMode.breakoutGame){
                 if(breakoutGame.currentState?.isBreakoutGameOver == true && breakoutGame.currentState?.gameState == Game.fail){
                   breakoutGame.currentState?.restart();
@@ -438,7 +496,8 @@ class IPodState extends State<IPod> {
                 menuKey?.currentState?.select();
               }
               HapticFeedback.mediumImpact();
-              SystemSound.play(SystemSoundType.click);
+              await Future.delayed(Duration(milliseconds: 100));
+              HapticFeedback.lightImpact();
             },
             child: selectButton()
           ),
@@ -548,6 +607,12 @@ class IPodState extends State<IPod> {
 
     // Music Menu
 
+    final IPodSubMenu playlistMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Playlists"),
+      itemsBuilder: _playlistBuilder,
+    );
+
+
     final IPodSubMenu musicMenu = IPodSubMenu(
       caption: MenuCaption(text: "Music"),
       items: <IPodMenuItem>[
@@ -555,7 +620,18 @@ class IPodState extends State<IPod> {
           onTap:() => setState(() {
                 popUp = true;
           }),),
-        IPodMenuItem(text: "Songs", subMenu: songs),
+        IPodMenuItem(text: "Songs", subMenu: songs,
+          onTap: () => setState(() {
+                isCoverCycleVisible = false;
+          }),
+        ),
+        IPodMenuItem(
+          text: "Playlists", 
+          subMenu: playlistMenu,
+          onTap: () => setState(() {
+                isCoverCycleVisible = false;
+          }),
+        ),
       ],
     );
 
@@ -564,7 +640,15 @@ class IPodState extends State<IPod> {
     final IPodSubMenu gamesMenu = IPodSubMenu(
       caption: MenuCaption(text: "Games"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Breakout", onTap: showBreakoutGame),
+        IPodMenuItem(
+          text: "Breakout", 
+          onTap: () {
+            showBreakoutGame();
+            setState(() {
+              isCoverCycleVisible = false;
+          
+            });
+         }),
       ],
     );
 
@@ -575,33 +659,31 @@ class IPodState extends State<IPod> {
       ],
     );
 
-    final IPodSubMenu resetMenu = IPodSubMenu(
+    /*final IPodSubMenu resetMenu = IPodSubMenu(
       caption: MenuCaption(text: "Reset"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Reset All Settings", onTap: () {}),
+        IPodMenuItem(text: "Reset All Settings", onTap: () {Phoenix.rebirth(context);}),
+      ],
+    );*/
+
+     final IPodSubMenu socialsMenu = IPodSubMenu(
+      caption: MenuCaption(text: "About"),
+      items: <IPodMenuItem>[
+        IPodMenuItem(text: "Discord", onTap: () => _launchDiscord()),
+        IPodMenuItem(text: "Twitter", onTap: () => _launchTwitter()),
+        IPodMenuItem(text: "Ko-Fi", onTap: () => _launchKofi(),),
+        IPodMenuItem(text: "Github", onTap: () => _launchGithub(),)
       ],
     );
 
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Themes", subMenu: themeMenu),
-        IPodMenuItem(text: "Reset", subMenu: resetMenu),
+        IPodMenuItem(text: "About", subMenu: socialsMenu),
+        //IPodMenuItem(text: "Themes", subMenu: themeMenu),
+        //IPodMenuItem(text: "Reset", /*onTap: () => Phoenix.rebirth(context),*/),
       ],
     );
-
-    final IPodSubMenu testMenu = IPodSubMenu(
-      caption: MenuCaption(text: "useless scroll list"),
-      items: <IPodMenuItem>[
-          for (int i = 0; i < 4096; i++) IPodMenuItem(text: i.toString()),
-      ],
-    );
-
-    final IPodSubMenu playlistMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Playlists"),
-      itemsBuilder: _playlistBuilder,
-    );
-
 
     final IPodSubMenu menu = IPodSubMenu(
       caption: MenuCaption(text: "Retro"),
@@ -627,14 +709,12 @@ class IPodState extends State<IPod> {
         IPodMenuItem(text: "Shuffle Songs",
           onTap: () {
             //musicControls.shuffleSongs(context);
-            setState(() {
-              isCoverCycleVisible = !isCoverCycleVisible;
-            });
+
           }
         ),
         IPodMenuItem(text: "Extras", subMenu: extrasMenu),
         IPodMenuItem(text: "Settings", subMenu: settingsMenu),
-        if (debugMenu) IPodMenuItem(text: "useless scroll list", subMenu: testMenu),
+        //if (debugMenu) IPodMenuItem(text: "useless scroll list", subMenu: testMenu),
       ],
     );
 

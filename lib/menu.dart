@@ -43,15 +43,24 @@ class MenuCaption extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.only(left:5),
-          child: Text(
-            text,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.5),
-          ),
+          padding: const EdgeInsets.only(left:5, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                text,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.5),
+              ),
+              Spacer(),
+              Image.asset(
+                'assets/battery/full.png',
+                width: 30,
+              ),
+            ],)
         ),
       ),
       decoration: BoxDecoration(

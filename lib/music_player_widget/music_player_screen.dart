@@ -13,6 +13,7 @@ import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/player/player_state.dart';
 import 'package:intl/intl.dart';
+import 'package:retro/clickwheel/pan_handlers.dart';
 import 'package:retro/helpers/marquee.dart';
 import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/resources/resources.dart';
@@ -31,6 +32,8 @@ class NowPlayingScreen extends StatefulWidget {
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
   StreamSubscription _subscription;
   Timer _timer;
+  Timer _altTime;
+  bool _showTime = false;
 
   String _timeString;
 
@@ -46,6 +49,12 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
       BlocProvider.of<PlayerBloc>(context).add(NowPlayingFetched());
     });
 
+    _altTime = Timer.periodic(Duration(seconds: 10), (Timer t) {
+      setState(() {
+        _showTime = !_showTime;
+      });
+    });
+
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(milliseconds: 1000), (Timer t) => _getTime());
     
@@ -55,6 +64,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   void dispose() {
     _subscription?.cancel();
     _timer?.cancel();
+    _altTime?.cancel();
     super.dispose();
   }
 
@@ -87,17 +97,24 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   children: [
                     Column(
                       children: [
-                        SizedBox(height: 10.0),
+                        SizedBox(height: 20.0),
                         _albumArt(mediaQuery),
                       ],
                     ),
                     
                     Column(
                       children: [
-                        SizedBox(height: 220.0),
-                        _linearProgressIndicator()
+                        SizedBox(height: 230.0),
+                        AnimatedSwitcher(
+                          duration: Duration(milliseconds: 250), // Adjust the duration to suit your needs
+                          transitionBuilder: (Widget child, Animation<double> animation) {
+                            return FadeTransition(child: child, opacity: animation);
+                          },
+                          child: isVolume ? _volumeBar() : _linearProgressIndicator(),
+                        ),
                       ],
                     ),
+
                   ],
                 ),
 
@@ -116,18 +133,38 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-          Text("Now Playing",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 14.5)),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(child: child, opacity: animation);
+                },
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: _showTime
+                      ? Text('Now Playing',
+                          key: ValueKey<int>(1),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14.5))
+                      : Text(_timeString,
+                          key: ValueKey<int>(2),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14.5)),
+                ),
+              ),
           Spacer(),
-
           Icon(
-            SFSymbols.battery_100,
+            SFSymbols.play_fill,
             color: Colors.black,
-            size: 14.5,
+            size: 15.5,
+          ),
+          SizedBox(width: 5),
+          Image.asset(
+            'assets/battery/full.png',
+            width: 30,
           ),
         ]),
         ),
@@ -286,6 +323,105 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   }
 
 
+  Widget _volumeBar() {
+    return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+               child: Icon(Icons.volume_mute_rounded, color: Color.fromARGB(255, 89, 89, 89), size: 20),
+            ),
+            Column(children: [ 
+              Stack(children: [
+                Transform(
+                  transform: Matrix4.translationValues(10, 0, 0),
+                  child: SizedBox(
+                  height: 17,
+                  width: displayWidth(context) * 0.595,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(color: Color.fromARGB(255, 214, 214, 214), width: 0.5), // Color and width for top border
+                          bottom: BorderSide(color: Color.fromARGB(255, 199, 199, 199), width: 0.5), // Color and width for bottom border
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.0, 0.4, 1.0],
+                          colors: <Color>[Color.fromARGB(255, 255, 255, 255),Color.fromARGB(255, 239, 239, 239), Color.fromARGB(255, 208, 208, 208)],  // Specify your color list here
+                        ),
+                      ),
+                    ),
+              ),
+                ),
+              SizedBox(
+                height: 17,
+                width: displayWidth(context) * 0.65,
+                child: TweenAnimationBuilder(
+                  tween: Tween<double>(begin: 0, end: volume),
+                  duration: Duration(milliseconds: 1500),
+                  builder: (BuildContext context, double percent, Widget child) {
+                    return LinearPercentIndicator(
+                      clipLinearGradient: false,
+                      lineHeight: 24,
+                      percent: volume,
+                      linearGradient: LinearGradient(
+                        stops: [0.0, 0.4, 1.0],
+                        colors: [
+                          Color(0xFF91B7F1),
+                          Color.fromARGB(255, 51, 136, 255),
+                          Color(0xFF96DFFC),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      backgroundColor: Colors.transparent,
+                    );
+                  },
+                ),
+              )
+
+              ],),
+              
+              Opacity(
+                opacity: 0.1,
+                child: SizedBox(
+                height: 10,
+                width: displayWidth(context) * 0.65,
+                child: TweenAnimationBuilder(
+                  tween: Tween<double>(begin: 0, end: volume),
+                  duration: Duration(milliseconds: 1500),
+                  builder: (BuildContext context, double percent, Widget child) {
+                    return LinearPercentIndicator(
+                      clipLinearGradient: false,
+                      lineHeight: 24,
+                      percent: volume,
+                      linearGradient: LinearGradient(
+                        stops: [0.0, 0.4, 1.0],
+                        colors: [
+                          Color(0xFF91B7F1),
+                          Color.fromARGB(255, 51, 136, 255),
+                          Color(0xFF96DFFC),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      backgroundColor: Colors.transparent,
+                    );
+                  },
+                ),
+              ),
+              )
+            ],),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Icon(Icons.volume_up_rounded, color: Color.fromARGB(255, 89, 89, 89), size: 20)
+            )
+          ],
+        );
+  
+  }
+
 
   Widget _albumArt(MediaQueryData mediaQuery) {
     
@@ -302,11 +438,12 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               child: Row(
                 children: <Widget>[
                   Transform(
-                    alignment: Alignment(0, -1),
+                    //alignment: Alignment(0, -1),
                     transform: Matrix4.identity()
-                              ..setEntry(3, 2, -0.003) //0.0003
-                              ..rotateY(0.3)//0.3
-                              ..scale(0.95, 0.95),
+                              ..setEntry(3, 2, 0.005) //0.0003
+                              ..rotateY(-0.3)//0.3
+                              ..scale(0.9, 0.9),
+                    alignment: Alignment(0, -0.5 ),
                     child: Column(children: [
                      Container(
                           width: mediaQuery.size.width / 2.3,

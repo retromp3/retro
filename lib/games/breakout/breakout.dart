@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
+import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/main.dart';
 
 enum Game{running, fail}
@@ -191,7 +192,7 @@ class BrickPainter extends CustomPainter {
 }
 
 class Paddle extends GameObject {
-  double speed = 10.0;
+  double speed = 8.0;
 
   bool left = false;
   bool right = false;
@@ -255,7 +256,7 @@ class BreakoutGameState extends State<BreakoutGame>
     isPowerUp = false;
     isBreakoutGameOver = false;
     gameState = Game.running;
-    controller = AnimationController(vsync: this, duration: Duration(days: 99));
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 5));
     controller.addListener(update);
     worldSize = Size(18.0, 28.0);
     level = 0;
@@ -305,7 +306,7 @@ class BreakoutGameState extends State<BreakoutGame>
         score += 50;
         switch (powerup.type) {
           case PowerUpType.length:
-            paddle.desiredLength += 0.6;
+            paddle.desiredLength += 0.8;
             break;
           case PowerUpType.speed:
             paddle.speed += 2.0;
@@ -462,8 +463,8 @@ class BreakoutGameState extends State<BreakoutGame>
 
   Widget showGameScreen(){
     return Container(
-          constraints: BoxConstraints(minHeight: 100, maxHeight: 270),
-          height: 263, //displayHeight(context) * 0.4,
+          constraints: BoxConstraints(minHeight: 100, maxHeight: displayHeight(context) * 0.331),
+          height: displayHeight(context) * 0.331,
           width: double.infinity,
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -496,8 +497,8 @@ class BreakoutGameState extends State<BreakoutGame>
 
   Widget showGameOver(){
      return Container(
-          constraints: BoxConstraints(minHeight: 100, maxHeight: 270),
-          height: 263, //displayHeight(context) * 0.328,
+          constraints: BoxConstraints(minHeight: 100, maxHeight: displayHeight(context) * 0.331,),
+          height: displayHeight(context) * 0.331,
           width: double.infinity,
           child: Center(
             child: Text(

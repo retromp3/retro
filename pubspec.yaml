@@ -48,6 +48,11 @@ dependencies:
   audioplayers: ^4.0.1
   soundpool: ^2.3.0
   google_fonts: ^4.0.4
+  flutter_phoenix: "^0.1.0"
+  dots_indicator: ^3.0.0
+  font_awesome_flutter: ^10.4.0
+  url_launcher: ^6.1.11
+  perfect_volume_control: ^1.0.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -82,6 +87,8 @@ flutter:
     - .env
     - assets/skins/
     - assets/audio/
+    - assets/onboarding/
+    - assets/battery/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
