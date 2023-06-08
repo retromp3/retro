@@ -571,20 +571,30 @@ class IPodState extends State<IPod> {
       ],
     );
 
-    final IPodSubMenu skinMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Skin"),
+    final IPodSubMenu presetsMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Presets"),
       items: <IPodMenuItem>[
         IPodMenuItem(
-          text: "Black",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            SkinThemeChanged(SkinTheme.black),
-          ),
+          text: "Space Gray",
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+              SkinThemeChanged(SkinTheme.black),
+            );
+            BlocProvider.of<ThemeBloc>(context).add(
+              WheelColorChanged(WheelColor.black),
+            );
+          }
         ),
         IPodMenuItem(
           text: "Silver",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            SkinThemeChanged(SkinTheme.silver),
-          ),
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+              SkinThemeChanged(SkinTheme.silver),
+            );
+            BlocProvider.of<ThemeBloc>(context).add(
+              WheelColorChanged(WheelColor.white),
+            );
+          }
         ),
       ],
     );
@@ -592,8 +602,8 @@ class IPodState extends State<IPod> {
     final IPodSubMenu themeMenu = IPodSubMenu(
       caption: MenuCaption(text: "Theme"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Skin", subMenu: skinMenu),
-        IPodMenuItem(text: "Wheel", subMenu: wheelMenu),
+        IPodMenuItem(text: "Presets", subMenu: presetsMenu),
+        //IPodMenuItem(text: "Wheel", subMenu: wheelMenu),
       ],
     );
 
@@ -679,6 +689,7 @@ class IPodState extends State<IPod> {
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
+        IPodMenuItem(text: "Themes", subMenu: themeMenu),
         IPodMenuItem(text: "About", subMenu: socialsMenu),
         //IPodMenuItem(text: "Themes", subMenu: themeMenu),
         //IPodMenuItem(text: "Reset", /*onTap: () => Phoenix.rebirth(context),*/),

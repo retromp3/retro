@@ -19,5 +19,5 @@ String getSkin(ThemeState state) {
     case SkinTheme.carbonfiber:
       return carbonFiberSkin;
   }
-  return retroSkin;
+  return gen7BlackSkin;
 }
