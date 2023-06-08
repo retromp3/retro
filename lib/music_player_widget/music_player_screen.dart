@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:retro/clickwheel/pan_handlers.dart';
 import 'package:retro/helpers/marquee.dart';
 import 'package:retro/helpers/size_helpers.dart';
+import 'package:retro/music_models/playback_state/playback_state_model.dart';
 import 'package:retro/resources/resources.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -125,57 +126,70 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   }
 
   Widget _statusBar() {
-    return Container(
-        height: 25,
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return FadeTransition(child: child, opacity: animation);
-                },
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: _showTime
-                      ? Text('Now Playing',
-                          key: ValueKey<int>(1),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 14.5))
-                      : Text(_timeString,
-                          key: ValueKey<int>(2),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 14.5)),
+    return BlocBuilder<PlayerBloc, PlayerState>(
+      builder: (BuildContext ctx, PlayerState state) {
+        final bool isPlaying = state is NowPlayingState &&
+          state.playbackState == PlaybackStateModel.playing;
+        return Container(
+            height: 25,
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (Widget child, Animation<double> animation) {
+                      return FadeTransition(child: child, opacity: animation);
+                    },
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: _showTime
+                          ? Text('Now Playing',
+                              key: ValueKey<int>(1),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 14.5))
+                          : Text(_timeString,
+                              key: ValueKey<int>(2),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 14.5)),
+                    ),
+                  ),
+              Spacer(),
+              ShaderMask(
+                shaderCallback: (bounds) => RadialGradient(
+                  center: Alignment.center,
+                  radius: 0.5, // You can adjust this as needed
+                  colors: [Colors.lightBlueAccent, Color.fromARGB(255, 45, 141, 220)],
+                  tileMode: TileMode.mirror, 
+                ).createShader(bounds),
+                child: Icon(
+                  isPlaying ? SFSymbols.pause_fill : SFSymbols.play_fill,
+                  color: Colors.white,
+                  size: 20,
                 ),
               ),
-          Spacer(),
-          Icon(
-            SFSymbols.play_fill,
-            color: Colors.black,
-            size: 15.5,
-          ),
-          SizedBox(width: 5),
-          Image.asset(
-            'assets/battery/full.png',
-            width: 30,
-          ),
-        ]),
-        ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Color(0xFF9A9B9E), Color(0xFFFFFFFF)],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              tileMode: TileMode.clamp),
-          ),
-      );
+              SizedBox(width: 5),
+              Image.asset(
+                'assets/battery/full.png',
+                width: 30,
+              ),
+            ]),
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(0xFF9A9B9E), Color(0xFFFFFFFF)],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  tileMode: TileMode.clamp),
+              ),
+          );
+      });
   }
 
   /*Widget _buildBatteryStatus() {
@@ -419,7 +433,6 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
             )
           ],
         );
-  
   }
 
 
