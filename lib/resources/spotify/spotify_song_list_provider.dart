@@ -20,6 +20,7 @@ class SpotifySongListProvider extends SongListProvider {
   static String _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
   static const String _spotifyHost = 'api.spotify.com';
   static const String _spotifyPlayListEndpoint = '/v1/me/playlists';
+  static const String _spotifySavedAlbumsEndpoint = '/v1/me/albums';
   static const String _authHeader = 'Authorization';
   static const String _spotifyScope =
       'playlist-read-collaborative,playlist-read-private';
@@ -29,6 +30,9 @@ class SpotifySongListProvider extends SongListProvider {
 
   static String _spotifyPlayListItemsEndpoint(String id) =>
       '/v1/playlists/$id/tracks';
+
+    static String _spotifyAlbumTracksEndpoint(String id) => 
+      '/v1/albums/$id/tracks';
 
   final http.Client _client = http.Client();
 
@@ -58,6 +62,28 @@ class SpotifySongListProvider extends SongListProvider {
     );
     if (response.statusCode != 200) return Future.error(response.body);
     return _getPlayListItems(response.body);
+  }
+
+  Future<List<SpotifyAlbumModel>> fetchUserSavedAlbums() async {
+    final Uri uri = Uri.https(_spotifyHost, _spotifySavedAlbumsEndpoint);
+    final http.Response response = await _client.get(
+      uri,
+      headers: await _getAuthHeader(),
+    );
+    if (response.statusCode != 200) return Future.error(response.body);
+    return _getUserSavedAlbums(response.body);
+  }
+
+  List<SpotifyAlbumModel> _getUserSavedAlbums(String response) {
+    final Map<String, dynamic> responseJson = jsonDecode(response);
+    List items = responseJson[_itemsField];
+    List<SpotifyAlbumModel> albumList = [];
+
+    items?.forEach((value) {
+      albumList.add(SpotifyAlbumModel.fromJson(value['album']));
+    });
+
+    return albumList;
   }
 
   List<ArtistModel> _getPlayListItems(String response) {
