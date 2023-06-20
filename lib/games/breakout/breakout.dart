@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retro/blocs/theme/theme_bloc.dart';
 import 'package:retro/blocs/theme/theme_state.dart';
+import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/main.dart';
 
 enum Game{running, fail}
@@ -191,7 +192,7 @@ class BrickPainter extends CustomPainter {
 }
 
 class Paddle extends GameObject {
-  double speed = 10.0;
+  double speed = 12.0;
 
   bool left = false;
   bool right = false;
@@ -235,12 +236,6 @@ class BreakoutGameState extends State<BreakoutGame>
   List<Ball> balls;
   List<Brick> bricks;
   List<PowerUp> powerups;
-  var _styleIndex = 1;
-  var _colorful = false;
-  var _showPercentNum = false;
-  var _size = 13.0;
-  var _ratio = 2.0;
-  var _charging = false;
 
   int prevTimeMS = 0;
 
@@ -255,7 +250,7 @@ class BreakoutGameState extends State<BreakoutGame>
     isPowerUp = false;
     isBreakoutGameOver = false;
     gameState = Game.running;
-    controller = AnimationController(vsync: this, duration: Duration(days: 99));
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 10000));
     controller.addListener(update);
     worldSize = Size(18.0, 28.0);
     level = 0;
@@ -305,7 +300,7 @@ class BreakoutGameState extends State<BreakoutGame>
         score += 50;
         switch (powerup.type) {
           case PowerUpType.length:
-            paddle.desiredLength += 0.6;
+            paddle.desiredLength += 0.8;
             break;
           case PowerUpType.speed:
             paddle.speed += 2.0;
@@ -462,8 +457,8 @@ class BreakoutGameState extends State<BreakoutGame>
 
   Widget showGameScreen(){
     return Container(
-          constraints: BoxConstraints(minHeight: 100, maxHeight: 270),
-          height: 263, //displayHeight(context) * 0.4,
+          constraints: BoxConstraints(minHeight: 100, maxHeight: displayHeight(context) * 0.331),
+          height: displayHeight(context) * 0.331,
           width: double.infinity,
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -496,8 +491,8 @@ class BreakoutGameState extends State<BreakoutGame>
 
   Widget showGameOver(){
      return Container(
-          constraints: BoxConstraints(minHeight: 100, maxHeight: 270),
-          height: 263, //displayHeight(context) * 0.328,
+          constraints: BoxConstraints(minHeight: 100, maxHeight: displayHeight(context) * 0.331,),
+          height: displayHeight(context) * 0.331,
           width: double.infinity,
           child: Center(
             child: Text(
@@ -601,8 +596,8 @@ class BreakoutGameState extends State<BreakoutGame>
               "$score",
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.5),
             ),
-            SizedBox(width: 10),
-            buildBatteryStatus(),
+            SizedBox(width: 5),
+            //buildBatteryStatus(),
           ])
       ),
       decoration: BoxDecoration(
@@ -621,13 +616,13 @@ class BreakoutGameState extends State<BreakoutGame>
     );
   }
 
-   Widget buildBatteryStatus() {
-    /*battery.onBatteryStateChanged.listen((onData) {
+  /* Widget buildBatteryStatus() {
+    battery.onBatteryStateChanged.listen((onData) {
       var charging = onData == BatteryState.charging;
       /*this.setState(() {
         _charging = charging;
       });*/
-    });*/
+    });
      return BlocBuilder<ThemeBloc, ThemeState>(
       buildWhen: (ThemeState prev, ThemeState cur) =>
           prev.skinTheme != cur.skinTheme,
@@ -669,34 +664,12 @@ class BreakoutGameState extends State<BreakoutGame>
       )
     );
   });
-  }
+  }*/
 
 
 
 }
 
-class Btn extends StatelessWidget {
-  final void Function() down;
-  final void Function() up;
-  final Widget child;
-
-  const Btn({Key key, this.down, this.up, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        child: Container(
-          margin: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-              color: Colors.deepOrange,
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          child: Center(child: child),
-        ),
-        onTapDown: (details) => down(),
-        onTapCancel: up,
-        onTapUp: (details) => up());
-  }
-}
 
 class HexDecoration extends Decoration {
   final Color primaryColor;

@@ -24,10 +24,125 @@ class CoverCycleState extends State<CoverCycle> {
 
 
   @override
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<SongListBloc, SongListState>(
       builder: (BuildContext context, SongListState state) {
-         if (state is SongListFetchSuccess) {
+        if (state is SongListNotConnected) {
+          return Container(
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                stops: [0.1, 1.0],
+                colors: [Color.fromARGB(255, 70, 74, 94), Color.fromARGB(255, 185, 192, 212)],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 36, 36, 36).withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: Offset(0, -2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/onboarding/beam.png',
+                    width: 80,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'No Music',
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+        );
+        } else if (state is SongListConnectionError) {
+          return Center(
+              child: Padding(padding: EdgeInsets.all(10), child: Text(
+            'Connection error occurred.',
+            textAlign: TextAlign.center,
+          )));
+        } else if (state is SongListInProgress) {
+          return Container(
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                stops: [0.1, 1.0],
+                colors: [Color.fromARGB(255, 70, 74, 94), Color.fromARGB(255, 185, 192, 212)],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 36, 36, 36).withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: Offset(0, -2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/onboarding/beam.png',
+                    width: 80,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Loading...',
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+        );
+        } else if (state is SongListFetchError) {
+          return Container(
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                stops: [0.1, 1.0],
+                colors: [Color.fromARGB(255, 70, 74, 94), Color.fromARGB(255, 185, 192, 212)],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 36, 36, 36).withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: Offset(0, -2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/onboarding/error.png',
+                    width: 80,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Error',
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+        );
+        } else if (state is SongListFetchSuccess) {
           return _CoverCycleInternal(
             autoScroll: widget.autoScroll,
             songState: state,
@@ -125,14 +240,42 @@ class _CoverCycleInternalState
             
           ),
         )
-        : Container();
-        
-        
-      /*  AlbumCover(
-          idx: currentIdx,
-          currentPage: _currentPage,
-          coverArt: widget.songState.albumList[currentIdx + 1].coverArt,
-        );*/
+        : Container(
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                stops: [0.1, 1.0],
+                colors: [Color.fromARGB(255, 70, 74, 94), Color.fromARGB(255, 185, 192, 212)],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 36, 36, 36).withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: Offset(0, -2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/onboarding/beam.png',
+                    width: 80,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'No Music',
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+        );
+
       },
     );
   }
@@ -160,30 +303,5 @@ class _CoverCycleInternalState
     _timer?.cancel();
     _pageCtrl?.dispose();
     super.dispose();
-  }
-}
-
-class AlbumCover extends StatelessWidget {
-  final int idx;
-  final double currentPage;
-  final Image coverArt;
-
-  AlbumCover({
-    this.idx,
-    this.currentPage,
-    this.coverArt,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-  
-    return Container(
-      child: coverArt != null
-        ?  FittedBox(
-            fit: BoxFit.scaleDown,
-            child: coverArt,
-          )
-        : Visibility(child: Container(), visible:false),
-    );
   }
 }

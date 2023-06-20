@@ -130,7 +130,7 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
       setState(() {});
       if (haptics) {
         HapticFeedback.lightImpact();
-        SystemSound.play(SystemSoundType.click);
+        //SystemSound.play(SystemSoundType.click);
       }
 
     }
@@ -147,14 +147,14 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
       setState(() {});
       if (haptics) {
         HapticFeedback.lightImpact();
-        SystemSound.play(SystemSoundType.click);
+        //SystemSound.play(SystemSoundType.click);
       }
     }
   }
 
   AltSubMenu tap() {
     HapticFeedback.mediumImpact();
-    SystemSound.play(SystemSoundType.click);
+    //SystemSound.play(SystemSoundType.click);
     final AltMenuItem item = _menuItems[_selectedIndex];
     final VoidCallback tap = item.onTap;
     if (tap != null) tap();

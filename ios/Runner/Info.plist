@@ -50,6 +50,8 @@
 	<string>This is part of an external library Retro uses to work with Apple Music</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This is part of an external library Retro uses to work with Apple Music</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This is part of an external library Retro uses to work with Apple Music</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This is part of an external library Retro uses to work with Apple Music</string>
 	<key>NSMotionUsageDescription</key>

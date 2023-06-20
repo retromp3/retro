@@ -35,6 +35,8 @@ Widget fastForward(BuildContext context) {
         timer.cancel();
         timer = null;
         print('hold ended');
+         Future.delayed(Duration(milliseconds: 100));
+          HapticFeedback.lightImpact();
       }
     },
     child: Container(
@@ -47,6 +49,8 @@ Widget fastForward(BuildContext context) {
         onPressed: () async {
           HapticFeedback.mediumImpact();
           musicControls.playNextSong(context);
+          await Future.delayed(Duration(milliseconds: 100));
+          HapticFeedback.lightImpact();
         }),
       alignment: Alignment.centerRight,
     )
@@ -68,6 +72,8 @@ Widget fastRewind(BuildContext context) {
         timer.cancel();
         timer = null;
         print('hold ended');
+        Future.delayed(Duration(milliseconds: 100));
+          HapticFeedback.lightImpact();
       }
     },
     child: Container(
@@ -80,7 +86,10 @@ Widget fastRewind(BuildContext context) {
         onPressed: () async {
           HapticFeedback.mediumImpact();
           musicControls.playPrevSong(context);
+          await Future.delayed(Duration(milliseconds: 100));
+          HapticFeedback.lightImpact();
         }),
+
       alignment: Alignment.centerLeft,
     )
     //margin: EdgeInsets.only(right: 30),
@@ -105,6 +114,8 @@ Widget playButton(context) {
                       HapticFeedback.mediumImpact();
                       BlocProvider.of<PlayerBloc>(context)
                             .add(isPlaying ? PauseCalled() : PlayCalled());
+                      await Future.delayed(Duration(milliseconds: 100));
+                      HapticFeedback.lightImpact();
                     },
                 ),
               alignment: Alignment.bottomCenter,
@@ -125,7 +136,7 @@ Widget selectButton() {
         offset: const Offset(0, 0),
         child: Container(
           constraints: BoxConstraints(maxWidth: 120, maxHeight: 120),
-          width: displayWidth(context) * 0.25,
+          width: displayWidth(context) * 0.27,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(getSkin(state)),
