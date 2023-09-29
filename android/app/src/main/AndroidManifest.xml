@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="co.retromusic.app">
+    package="co.retromusic.app2">
    <application
         android:label="Retro"
         android:name="${applicationName}"
