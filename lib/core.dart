@@ -5,6 +5,7 @@
 */
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -192,6 +193,24 @@ class IPodState extends State<IPod> {
     setState(() {
       mainViewMode = MainViewMode.breakoutGame;
     });
+  }
+
+  void _showDialog(BuildContext context) {
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text("Apple Music is currently not supported."),
+        content: Text("Follow @retro_mp3 on Twitter/X for updates."),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text("Close"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   void shuffleSongs(context) {
@@ -517,6 +536,9 @@ class IPodState extends State<IPod> {
         ),
         AltMenuItem(
           text: 'Apple Music',
+          onTap: () {
+              _showDialog(context);
+          }
         ),
         AltMenuItem(
           text: 'Cancel',
