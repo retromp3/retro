@@ -38,7 +38,7 @@ If you'd like to run the app on your own device and compile from the source, you
 2. `cd retro`
 3. Create a Spotify app [here](https://developer.spotify.com/dashboard/applications) and insert the Client ID and Redirect URIs in the .env.example file. Make sure to rename it to .env. The Redirect URI in your Spotify dashboard can be pretty much anything i.e. comspotify://co.retromusic.
 4. `cd android` and generate an SHA1 Fingerprint with `keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android` in your Terminal
-5. Under 'Android packages' in your Spotify dashboard, add the corresponding package/applicationID to it and paste the SHA1 fingerprint that was generated from the previous step.
+5. Under 'Android packages' in your Spotify dashboard, add the corresponding package/applicationID to it and paste the SHA1 fingerprint that was generated from the previous step. The android package name can be found in the `AndroidMainfest.xml` files in the `android/app/src (debug, main, profile)` directories. Ideally change the package name to something unique.
 6. Head back to the terminal and run `flutter pub get && flutter run`.
 7. That should be it! The app should run fine on your Android device in debug mode.
 
