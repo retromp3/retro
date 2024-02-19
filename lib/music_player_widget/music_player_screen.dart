@@ -513,7 +513,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                       color: Colors.black,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'Helvetica'
+                                      fontFamily: 'Heros'
                     
                                     )
                                   )
@@ -528,7 +528,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                   color: Color.fromARGB(255, 106, 106, 106),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
-                                  //fontFamily: 'Helvetica'
+                                  //fontFamily: 'Heros'
                                 ),
                               ),
                             ),
