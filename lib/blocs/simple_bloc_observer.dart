@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 /// Just for debug purpose
 class SimpleBlocObserver extends BlocObserver {
   @override
-  void onEvent(Bloc bloc, Object event) {
+  void onEvent(Bloc bloc, Object? event) {
     print(event);
     super.onEvent(bloc, event);
   }

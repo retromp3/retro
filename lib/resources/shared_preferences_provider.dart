@@ -15,7 +15,7 @@ class SharedPreferencesProvider implements PreferencesProvider {
   Future<LinkedAccountModel> fetchPreferences() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    final String value = sharedPreferences.getString(_key);
+    final String value = sharedPreferences.getString(_key)!;
     return LinkedAccountModel.fromJson(jsonDecode(value));
   }
 

@@ -8,10 +8,10 @@ import 'dart:async';
 
 final stopwatch = Stopwatch(); //On iPod, fast scrolling begins about 1-2 seconds after the start of scrolling
 int oldTime = 0;
-bool previousDirection;
+bool? previousDirection;
 double volume = 0.0;
 bool isVolume = false;
-Timer volumeTimer;
+Timer? volumeTimer;
 
 void setVolume(double value) {
   isVolume = true; // Volume is being changed
@@ -48,8 +48,8 @@ void panUpdateHandler(DragUpdateDetails updateDetails) {
   final double radiusCur =
       sqrt(pow(cartesianCurX, 2) + pow(cartesianCurY, 2));
 
-  if (testExtraRadius(radiusCur)) return;
-  if (wasExtraRadius) {
+  if (testExtraRadius(radiusCur)!) return;
+  if (wasExtraRadius!) {
     setCartesianStart(
       updateDetails.localPosition.dx,
       updateDetails.localPosition.dy,
@@ -121,7 +121,7 @@ void setCartesianStart(double x, double y) {
   testExtraRadius(cartesianStartRadius);
 }
 
-bool testExtraRadius(double radius) {
+bool? testExtraRadius(double radius) {
   if (radius > halfSize || radius < 0.1 * halfSize) {
     wasExtraRadius = true;
   } else {
@@ -131,7 +131,7 @@ bool testExtraRadius(double radius) {
 }
 
 void scroll (bool up, int micros) {
-  int count = pow(2, (micros/1000000).floor()) - 1;
+  int count = pow(2, (micros/1000000).floor()) - 1 as int;
   if(up) {
       popUp ? altMenuKey?.currentState?.up(true) : menuKey?.currentState?.up(true);
   }

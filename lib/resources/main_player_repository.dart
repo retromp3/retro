@@ -7,6 +7,7 @@ import 'package:retro/resources/resources.dart';
 import 'package:retro/resources/shared_preferences_provider.dart';
 import 'package:retro/resources/spotify/spotify_player_provider.dart';
 import 'package:retro/resources/spotify/spotify_song_list_provider.dart';
+import 'dart:async';
 
 class MainPlayerRepository implements PlayerRepository {
   static MainPlayerRepository _instance = MainPlayerRepository._internal();
@@ -15,14 +16,14 @@ class MainPlayerRepository implements PlayerRepository {
 
   factory MainPlayerRepository() => _instance;
 
-  PlayerProvider _currentPlayerProvider;
-  SongListProvider _currentSongListProvider;
+  PlayerProvider? _currentPlayerProvider;
+  SongListProvider? _currentSongListProvider;
   final PreferencesProvider _preferencesProvider = SharedPreferencesProvider();
-  ConnectTo _currentConnectTo;
+  ConnectTo? _currentConnectTo;
 
   @override
   Future<SongInfoModel> getNowPlaying() async {
-    return _currentPlayerProvider.getNowPlaying();
+    return _currentPlayerProvider!.getNowPlaying();
   }
 
   @override
@@ -33,52 +34,52 @@ class MainPlayerRepository implements PlayerRepository {
 
   @override
   Future<PlaybackStateModel> getPlaybackState() async {
-    return _currentPlayerProvider.getPlaybackState();
+    return _currentPlayerProvider!.getPlaybackState();
   }
 
   @override
   Future<double> getPlaybackTime() async {
-    return _currentPlayerProvider.getPlaybackTime();
+    return _currentPlayerProvider!.getPlaybackTime();
   }
 
   @override
   Future<void> pause() async {
-    return _currentPlayerProvider.pause();
+    return _currentPlayerProvider!.pause();
   }
 
   @override
   Future<void> play() async {
-    return _currentPlayerProvider.play();
+    return _currentPlayerProvider!.play();
   }
 
   @override
   Future<void> toggleShuffle() async {
-    return _currentPlayerProvider.toggleShuffle();
+    return _currentPlayerProvider!.toggleShuffle();
   }
   
 
   @override
   Future<void> setPlaybackTime(double time) async {
-    return _currentPlayerProvider.setPlaybackTime(time);
+    return _currentPlayerProvider!.setPlaybackTime(time);
   }
 
   @override
-  Future<void> setQueue(String songId) async {
-    return _currentPlayerProvider.setQueue([songId]);
+  Future<void> setQueue(String? songId) async {
+    return _currentPlayerProvider!.setQueue([songId]);
   }
 
   @override
-  Future<List<ArtistModel>> fetchAllSongs(String playlistID) async {
-    return _currentSongListProvider?.fetchAllSongs(playlistID) ?? [];
+  Future<List<ArtistModel>> fetchAllSongs(String? playlistID) async {
+    return (_currentSongListProvider?.fetchAllSongs(playlistID) ?? []) as FutureOr<List<ArtistModel>>;
   }
 
   @override
   Future<List<PlaylistModel>> fetchUsersPlaylist() async {
-    return _currentSongListProvider?.fetchUsersPlaylist() ?? [];
+    return (_currentSongListProvider?.fetchUsersPlaylist() ?? []) as FutureOr<List<PlaylistModel>>;
   }
 
   @override
-  Future<bool> connect(ConnectTo connectTo) async {
+  Future<bool> connect(ConnectTo? connectTo) async {
     switch (connectTo) {
       case ConnectTo.spotify:
         {
@@ -101,8 +102,8 @@ class MainPlayerRepository implements PlayerRepository {
   }
 
   Future<bool> _connectCurrentProviders() async {
-    final bool isConnected = await _currentPlayerProvider.connect() &&
-        await _currentSongListProvider.connect();
+    final bool isConnected = await _currentPlayerProvider!.connect() &&
+        await _currentSongListProvider!.connect();
     if (!isConnected) {
       _disposeCurrentProvider();
     } else {

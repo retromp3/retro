@@ -12,8 +12,8 @@ import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:retro/resources/resources.dart';
 
 class SpotifyPlayerProvider extends PlayerProvider {
-  static String _redirectUrl = dotenv.env['SPOTIFY_REDIRECT_URL'];
-  static String _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
+  static String? _redirectUrl = dotenv.env['SPOTIFY_REDIRECT_URL'];
+  static String? _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
 
   static SpotifyPlayerProvider _instance = SpotifyPlayerProvider._internal();
 
@@ -21,7 +21,7 @@ class SpotifyPlayerProvider extends PlayerProvider {
 
   factory SpotifyPlayerProvider() => _instance;
 
-  StreamSubscription _stateSubscription;
+  StreamSubscription? _stateSubscription;
 
   //PlayerState _currentState;
 
@@ -32,16 +32,16 @@ class SpotifyPlayerProvider extends PlayerProvider {
 
   @override
   Future<SongInfoModel> getNowPlaying() async {
-    final PlayerState state = await SpotifySdk.getPlayerState();
+    final PlayerState state = (await SpotifySdk.getPlayerState())!;
 
     final s = SongInfoModel(
-      title: state.track.name,
-      songID: state.track.uri,
-      duration: state.track.duration.toDouble() / 1000,
-      artistName: state.track.artist.name,
-      albumTitle: state.track.album.name,
+      title: state.track!.name,
+      songID: state.track!.uri,
+      duration: state.track!.duration.toDouble() / 1000,
+      artistName: state.track!.artist.name,
+      albumTitle: state.track!.album.name,
       coverArt: Image.memory(
-          await SpotifySdk.getImage(imageUri: state.track.imageUri)),
+          (await SpotifySdk.getImage(imageUri: state.track!.imageUri))!),
     );
     print(s);
     return s;
@@ -49,7 +49,7 @@ class SpotifyPlayerProvider extends PlayerProvider {
 
   @override
   Future<PlaybackStateModel> getPlaybackState() async {
-    final PlayerState state = await SpotifySdk.getPlayerState();
+    final PlayerState state = (await SpotifySdk.getPlayerState())!;
     return state.isPaused
         ? PlaybackStateModel.paused
         : PlaybackStateModel.playing;
@@ -57,7 +57,7 @@ class SpotifyPlayerProvider extends PlayerProvider {
 
   @override
   Future<double> getPlaybackTime() async {
-    final PlayerState state = await SpotifySdk.getPlayerState();
+    final PlayerState state = (await SpotifySdk.getPlayerState())!;
     return state.playbackPosition.toDouble() / 1000;
   }
 
@@ -73,7 +73,7 @@ class SpotifyPlayerProvider extends PlayerProvider {
   
   @override
   Future<void> toggleShuffle() async {
-    await SpotifySdk.setShuffle();
+    await SpotifySdk.toggleShuffle();
   }
 
   @override
@@ -84,16 +84,16 @@ class SpotifyPlayerProvider extends PlayerProvider {
 
   @override
   Future<void> setQueue(
-    List<String> songId, {
-    List<SongModel> songModels,
+    List<String?> songId, {
+    List<SongModel>? songModels,
   }) async {
-    await SpotifySdk.play(spotifyUri: songId.first);
+    await SpotifySdk.play(spotifyUri: songId.first!);
   }
 
   @override
   Future<bool> connect() async {
     final bool isConnected = await SpotifySdk.connectToSpotifyRemote(
-        clientId: _clientID, redirectUrl: _redirectUrl,);
+        clientId: _clientID!, redirectUrl: _redirectUrl!,);
         
     if (isConnected) {
 //      _stateSubscription?.cancel();

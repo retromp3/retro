@@ -6,9 +6,9 @@ part 'spotify_album_model.g.dart';
 
 @JsonSerializable()
 class SpotifyAlbumModel {
-  final List<SpotifyArtistModel> artists;
-  final List<SpotifyImageModel> images;
-  final String name;
+  final List<SpotifyArtistModel>? artists;
+  final List<SpotifyImageModel>? images;
+  final String? name;
 
   SpotifyAlbumModel(this.artists, this.images, this.name);
 

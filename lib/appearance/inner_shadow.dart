@@ -4,11 +4,11 @@ import 'package:flutter/rendering.dart';
 
 class InnerShadow extends SingleChildRenderObjectWidget {
   const InnerShadow({
-    Key key,
+    Key? key,
     this.blur = 10,
     this.color = Colors.black38,
     this.offset = const Offset(10, 10),
-    Widget child,
+    Widget? child,
   }) : super(key: key, child: child);
 
   final double blur;
@@ -34,10 +34,10 @@ class InnerShadow extends SingleChildRenderObjectWidget {
 }
 
 class _RenderInnerShadow extends RenderProxyBox {
-  double blur;
-  Color color;
-  double dx;
-  double dy;
+  late double blur;
+  late Color color;
+  late double dx;
+  late double dy;
 
   @override
   void paint(PaintingContext context, Offset offset) {
@@ -51,7 +51,7 @@ class _RenderInnerShadow extends RenderProxyBox {
       size.height - dy,
     );
     final Canvas canvas = context.canvas..saveLayer(rectOuter, Paint());
-    context.paintChild(child, offset);
+    context.paintChild(child!, offset);
     final Paint shadowPaint = Paint()
       ..blendMode = BlendMode.srcATop
       ..imageFilter = ImageFilter.blur(sigmaX: blur, sigmaY: blur)
@@ -61,7 +61,7 @@ class _RenderInnerShadow extends RenderProxyBox {
       ..saveLayer(rectOuter, shadowPaint)
       ..saveLayer(rectInner, Paint())
       ..translate(dx, dy);
-    context.paintChild(child, offset);
+    context.paintChild(child!, offset);
     context.canvas..restore()..restore()..restore();
   }
 }

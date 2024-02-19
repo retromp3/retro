@@ -4,7 +4,7 @@ part 'spotify_artist_model.g.dart';
 
 @JsonSerializable()
 class SpotifyArtistModel {
-  final String name;
+  final String? name;
 
   SpotifyArtistModel(this.name);
 

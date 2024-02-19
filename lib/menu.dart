@@ -36,8 +36,8 @@ class MenuCaption extends StatelessWidget {
   final String text;
 
   const MenuCaption({
-    Key key,
-    String text,
+    Key? key,
+    String? text,
   })  : this.text = text ?? '',
         super(key: key);
 

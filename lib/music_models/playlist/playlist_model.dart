@@ -4,8 +4,8 @@ part 'playlist_model.g.dart';
 
 @JsonSerializable()
 class PlaylistModel {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
 
   PlaylistModel({
     this.id,

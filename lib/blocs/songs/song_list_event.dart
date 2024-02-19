@@ -7,11 +7,11 @@ abstract class SongListEvent extends Equatable {
   List<Object> get props => [];
 
   @override
-  bool get stringify => super.stringify;
+  bool? get stringify => super.stringify;
 }
 
 class SongListFetched extends SongListEvent {
-  final String playlistID;
+  final String? playlistID;
 
   const SongListFetched(this.playlistID);
 }

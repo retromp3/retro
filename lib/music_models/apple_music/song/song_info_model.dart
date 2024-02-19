@@ -3,13 +3,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class SongInfoModel {
-  final String albumTitle;
-  final String artistName;
+  final String? albumTitle;
+  final String? artistName;
   final String title;
   final String songID;
   final double duration;
-  final Image coverArt;
-  final Uint8List coverArtBytes;
+  final Image? coverArt;
+  final Uint8List? coverArtBytes;
 
   SongInfoModel({
     this.albumTitle = '',

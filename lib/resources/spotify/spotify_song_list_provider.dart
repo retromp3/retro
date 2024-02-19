@@ -16,8 +16,8 @@ import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:http/http.dart' as http;
 
 class SpotifySongListProvider extends SongListProvider {
-  static String _redirectUrl = dotenv.env['SPOTIFY_REDIRECT_URL'];
-  static String _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
+  static String? _redirectUrl = dotenv.env['SPOTIFY_REDIRECT_URL'];
+  static String? _clientID = dotenv.env['SPOTIFY_CLIENT_ID'];
   static const String _spotifyHost = 'api.spotify.com';
   static const String _spotifyPlayListEndpoint = '/v1/me/playlists';
   static const String _authHeader = 'Authorization';
@@ -27,7 +27,7 @@ class SpotifySongListProvider extends SongListProvider {
   static const String _itemsField = 'items';
   static const String _trackField = 'track';
 
-  static String _spotifyPlayListItemsEndpoint(String id) =>
+  static String _spotifyPlayListItemsEndpoint(String? id) =>
       '/v1/playlists/$id/tracks';
 
   final http.Client _client = http.Client();
@@ -49,7 +49,7 @@ class SpotifySongListProvider extends SongListProvider {
   }
 
   @override
-  Future<List<ArtistModel>> fetchAllSongs(String playlistID) async {
+  Future<List<ArtistModel>> fetchAllSongs(String? playlistID) async {
     final Uri uri =
         Uri.https(_spotifyHost, _spotifyPlayListItemsEndpoint(playlistID));
     final http.Response response = await _client.get(
@@ -62,32 +62,32 @@ class SpotifySongListProvider extends SongListProvider {
 
   List<ArtistModel> _getPlayListItems(String response) {
     final Map<String, dynamic> responseJson = jsonDecode(response);
-    List items = responseJson[_itemsField];
+    List? items = responseJson[_itemsField];
     List<SpotifyTrackModel> trackList = [];
 
     items?.forEach((element) {
       trackList.add(SpotifyTrackModel.fromJson(element[_trackField]));
     });
 
-    Map<String, List<SpotifyTrackModel>> albumsMap = {};
-    Map<String, List<SpotifyAlbumModel>> artistsMap = {};
+    Map<String?, List<SpotifyTrackModel>> albumsMap = {};
+    Map<String?, List<SpotifyAlbumModel?>> artistsMap = {};
 
     trackList.forEach((SpotifyTrackModel track) {
-      final List<SpotifyTrackModel> tracks = albumsMap[track.album.name] ?? [];
+      final List<SpotifyTrackModel> tracks = albumsMap[track.album!.name] ?? [];
       tracks.add(track);
-      albumsMap[track.album.name] = tracks;
+      albumsMap[track.album!.name] = tracks;
     });
 
     List<ArtistModel> artistList = [];
 
     albumsMap.forEach((key, List<SpotifyTrackModel> value) {
-      final String artist = value[0].album.artists[0].name;
-      final List<SpotifyAlbumModel> albums = artistsMap[artist] ?? [];
+      final String? artist = value[0].album!.artists![0].name;
+      final List<SpotifyAlbumModel?> albums = artistsMap[artist] ?? [];
       albums.add(value[0].album);
       artistsMap[artist] = albums;
     });
 
-    artistsMap.forEach((artistName, List<SpotifyAlbumModel> albums) {
+    artistsMap.forEach((artistName, List<SpotifyAlbumModel?> albums) {
       List<AlbumModel> albumList = _getAlbumList(albums, albumsMap, artistName);
 
       artistList.add(ArtistModel(
@@ -99,13 +99,13 @@ class SpotifySongListProvider extends SongListProvider {
     return artistList;
   }
 
-  List<AlbumModel> _getAlbumList(List<SpotifyAlbumModel> albums,
-      Map<String, List<SpotifyTrackModel>> albumsMap, String artistName) {
+  List<AlbumModel> _getAlbumList(List<SpotifyAlbumModel?> albums,
+      Map<String?, List<SpotifyTrackModel>> albumsMap, String? artistName) {
     List<AlbumModel> albumList =
-        albums.map((SpotifyAlbumModel spotifyAlbumModel) {
+        albums.map((SpotifyAlbumModel? spotifyAlbumModel) {
       List<SongModel> songList = _getSongList(
         albumsMap,
-        spotifyAlbumModel,
+        spotifyAlbumModel!,
         artistName,
       );
 
@@ -113,20 +113,20 @@ class SpotifySongListProvider extends SongListProvider {
         artistName: artistName,
         title: spotifyAlbumModel.name,
         songs: songList,
-        coverArt: Image.network(spotifyAlbumModel.images.first.url),
+        coverArt: Image.network(spotifyAlbumModel.images!.first.url!),
       );
     }).toList();
     return albumList;
   }
 
-  List<SongModel> _getSongList(Map<String, List<SpotifyTrackModel>> albumsMap,
-      SpotifyAlbumModel spotifyAlbumModel, String artistName) {
-    List<SongModel> songList = albumsMap[spotifyAlbumModel.name]
+  List<SongModel> _getSongList(Map<String?, List<SpotifyTrackModel>> albumsMap,
+      SpotifyAlbumModel spotifyAlbumModel, String? artistName) {
+    List<SongModel> songList = albumsMap[spotifyAlbumModel.name]!
         .map((SpotifyTrackModel spotifyTrackModel) => SongModel(
               title: spotifyTrackModel.name,
               artistName: artistName,
               songID: spotifyTrackModel.uri,
-              duration: spotifyTrackModel.duration / 1000,
+              duration: spotifyTrackModel.duration! / 1000,
             ))
         .toList();
     return songList;
@@ -171,7 +171,7 @@ class SpotifySongListProvider extends SongListProvider {
   List<PlaylistModel> _getPlayList(String response) {
     final Map<String, dynamic> responseJson = jsonDecode(response);
     List<PlaylistModel> playLists = [];
-    List items = responseJson[_itemsField];
+    List? items = responseJson[_itemsField];
     items?.forEach((value) {
       playLists.add(PlaylistModel.fromJson(value));
     });
@@ -186,7 +186,7 @@ class SpotifySongListProvider extends SongListProvider {
 
   void _getAuthToken() async {
     if (_tokenCompleter.isCompleted) return;
-    final String savedToken = await _getSavedToken();
+    final String? savedToken = await _getSavedToken();
     if (savedToken != null && savedToken.isNotEmpty) {
       final Uri uri = Uri.https(_spotifyHost, _spotifyPlayListEndpoint);
       final http.Response response = await _client.get(
@@ -203,7 +203,7 @@ class SpotifySongListProvider extends SongListProvider {
     }
   }
 
-  Future<String> _getSavedToken() async {
+  Future<String?> _getSavedToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString(_tokenKey);
   }
@@ -215,8 +215,8 @@ class SpotifySongListProvider extends SongListProvider {
 
   void _getTokenFromSDK() async {
     final String token = await SpotifySdk.getAccessToken(
-      clientId: _clientID,
-      redirectUrl: _redirectUrl,
+      clientId: _clientID!,
+      redirectUrl: _redirectUrl!,
       scope: _spotifyScope,
     );
     _tokenCompleter.complete(token);

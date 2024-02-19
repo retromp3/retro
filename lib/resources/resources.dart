@@ -20,11 +20,11 @@ abstract class PlayerRepository {
 
   Future<void> toggleShuffle();
 
-  Future<void> setQueue(String songId);
+  Future<void> setQueue(String? songId);
 
   Future<void> setPlaybackTime(double time);
 
-  Future<List<ArtistModel>> fetchAllSongs(String playlistId);
+  Future<List<ArtistModel>> fetchAllSongs(String? playlistId);
 
   Future<List<PlaylistModel>> fetchUsersPlaylist();
 
@@ -49,8 +49,8 @@ abstract class PlayerProvider {
   Future<void> toggleShuffle();
 
   Future<void> setQueue(
-    List<String> songId, {
-    List<SongModel> songModels,
+    List<String?> songId, {
+    List<SongModel>? songModels,
   });
 
   Future<void> setPlaybackTime(double time);
@@ -61,7 +61,7 @@ abstract class PlayerProvider {
 }
 
 abstract class SongListProvider {
-  Future<List<ArtistModel>> fetchAllSongs(String playlistId);
+  Future<List<ArtistModel>> fetchAllSongs(String? playlistId);
 
   Future<List<SongModel>> fetchSongsBelow(String songId);
 

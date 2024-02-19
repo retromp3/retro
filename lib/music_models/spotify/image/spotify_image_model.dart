@@ -4,9 +4,9 @@ part 'spotify_image_model.g.dart';
 
 @JsonSerializable()
 class SpotifyImageModel {
-  final String url;
-  final int height;
-  final int width;
+  final String? url;
+  final int? height;
+  final int? width;
 
   SpotifyImageModel(this.url, this.height, this.width);
 

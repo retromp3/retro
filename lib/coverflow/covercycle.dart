@@ -11,7 +11,7 @@ import '../blocs/songs/song_list_bloc.dart';
 class CoverCycle extends StatefulWidget {
   final bool autoScroll;
 
-  const CoverCycle({Key key, bool autoScroll})
+  const CoverCycle({Key? key, bool? autoScroll})
       : this.autoScroll = autoScroll ?? false,
         super(key: key);
 
@@ -160,9 +160,9 @@ class _CoverCycleInternal extends StatefulWidget {
   final bool autoScroll;
 
   const _CoverCycleInternal({
-    Key key,
-    this.songState,
-    bool autoScroll,
+    Key? key,
+    required this.songState,
+    bool? autoScroll,
   })  : assert(songState != null),
         this.autoScroll = autoScroll ?? false,
         super(key: key);
@@ -175,17 +175,17 @@ class _CoverCycleInternal extends StatefulWidget {
 class _CoverCycleInternalState
     extends State<_CoverCycleInternal> {
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
-  Timer _timer;
+  Timer? _timer;
   double _currentPage = 0.0;
-  bool _animationInProgress;
-  int randIndex;
+  late bool _animationInProgress;
+  int? randIndex;
 
   @override
   void initState() {
     _animationInProgress = false;
     _pageCtrl.addListener(() {
       setState(() {
-        _currentPage = _pageCtrl.page;
+        _currentPage = _pageCtrl.page ?? 0;
       });
     });
     _startPageTimer();
@@ -218,13 +218,12 @@ class _CoverCycleInternalState
   @override
   Widget build(BuildContext context) {
     int numSongs = widget.songState.albumList.length;
-
     return PageView.builder(
       physics: NeverScrollableScrollPhysics(),
       //itemCount: widget.songState.albumList.length,
       //Colors.accents.length,
       itemBuilder: (context, __) {
-        return (numSongs > 0) 
+        return (numSongs > 1) //if >0 child has to be used
         ? Container(
           child: KenBurns.multiple(
             minAnimationDuration : Duration(milliseconds: 3000),
@@ -233,11 +232,10 @@ class _CoverCycleInternalState
             //child:  FittedBox(fit: BoxFit.cover, child: widget.songState.albumList[0].coverArt,),
             //childLoop: (widget.songState.albumList.length),
             children: [
-
-              for(int i = 0; i < widget.songState.albumList.length; i++) 
+              for(int i = 0; i < widget.songState.albumList.length; i++)
                 FittedBox(fit: BoxFit.cover, child: widget.songState.albumList[i].coverArt,),
             ],
-            
+
           ),
         )
         : Container(
@@ -290,7 +288,7 @@ class _CoverCycleInternalState
   }
 
   Future<void> _animateToPage() {
-    return _pageCtrl?.animateToPage(
+    return _pageCtrl.animateToPage(
       _currentPage.toInt(),
       duration: Duration(milliseconds: 550),
       curve: Curves.easeIn,
@@ -301,7 +299,7 @@ class _CoverCycleInternalState
   void dispose() {
     print('dispose');
     _timer?.cancel();
-    _pageCtrl?.dispose();
+    _pageCtrl.dispose();
     super.dispose();
   }
 }

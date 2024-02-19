@@ -11,16 +11,16 @@ import 'alt_sub_menu.dart';
 class AltMenuWidget extends StatefulWidget {
   final AltSubMenu subMenu;
   final LinearGradient selectionColor;
-  final Decoration decoration;
-  final TextStyle itemTextStyle;
-  final TextStyle selectedItemTextStyle;
-  final Widget subMenuIcon;
-  final Widget selectedSubMenuIcon;
+  final Decoration? decoration;
+  final TextStyle? itemTextStyle;
+  final TextStyle? selectedItemTextStyle;
+  final Widget? subMenuIcon;
+  final Widget? selectedSubMenuIcon;
 
   AltMenuWidget({
-    Key key,
-    @required AltSubMenu subMenu,
-    Color selectionColor,
+    Key? key,
+    required AltSubMenu subMenu,
+    Color? selectionColor,
     this.decoration,
     this.itemTextStyle,
     this.selectedItemTextStyle,
@@ -28,7 +28,7 @@ class AltMenuWidget extends StatefulWidget {
     this.selectedSubMenuIcon,
   })  : assert(subMenu != null),
         this.subMenu = subMenu,
-        this.selectionColor = selectionColor ??
+        this.selectionColor = selectionColor as LinearGradient? ??
             LinearGradient(
               colors: [
                 Color(0xFF1F7BC4),
@@ -67,15 +67,15 @@ class AltMenuWidgetState extends State<AltMenuWidget> {
   }
 
   void up(bool haptics) {
-    _keys.last?.currentState?.decreaseSelectedIndex(haptics);
+    _keys.last.currentState?.decreaseSelectedIndex(haptics);
   }
 
   void down(bool haptics) {
-    _keys.last?.currentState?.increaseSelectedIndex(haptics);
+    _keys.last.currentState?.increaseSelectedIndex(haptics);
   }
 
   void select() {
-    final AltSubMenu newMenu = _keys.last?.currentState?.tap();
+    final AltSubMenu? newMenu = _keys.last.currentState?.tap();
     if (newMenu != null) {
       setState(() {
         _keys.add(GlobalKey());

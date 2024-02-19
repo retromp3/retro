@@ -8,7 +8,7 @@ class ThemeModel {
   final SkinTheme skinTheme;
   final WheelColor wheelColor;
 
-  ThemeModel({SkinTheme skinTheme, WheelColor wheelColor})
+  ThemeModel({SkinTheme? skinTheme, WheelColor? wheelColor})
       : this.skinTheme = skinTheme ?? SkinTheme.black,
         this.wheelColor = wheelColor ?? WheelColor.black;
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:retro/main.dart';
 
 class Coverflow extends StatelessWidget {
-  final Color color;
-  final int idx;
-  final double currentPage;
+  final Color? color;
+  final int? idx;
+  final double? currentPage;
 
   // list of images
   final List images = [];
@@ -13,7 +13,7 @@ class Coverflow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double relativePosition = idx - currentPage;
+    double relativePosition = idx! - currentPage!;
 
     return Container(
       width: 250,
@@ -34,7 +34,7 @@ class Coverflow extends StatelessWidget {
             color: color,
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(images[idx]),
+              image: NetworkImage(images[idx!]),
             ),
           ),
         ),

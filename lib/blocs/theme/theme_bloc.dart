@@ -28,7 +28,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   Stream<ThemeState> _mapPreferencesFetched(PreferencesFetched event) async* {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String prefString = prefs.getString(_userPreferencesKey);
+    final String? prefString = prefs.getString(_userPreferencesKey);
     final ThemeModel themeModel =
         ThemeModel.fromJson(jsonDecode(prefString ?? '{}'));
     yield state.copyWith(
@@ -48,8 +48,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   }
 
   Future<void> _setPreferences({
-    SkinTheme skinTheme,
-    WheelColor wheelColor,
+    SkinTheme? skinTheme,
+    WheelColor? wheelColor,
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final ThemeModel themeModel = ThemeModel(

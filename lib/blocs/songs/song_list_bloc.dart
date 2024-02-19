@@ -48,7 +48,7 @@ class SongListBloc extends Bloc<SongListEvent, SongListState> {
     try {
       final List<PlaylistModel> playLists =
           await _playerRepository.fetchUsersPlaylist();
-      final String currentPlayListId = playLists.isEmpty ? '' : playLists[0].id;
+      final String? currentPlayListId = playLists.isEmpty ? '' : playLists[0].id;
       final List<ArtistModel> artistList =
           await _playerRepository.fetchAllSongs(currentPlayListId);
       yield SongListFetchSuccess(

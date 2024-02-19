@@ -11,16 +11,16 @@ import 'ipod_sub_menu.dart';
 class IPodMenuWidget extends StatefulWidget {
   final IPodSubMenu subMenu;
   final LinearGradient selectionColor;
-  final Decoration decoration;
-  final TextStyle itemTextStyle;
-  final TextStyle selectedItemTextStyle;
-  final Widget subMenuIcon;
-  final Widget selectedSubMenuIcon;
+  final Decoration? decoration;
+  final TextStyle? itemTextStyle;
+  final TextStyle? selectedItemTextStyle;
+  final Widget? subMenuIcon;
+  final Widget? selectedSubMenuIcon;
 
   IPodMenuWidget({
-    Key key,
-    @required IPodSubMenu subMenu,
-    Color selectionColor,
+    Key? key,
+    required IPodSubMenu subMenu,
+    Color? selectionColor,
     this.decoration,
     this.itemTextStyle,
     this.selectedItemTextStyle,
@@ -28,7 +28,7 @@ class IPodMenuWidget extends StatefulWidget {
     this.selectedSubMenuIcon,
   })  : assert(subMenu != null),
         this.subMenu = subMenu,
-        this.selectionColor = selectionColor ??
+        this.selectionColor = selectionColor as LinearGradient? ??
             LinearGradient(
               colors: [
                 Color(0xFF1F7BC4),
@@ -70,15 +70,15 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
   }
 
   void up(bool haptics) {
-    _keys.last?.currentState?.decreaseSelectedIndex(haptics);
+    _keys.last.currentState?.decreaseSelectedIndex(haptics);
   }
 
   void down(bool haptics) {
-    _keys.last?.currentState?.increaseSelectedIndex(haptics);
+    _keys.last.currentState?.increaseSelectedIndex(haptics);
   }
 
   void select() {
-    final IPodSubMenu newMenu = _keys.last?.currentState?.tap();
+    final IPodSubMenu? newMenu = _keys.last.currentState?.tap();
     if (newMenu != null) {
       setState(() {
         _keys.add(GlobalKey());
@@ -133,7 +133,7 @@ class IPodMenuWidgetState extends State<IPodMenuWidget> {
   }
 
   void refresh() {
-    _keys.last?.currentState?.refresh();
+    _keys.last.currentState?.refresh();
   }
 }
 

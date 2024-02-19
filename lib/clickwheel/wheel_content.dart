@@ -22,7 +22,7 @@ final IPodMenuWidgetState musicControls = new IPodMenuWidgetState();
 final IPodState home = new IPodState();
 
 Widget fastForward(BuildContext context) {
-  Timer timer;
+  Timer? timer;
   return GestureDetector(
     onLongPressStart: (details) {
       timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
@@ -32,7 +32,7 @@ Widget fastForward(BuildContext context) {
     },
     onLongPressEnd: (details) {
       if (timer != null) {
-        timer.cancel();
+        timer!.cancel();
         timer = null;
         print('hold ended');
          Future.delayed(Duration(milliseconds: 100));
@@ -59,7 +59,7 @@ Widget fastForward(BuildContext context) {
 }
 
 Widget fastRewind(BuildContext context) {
-  Timer timer;
+  Timer? timer;
   return GestureDetector(
     onLongPressStart: (details) {
       timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
@@ -69,7 +69,7 @@ Widget fastRewind(BuildContext context) {
     },
     onLongPressEnd: (details) {
       if (timer != null) {
-        timer.cancel();
+        timer!.cancel();
         timer = null;
         print('hold ended');
         Future.delayed(Duration(milliseconds: 100));

@@ -23,25 +23,25 @@ import 'ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/appearance/skins.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
-double widgetSize;
-double halfSize;
-double cartesianStartX;
-double cartesianStartY;
-double cartesianStartRadius;
-int ticksPerCircle;
-double tickAngel;
-bool wasExtraRadius;
-Color wheelColor;
-Color controlsColor;
+late double widgetSize;
+late double halfSize;
+late double cartesianStartX;
+late double cartesianStartY;
+late double cartesianStartRadius;
+late int ticksPerCircle;
+late double tickAngel;
+bool? wasExtraRadius;
+Color? wheelColor;
+Color? controlsColor;
 GlobalKey<IPodMenuWidgetState> menuKey = new GlobalKey<IPodMenuWidgetState>();
 GlobalKey<AltMenuWidgetState> altMenuKey = new GlobalKey<AltMenuWidgetState>();
 GlobalKey<BreakoutGameState> breakoutGame = GlobalKey();
 bool popUp = false;
 bool showPlayerScreen = false;
-IPodSubMenu menu;
-AltSubMenu altMenu;
-List<String> songIDs;
-MainViewMode mainViewMode;
+late IPodSubMenu menu;
+late AltSubMenu altMenu;
+List<String?>? songIDs;
+MainViewMode? mainViewMode;
 
 enum MainViewMode {menu, player, breakoutGame}
 
@@ -53,9 +53,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final Playify playify;
+  final Playify? playify;
 
-  const MyApp({Key key, this.playify}) : super(key: key);
+  const MyApp({Key? key, this.playify}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class CheckFirstTime extends StatefulWidget {
 }
 
 class _CheckFirstTimeState extends State<CheckFirstTime> {
-  bool isFirstTime;
+  late bool isFirstTime;
 
   @override
   void initState() {
@@ -105,9 +105,9 @@ class _CheckFirstTimeState extends State<CheckFirstTime> {
 }
 
 class IPodApp extends StatelessWidget {
-  final Playify playify;
+  final Playify? playify;
 
-  const IPodApp({Key key, this.playify}) : super(key: key);
+  const IPodApp({Key? key, this.playify}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

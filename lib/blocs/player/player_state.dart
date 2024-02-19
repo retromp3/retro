@@ -5,12 +5,12 @@ import 'package:retro/music_models/apple_music/song/song_info_model.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
 
 abstract class PlayerState extends Equatable {
-  final String lastSongID;
+  final String? lastSongID;
 
-  const PlayerState({@required this.lastSongID});
+  const PlayerState({required this.lastSongID});
 
   @override
-  List<Object> get props => [lastSongID];
+  List<Object?> get props => [lastSongID];
 
   @override
   bool get stringify => true;
@@ -21,19 +21,19 @@ class PlayerUnknownState extends PlayerState {
 }
 
 class NowPlayingState extends PlayerState {
-  final SongInfoModel songInfo;
-  final double playBackTime;
-  final PlaybackStateModel playbackState;
+  final SongInfoModel? songInfo;
+  final double? playBackTime;
+  final PlaybackStateModel? playbackState;
 
   const NowPlayingState({
     this.songInfo,
     this.playBackTime,
     this.playbackState,
-    String lastSongID,
+    String? lastSongID,
   }) : super(lastSongID: lastSongID);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         songInfo,
         playBackTime,
         playbackState,
@@ -42,9 +42,9 @@ class NowPlayingState extends PlayerState {
 
   NowPlayingState copyWith({
     //SongInfo songInfo,
-    double playBackTime,
-    PlaybackStateModel playbackState,
-    String lastSongID,
+    double? playBackTime,
+    PlaybackStateModel? playbackState,
+    String? lastSongID,
   }) {
     return NowPlayingState(
       songInfo: songInfo ?? this.songInfo,
@@ -56,11 +56,11 @@ class NowPlayingState extends PlayerState {
 }
 
 class PlayerErrorState extends PlayerState {
-  const PlayerErrorState({@required String lastSongID})
+  const PlayerErrorState({required String? lastSongID})
       : super(lastSongID: lastSongID);
 }
 
 class NoSongToPlayState extends PlayerState {
-  const NoSongToPlayState({@required String lastSongID})
+  const NoSongToPlayState({required String lastSongID})
       : super(lastSongID: lastSongID);
 }

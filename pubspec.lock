@@ -218,7 +218,7 @@ packages:
     source: hosted
     version: "4.4.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: cfc915e6923fe5ce6e153b0723c753045de46de1b4d63771530504004a45fae0
@@ -354,10 +354,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_phoenix
-      sha256: ab31abe902069564539b12c5beec3033234bc42265cd78dc05af1552bd80c8e6
+      sha256: "39589dac934ea476d0e43fb60c1ddfba58f14960743640c8250dea11c4333378"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "1.1.1"
   flutter_sfsymbols:
     dependency: "direct main"
     description:
@@ -1133,5 +1133,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.0 <3.0.0"
+  dart: ">=2.19.4 <3.0.0"
   flutter: ">=3.3.0"

@@ -23,7 +23,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class NowPlayingScreen extends StatefulWidget {
 
-  const NowPlayingScreen({Key key})
+  const NowPlayingScreen({Key? key})
       : super(key: key);
 
   @override
@@ -31,12 +31,12 @@ class NowPlayingScreen extends StatefulWidget {
 }
 
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
-  StreamSubscription _subscription;
-  Timer _timer;
-  Timer _altTime;
+  StreamSubscription? _subscription;
+  Timer? _timer;
+  Timer? _altTime;
   bool _showTime = false;
 
-  String _timeString;
+  late String _timeString;
 
   String _formatDateTime(DateTime dateTime) {
     return DateFormat('h:mm a').format(dateTime);
@@ -231,14 +231,14 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
     return BlocBuilder<PlayerBloc, PlayerState>(
         builder: (BuildContext ctx, PlayerState state) {
       if (state is NowPlayingState) {
-        final double value = state.playBackTime / state.songInfo.duration;
+        final double value = state.playBackTime! / state.songInfo!.duration;
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                child: Text(
-                getHumanTime(state.playBackTime),
+                getHumanTime(state.playBackTime!),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -319,7 +319,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: Text(
-              getHumanTime(state.songInfo.duration),
+              getHumanTime(state.songInfo!.duration),
               style: TextStyle(
                 //fontFamily: "Calibre-Semibold",
                 color: Colors.black,
@@ -374,7 +374,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 child: TweenAnimationBuilder(
                   tween: Tween<double>(begin: 0, end: volume),
                   duration: Duration(milliseconds: 1500),
-                  builder: (BuildContext context, double percent, Widget child) {
+                  builder: (BuildContext context, double percent, Widget? child) {
                     return LinearPercentIndicator(
                       clipLinearGradient: false,
                       lineHeight: 24,
@@ -405,7 +405,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 child: TweenAnimationBuilder(
                   tween: Tween<double>(begin: 0, end: volume),
                   duration: Duration(milliseconds: 1500),
-                  builder: (BuildContext context, double percent, Widget child) {
+                  builder: (BuildContext context, double percent, Widget? child) {
                     return LinearPercentIndicator(
                       clipLinearGradient: false,
                       lineHeight: 24,
@@ -442,7 +442,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         buildWhen: (PlayerState prev, PlayerState cur) =>
             (prev is NowPlayingState &&
                 cur is NowPlayingState &&
-                prev.songInfo.coverArt != cur.songInfo.coverArt) ||
+                prev.songInfo!.coverArt != cur.songInfo!.coverArt) ||
             (!(prev is NowPlayingState && cur is NowPlayingState)),
         builder: (BuildContext ctx, PlayerState state) {
           
@@ -461,7 +461,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                      Container(
                           width: mediaQuery.size.width / 2.3,
                           height: mediaQuery.size.width / 2.3,
-                          child: state.songInfo.coverArt ?? FittedBox(),
+                          child: state.songInfo!.coverArt ?? FittedBox(),
                         ),
                       Transform(
                         transform: Matrix4.identity()..scale(1.0, -1.0),
@@ -480,7 +480,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               child: Container(
                                 width: mediaQuery.size.width / 2.3,
                                 height: mediaQuery.size.width / 2.3,
-                                child: state.songInfo.coverArt ?? FittedBox(),
+                                child: state.songInfo!.coverArt ?? FittedBox(),
                               ),
                             ),
                         ),
@@ -506,7 +506,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               child: MarqueeWidget(
                                   direction: Axis.horizontal,
                                   child: Text(
-                                    state.songInfo.title, 
+                                    state.songInfo!.title, 
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     style: TextStyle(
@@ -523,7 +523,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                state.songInfo.artistName,
+                                state.songInfo!.artistName!,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 106, 106, 106),
                                   fontWeight: FontWeight.w600,
@@ -538,7 +538,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               child: MarqueeWidget(
                                   direction: Axis.horizontal,
                                   child: Text(
-                                    state.songInfo.albumTitle,
+                                    state.songInfo!.albumTitle!,
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     style: TextStyle(
