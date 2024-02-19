@@ -48,7 +48,7 @@ dependencies:
   audioplayers: ^4.0.1
   soundpool: ^2.3.0
   google_fonts: ^4.0.4
-  flutter_phoenix: "^0.1.0"
+  flutter_phoenix: "^1.1.1"
   dots_indicator: ^3.0.0
   font_awesome_flutter: ^10.4.0
   url_launcher: ^6.1.11
