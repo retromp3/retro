@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:playify/playify.dart';
 
 class Playlist {

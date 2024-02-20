@@ -8,8 +8,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   final PlayerRepository _playerRepository;
 
   PlayerBloc(PlayerRepository playerRepository)
-      : assert(playerRepository != null),
-        this._playerRepository = playerRepository,
+      : this._playerRepository = playerRepository,
         super(PlayerUnknownState());
 
   @override
@@ -46,7 +45,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
           await _playerRepository.getPlaybackState();
       final double playBackTime = await _playerRepository.getPlaybackTime();
       if (state is NowPlayingState &&
-          songInfo.songID == (state as NowPlayingState).songInfo.songID) {
+          songInfo.songID == (state as NowPlayingState).songInfo!.songID) {
         yield (state as NowPlayingState).copyWith(
           playBackTime: playBackTime,
           playbackState: playbackState,
@@ -109,7 +108,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   }
 
   Stream<PlayerState> _playSongWithRelativeIndex(
-    List<String> songIDs,
+    List<String?>? songIDs,
     int relIndex,
   ) async* {
     try {
@@ -126,7 +125,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   }
 
   int _getNextSongIndexToPlay(
-    List<String> songIDs,
+    List<String?> songIDs,
     String curId,
     int relIndex,
   ) {
@@ -144,20 +143,20 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   }
 
   String _getCurrentSongId() {
-    String curId = 'unknown';
+    String? curId = 'unknown';
     if (state is NowPlayingState) {
-      curId = (state as NowPlayingState).songInfo.songID;
+      curId = (state as NowPlayingState).songInfo!.songID;
     } else {
       curId = state.lastSongID;
     }
-    return curId;
+    return curId!;
   }
 
   Stream<PlayerState> _mapFRewindCalled(FRewindCalled event) async* {
     if (state is NowPlayingState &&
         (state as NowPlayingState).playbackState ==
             PlaybackStateModel.playing) {
-      final double newTime = (state as NowPlayingState).playBackTime - 5;
+      final double newTime = (state as NowPlayingState).playBackTime! - 5;
       try {
         await _playerRepository.setPlaybackTime(newTime < 0 ? 0 : newTime);
         yield* _getNowPlayingState();
@@ -171,9 +170,9 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     if (state is NowPlayingState &&
         (state as NowPlayingState).playbackState ==
             PlaybackStateModel.playing) {
-      final NowPlayingState nowPlayingState = state;
-      final double newTime = nowPlayingState.playBackTime + 5;
-      final double duration = nowPlayingState.songInfo.duration;
+      final NowPlayingState nowPlayingState = state as NowPlayingState;
+      final double newTime = nowPlayingState.playBackTime! + 5;
+      final double duration = nowPlayingState.songInfo!.duration;
       try {
         await _playerRepository
             .setPlaybackTime(newTime > duration ? duration : newTime);

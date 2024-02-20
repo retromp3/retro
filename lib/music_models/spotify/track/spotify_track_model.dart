@@ -5,12 +5,12 @@ part 'spotify_track_model.g.dart';
 
 @JsonSerializable()
 class SpotifyTrackModel {
-  final String id;
-  final String uri;
-  final String name;
-  final SpotifyAlbumModel album;
+  final String? id;
+  final String? uri;
+  final String? name;
+  final SpotifyAlbumModel? album;
   @JsonKey(name: "duration_ms")
-  final int duration;
+  final int? duration;
 
   SpotifyTrackModel({
     this.duration,

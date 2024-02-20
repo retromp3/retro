@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:retro/blocs/theme/theme.dart';
 
 String retroSkin = "assets/skins/theme1.png";
@@ -18,6 +17,8 @@ String getSkin(ThemeState state) {
       return retroSkin;
     case SkinTheme.carbonfiber:
       return carbonFiberSkin;
+    default:
+      return gen7BlackSkin;
   }
   return gen7BlackSkin;
 }

@@ -13,27 +13,26 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class IPodMenuPageWidget extends StatefulWidget {
   final IPodSubMenu subMenu;
   final LinearGradient selectionColor;
-  final Decoration decoration;
+  final Decoration? decoration;
   final bool isAnimated;
-  final VoidCallback onBackAnimationComplete;
+  final VoidCallback? onBackAnimationComplete;
   final TextStyle itemTextStyle;
   final TextStyle selectedItemTextStyle;
   final Widget subMenuIcon;
   final Widget selectedSubMenuIcon;
 
   IPodMenuPageWidget({
-    Key key,
-    @required IPodSubMenu subMenu,
-    LinearGradient selectionColor,
+    Key? key,
+    required IPodSubMenu subMenu,
+    LinearGradient? selectionColor,
     this.decoration,
-    bool isAnimated,
+    bool? isAnimated,
     this.onBackAnimationComplete,
-    TextStyle itemTextStyle,
-    TextStyle selectedItemTextStyle,
-    Widget subMenuIcon,
-    Widget selectedSubMenuIcon,
-  })  : assert(subMenu != null),
-        this.subMenu = subMenu,
+    TextStyle? itemTextStyle,
+    TextStyle? selectedItemTextStyle,
+    Widget? subMenuIcon,
+    Widget? selectedSubMenuIcon,
+  })  : this.subMenu = subMenu,
         this.selectionColor = selectionColor ??
             LinearGradient(
               colors: [
@@ -78,19 +77,19 @@ class IPodMenuPageWidget extends StatefulWidget {
 class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
-  int _startVisibleIndex;
-  int _endVisibleIndex;
-  int _visibleItemsCount;
-  bool _backInProgress;
+  late int _startVisibleIndex;
+  late int _endVisibleIndex;
+  late int _visibleItemsCount;
+  late bool _backInProgress;
   final ItemScrollController _scrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
 
-  List<IPodMenuItem> _menuItems;
-  Widget _captionItem;
+  late List<IPodMenuItem> _menuItems;
+  late Widget _captionItem;
 
-  AnimationController _animationController;
-  Animation<double> _animation;
+  AnimationController? _animationController;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -98,7 +97,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     _backInProgress = false;
     _initValues();
     _menuItems = widget.subMenu.itemsBuilder != null
-        ? widget.subMenu.itemsBuilder()
+        ? widget.subMenu.itemsBuilder!()
         : widget.subMenu.items;
     _captionItem = widget.subMenu.caption;
     _initAnimation();
@@ -115,7 +114,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
       _endVisibleIndex = 0;
       _selectedIndex = 0;
       _visibleItemsCount = widget.subMenu.visibleItemsCount;
-      _menuItems = widget.subMenu.itemsBuilder();
+      _menuItems = widget.subMenu.itemsBuilder!();
       if (mounted) setState(() {});
     }
   }
@@ -155,15 +154,15 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     );
     _animation = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(
-        parent: _animationController,
+        parent: _animationController!,
         curve: Curves.linear,
         reverseCurve: Curves.linear,
       ),
     );
     if (widget.isAnimated) {
-      _animationController.forward();
+      _animationController!.forward();
     } else {
-      _animationController.value = 1;
+      _animationController!.value = 1;
     }
   }
 
@@ -209,11 +208,11 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     }
   }
 
-  IPodSubMenu tap() {
+  IPodSubMenu? tap() {
     HapticFeedback.mediumImpact();
     //SystemSound.play(SystemSoundType.click);
     final IPodMenuItem item = _menuItems[_selectedIndex];
-    final VoidCallback tap = item.onTap;
+    final VoidCallback? tap = item.onTap;
     if (tap != null) tap();
     return item.subMenu;
   }
@@ -223,13 +222,13 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     //SystemSound.play(SystemSoundType.click);
     if (!_backInProgress && widget.onBackAnimationComplete != null) {
       _backInProgress = true;
-      _animationController.addStatusListener((status) {
+      _animationController!.addStatusListener((status) {
         if (status == AnimationStatus.dismissed)
-          widget.onBackAnimationComplete();
+          widget.onBackAnimationComplete!();
       });
     }
 
-    _animationController.reverse();
+    _animationController!.reverse();
   }
 
   @override
@@ -277,13 +276,10 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
   }
 
   Widget _buildItem({
-    @required int index,
-    @required double height,
-    @required bool isSelected,
+    required int index,
+    required double height,
+    required bool isSelected,
   }) {
-    assert(index != null);
-    assert(height != null);
-    assert(isSelected != null);
 
     final IPodMenuItem item = _menuItems[index];
     final double normalHeight = 160 / _visibleItemsCount;
@@ -305,7 +301,7 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
         subtitle: item.subText != null
             ? Transform(
                   transform: Matrix4.translationValues(-10, -5.0, 0.0),
-                child: Text(item.subText,
+                child: Text(item.subText!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: isSelected

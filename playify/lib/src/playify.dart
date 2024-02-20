@@ -1,17 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:playify/src/class/album/album.dart';
-import 'package:playify/src/class/artist/artist.dart';
-import 'package:playify/src/class/playlist/playlist.dart';
-import 'package:playify/src/class/song/song.dart';
-import 'package:playify/src/class/song_information/song_information.dart';
 
 import '../playify.dart';
-import 'class/repeat/repeat.dart';
-import 'class/shuffle/shuffle.dart';
 
 enum PlayifyStatus { stopped, playing, paused, interrupted, seekingForward, seekingBackward, unknown }
 

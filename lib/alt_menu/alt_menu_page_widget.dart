@@ -13,21 +13,20 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class AltMenuPageWidget extends StatefulWidget {
   final AltSubMenu subMenu;
   final LinearGradient selectionColor;
-  final Decoration decoration;
+  final Decoration? decoration;
   final TextStyle itemTextStyle;
   final TextStyle selectedItemTextStyle;
   final TextStyle cancelButtonTextStyle;
 
   AltMenuPageWidget({
-    Key key,
-    @required AltSubMenu subMenu,
-    LinearGradient selectionColor,
+    Key? key,
+    required AltSubMenu subMenu,
+    LinearGradient? selectionColor,
     this.decoration,
-    TextStyle itemTextStyle,
-    TextStyle selectedItemTextStyle,
-    TextStyle cancelButtonTextStyle,
-  })  : assert(subMenu != null),
-        this.subMenu = subMenu,
+    TextStyle? itemTextStyle,
+    TextStyle? selectedItemTextStyle,
+    TextStyle? cancelButtonTextStyle,
+  })  : this.subMenu = subMenu,
         this.selectionColor = selectionColor ??
             LinearGradient(
               colors: [
@@ -51,22 +50,22 @@ class AltMenuPageWidget extends StatefulWidget {
 class AltMenuPageWidgetState extends State<AltMenuPageWidget>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
-  int _startVisibleIndex;
-  int _endVisibleIndex;
-  int _visibleItemsCount;
+  late int _startVisibleIndex;
+  late int _endVisibleIndex;
+  late int _visibleItemsCount;
   final ItemScrollController _scrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
 
-  List<AltMenuItem> _menuItems;
-  Widget _captionItem;
+  late List<AltMenuItem> _menuItems;
+  late Widget _captionItem;
 
   @override
   void initState() {
     super.initState();
     _initValues();
     _menuItems = widget.subMenu.itemsBuilder != null
-        ? widget.subMenu.itemsBuilder()
+        ? widget.subMenu.itemsBuilder!()
         : widget.subMenu.items;
     _captionItem = widget.subMenu.caption;
     _itemPositionsListener.itemPositions.addListener(_positionListener);
@@ -78,7 +77,7 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
       _endVisibleIndex = 0;
       _selectedIndex = 0;
       _visibleItemsCount = widget.subMenu.visibleItemsCount;
-      _menuItems = widget.subMenu.itemsBuilder();
+      _menuItems = widget.subMenu.itemsBuilder!();
       if (mounted) setState(() {});
     }
   }
@@ -152,11 +151,11 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
     }
   }
 
-  AltSubMenu tap() {
+  AltSubMenu? tap() {
     HapticFeedback.mediumImpact();
     //SystemSound.play(SystemSoundType.click);
     final AltMenuItem item = _menuItems[_selectedIndex];
-    final VoidCallback tap = item.onTap;
+    final VoidCallback? tap = item.onTap;
     if (tap != null) tap();
     return item.subMenu;
   }
@@ -202,15 +201,11 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
   }
 
   Widget _buildItem({
-    @required int index,
-    @required double height,
-    @required bool isSelected,
+    required int index,
+    required double height,
+    required bool isSelected,
     bool isCancelButton = false,
   }) {
-    assert(index != null);
-    assert(height != null);
-    assert(isSelected != null);
-    assert(isCancelButton != null);
 
     final AltMenuItem item = _menuItems[index];
 
@@ -248,7 +243,7 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
         subtitle: item.subText != null
             ? Transform(
                   transform: Matrix4.translationValues(-10, -5.0, 0.0),
-                child: Text(item.subText,
+                child: Text(item.subText!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: isSelected

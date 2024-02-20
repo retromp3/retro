@@ -7,7 +7,7 @@ part 'linked_account_model.g.dart';
 
 @JsonSerializable()
 class LinkedAccountModel {
-  final ConnectTo connectTo;
+  final ConnectTo? connectTo;
 
   LinkedAccountModel(this.connectTo);
 

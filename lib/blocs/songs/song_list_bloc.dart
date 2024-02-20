@@ -1,6 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:playify/playify.dart';
 import 'package:retro/blocs/songs/song_list_event.dart';
 import 'package:retro/blocs/songs/song_list_state.dart';
 import 'package:retro/music_models/apple_music/artist/artist_model.dart';
@@ -11,8 +9,7 @@ class SongListBloc extends Bloc<SongListEvent, SongListState> {
   final PlayerRepository _playerRepository;
 
   SongListBloc(PlayerRepository playerRepository)
-      : assert(playerRepository != null),
-        this._playerRepository = playerRepository,
+      : this._playerRepository = playerRepository,
         super(SongListNotConnected());
 
   @override
@@ -48,7 +45,7 @@ class SongListBloc extends Bloc<SongListEvent, SongListState> {
     try {
       final List<PlaylistModel> playLists =
           await _playerRepository.fetchUsersPlaylist();
-      final String currentPlayListId = playLists.isEmpty ? '' : playLists[0].id;
+      final String? currentPlayListId = playLists.isEmpty ? '' : playLists[0].id;
       final List<ArtistModel> artistList =
           await _playerRepository.fetchAllSongs(currentPlayListId);
       yield SongListFetchSuccess(

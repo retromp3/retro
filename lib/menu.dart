@@ -7,12 +7,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
-import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
 
 import 'blocs/player/player.dart';
-import 'blocs/player/player_bloc.dart';
 
 class MainContent extends StatelessWidget {
   final int indexContent;
@@ -36,8 +33,8 @@ class MenuCaption extends StatelessWidget {
   final String text;
 
   const MenuCaption({
-    Key key,
-    String text,
+    Key? key,
+    String? text,
   })  : this.text = text ?? '',
         super(key: key);
 

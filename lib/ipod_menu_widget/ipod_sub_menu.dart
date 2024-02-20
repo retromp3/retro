@@ -11,15 +11,15 @@ typedef IPodMenuItemBuilder = List<IPodMenuItem> Function();
 
 class IPodSubMenu {
   final List<IPodMenuItem> items;
-  final IPodMenuItemBuilder itemsBuilder;
+  final IPodMenuItemBuilder? itemsBuilder;
   final Widget caption;
   final int visibleItemsCount;
 
   IPodSubMenu(
-      {List<IPodMenuItem> items,
-      @required Widget caption,
-      IPodMenuItemBuilder itemsBuilder,
-      int visibleItemsCount})
+      {List<IPodMenuItem>? items,
+      required Widget caption,
+      IPodMenuItemBuilder? itemsBuilder,
+      int? visibleItemsCount})
       : this.items = items ?? [],
         this.itemsBuilder = itemsBuilder,
         this.caption = caption ?? FittedBox(),
