@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:retro/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WalkthroughScreen extends StatelessWidget {
   final PageController _controller = PageController();
@@ -363,6 +363,12 @@ class WalkthroughScreen extends StatelessWidget {
                               border: OutlineInputBorder(),
                               hintText: 'Client ID',
                             ),
+                            onChanged: (text) async {
+                              print(text);
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setString('clientID', text);
+                              print(prefs.getString('clientID'));
+                            },
                           ),
                         ],
                       ),

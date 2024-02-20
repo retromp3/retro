@@ -7,7 +7,7 @@ import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
 import 'package:spotify_sdk/models/player_state.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:retro/resources/resources.dart';
 
 class SpotifyPlayerProvider extends PlayerProvider {
@@ -91,6 +91,8 @@ class SpotifyPlayerProvider extends PlayerProvider {
 
   @override
   Future<bool> connect() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (_clientID == "invalid") _clientID = prefs.getString('clientID');
     final bool isConnected = await SpotifySdk.connectToSpotifyRemote(
         clientId: _clientID!, redirectUrl: _redirectUrl!,);
         

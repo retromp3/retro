@@ -213,6 +213,8 @@ class SpotifySongListProvider extends SongListProvider {
   }
 
   void _getTokenFromSDK() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (_clientID == "invalid") _clientID = prefs.getString('clientID');
     final String token = await SpotifySdk.getAccessToken(
       clientId: _clientID!,
       redirectUrl: _redirectUrl!,
