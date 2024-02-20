@@ -8,6 +8,5 @@ class AltMenuItem {
   final AltSubMenu? subMenu;
 
   AltMenuItem({required String text, this.subText, this.onTap, this.subMenu})
-      : assert(text != null),
-        this.text = text;
+      : this.text = text;
 }

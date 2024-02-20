@@ -9,6 +9,5 @@ class IPodMenuItem {
   final IPodSubMenu? subMenu;
 
   IPodMenuItem({this.coverArt, required String text, this.subText, this.onTap, this.subMenu})
-      : assert(text != null),
-        this.text = text;
+      : this.text = text;
 }

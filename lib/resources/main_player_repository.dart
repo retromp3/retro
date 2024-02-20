@@ -29,7 +29,7 @@ class MainPlayerRepository implements PlayerRepository {
   @override
   void dispose() {
     _disposeCurrentProvider();
-    _preferencesProvider?.dispose();
+    _preferencesProvider.dispose();
   }
 
   @override
@@ -86,6 +86,8 @@ class MainPlayerRepository implements PlayerRepository {
           await _disposeCurrentProvider();
           return _connectToSpotify();
         }
+      default:
+        return false;
     }
     return false;
   }

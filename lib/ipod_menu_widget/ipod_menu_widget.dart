@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
@@ -26,8 +25,7 @@ class IPodMenuWidget extends StatefulWidget {
     this.selectedItemTextStyle,
     this.subMenuIcon,
     this.selectedSubMenuIcon,
-  })  : assert(subMenu != null),
-        this.subMenu = subMenu,
+  })  : this.subMenu = subMenu,
         this.selectionColor = selectionColor as LinearGradient? ??
             LinearGradient(
               colors: [

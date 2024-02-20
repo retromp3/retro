@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:retro/main.dart';
 
 class Coverflow extends StatelessWidget {
   final Color? color;

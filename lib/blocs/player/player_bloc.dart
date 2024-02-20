@@ -8,8 +8,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   final PlayerRepository _playerRepository;
 
   PlayerBloc(PlayerRepository playerRepository)
-      : assert(playerRepository != null),
-        this._playerRepository = playerRepository,
+      : this._playerRepository = playerRepository,
         super(PlayerUnknownState());
 
   @override

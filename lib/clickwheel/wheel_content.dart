@@ -14,8 +14,6 @@ import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/main.dart';
 import 'package:retro/helpers/size_helpers.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:holding_gesture/holding_gesture.dart';
 import 'dart:async';
 
 final IPodMenuWidgetState musicControls = new IPodMenuWidgetState();

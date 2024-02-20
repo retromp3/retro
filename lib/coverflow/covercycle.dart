@@ -163,8 +163,7 @@ class _CoverCycleInternal extends StatefulWidget {
     Key? key,
     required this.songState,
     bool? autoScroll,
-  })  : assert(songState != null),
-        this.autoScroll = autoScroll ?? false,
+  })  : this.autoScroll = autoScroll ?? false,
         super(key: key);
 
   @override

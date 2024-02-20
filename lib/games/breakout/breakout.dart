@@ -70,6 +70,8 @@ extension PowerUpProps on PowerUpType? {
         return Colors.red;
       case PowerUpType.balls:
         return Colors.yellow[300];
+      default:
+        break;
     }
     return Colors.red;
   }
@@ -230,7 +232,7 @@ class BreakoutGameState extends State<BreakoutGame>
     with TickerProviderStateMixin {
   late AnimationController controller;
   
-  Game? gameState;
+  Game gameState = Game.fail;
   late Size worldSize;
   late Paddle paddle;
   late List<Ball> balls;
@@ -311,6 +313,8 @@ class BreakoutGameState extends State<BreakoutGame>
                     paddle.position!.dy - 1.0),
                 direction: Offset.fromDirection(-.5),
                 speed: 8.0));
+            break;
+          default:
             break;
         }
       }

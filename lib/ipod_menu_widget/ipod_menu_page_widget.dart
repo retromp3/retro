@@ -32,8 +32,7 @@ class IPodMenuPageWidget extends StatefulWidget {
     TextStyle? selectedItemTextStyle,
     Widget? subMenuIcon,
     Widget? selectedSubMenuIcon,
-  })  : assert(subMenu != null),
-        this.subMenu = subMenu,
+  })  : this.subMenu = subMenu,
         this.selectionColor = selectionColor ??
             LinearGradient(
               colors: [
@@ -281,9 +280,6 @@ class IPodMenuPageWidgetState extends State<IPodMenuPageWidget>
     required double height,
     required bool isSelected,
   }) {
-    assert(index != null);
-    assert(height != null);
-    assert(isSelected != null);
 
     final IPodMenuItem item = _menuItems[index];
     final double normalHeight = 160 / _visibleItemsCount;

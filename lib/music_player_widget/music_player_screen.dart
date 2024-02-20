@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:math';
 
 /*import 'package:battery_indicator/battery_indicator.dart';
 import 'package:battery_plus/battery_plus.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:marquee/marquee.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/player/player_event.dart';
 import 'package:retro/blocs/player/player_state.dart';

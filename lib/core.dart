@@ -9,8 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:holding_gesture/holding_gesture.dart';
 import 'package:perfect_volume_control/perfect_volume_control.dart';
 import 'package:playify/playify.dart';
 import 'package:retro/alt_menu/alt_menu_item.dart';
@@ -32,8 +30,6 @@ import 'package:retro/music_models/apple_music/artist/artist_model.dart';
 import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
-import 'package:audio_session/audio_session.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'clickwheel/pan_handlers.dart';
@@ -144,6 +140,8 @@ class IPodState extends State<IPod> {
       case MainViewMode.breakoutGame:
         return BreakoutGame(key: breakoutGame);
         break;
+      default:
+        return buildMenu();
     }
     return FittedBox();
   }
@@ -314,7 +312,7 @@ class IPodState extends State<IPod> {
       _artists = state.artistsList;
       songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
-       menuKey?.currentState?.refresh();
+       menuKey.currentState?.refresh();
     }
   }
 
@@ -510,10 +508,10 @@ class IPodState extends State<IPod> {
                 }
               }
               else if(popUp == true) {
-                altMenuKey?.currentState?.select();
+                altMenuKey.currentState?.select();
               }
               else {
-                menuKey?.currentState?.select();
+                menuKey.currentState?.select();
               }
               HapticFeedback.mediumImpact();
               await Future.delayed(Duration(milliseconds: 100));

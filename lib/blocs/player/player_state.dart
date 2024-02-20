@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:playify/playify.dart';
 import 'package:retro/music_models/apple_music/song/song_info_model.dart';
 import 'package:retro/music_models/playback_state/playback_state_model.dart';
 

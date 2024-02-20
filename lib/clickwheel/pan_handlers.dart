@@ -133,18 +133,18 @@ bool? testExtraRadius(double radius) {
 void scroll (bool up, int micros) {
   int count = pow(2, (micros/1000000).floor()) - 1 as int;
   if(up) {
-      popUp ? altMenuKey?.currentState?.up(true) : menuKey?.currentState?.up(true);
+      popUp ? altMenuKey.currentState?.up(true) : menuKey.currentState?.up(true);
   }
   else {
-      popUp ? altMenuKey?.currentState?.down(true) : menuKey?.currentState?.down(true);
+      popUp ? altMenuKey.currentState?.down(true) : menuKey.currentState?.down(true);
   }
 
   for (int i = 0; i < count; i++) {
     if(up) {
-      popUp ? altMenuKey?.currentState?.up(false) : menuKey?.currentState?.up(false);
+      popUp ? altMenuKey.currentState?.up(false) : menuKey.currentState?.up(false);
     }
     else {
-      popUp ? altMenuKey?.currentState?.down(false) : menuKey?.currentState?.down(false);
+      popUp ? altMenuKey.currentState?.down(false) : menuKey.currentState?.down(false);
     }
   }
 }

@@ -26,8 +26,7 @@ class AltMenuPageWidget extends StatefulWidget {
     TextStyle? itemTextStyle,
     TextStyle? selectedItemTextStyle,
     TextStyle? cancelButtonTextStyle,
-  })  : assert(subMenu != null),
-        this.subMenu = subMenu,
+  })  : this.subMenu = subMenu,
         this.selectionColor = selectionColor ??
             LinearGradient(
               colors: [
@@ -207,10 +206,6 @@ class AltMenuPageWidgetState extends State<AltMenuPageWidget>
     required bool isSelected,
     bool isCancelButton = false,
   }) {
-    assert(index != null);
-    assert(height != null);
-    assert(isSelected != null);
-    assert(isCancelButton != null);
 
     final AltMenuItem item = _menuItems[index];
 
