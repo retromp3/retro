@@ -125,7 +125,7 @@ flutter:
     - family: sficonsets
       fonts:
         - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
-    - family: Helvetica
+    - family: Heros
       fonts:
-        - asset: assets/fonts/Helvetica-Bold.ttf
-        - asset: assets/fonts/helvetica-light.ttf
+        - asset: assets/fonts/texgyreheros-bold.otf
+        - asset: assets/fonts/texgyreheros-regular.otf
