@@ -16,7 +16,7 @@ Retro aims to bring back the iPod Classic experience to iOS and Android. I origi
 
 # Setup
 
-If you'd like to run the app on your own device and compile from the source, you can do so by following the instructions below.
+If you'd like to run the app on your own device you can [sideload](Sideloading.md) it or compile everything from source, you can do so by following the instructions below.
 
 ## Instructions
 
