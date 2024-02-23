@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:retro/main.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WalkthroughScreen extends StatelessWidget {
   final PageController _controller = PageController();
@@ -26,10 +27,12 @@ class WalkthroughScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: PageView(
         controller: _controller,
         children: <Widget>[
           // Insert your walkthrough Widgets here
+
           Container(
             color: Colors.white,
             child: Stack(
@@ -314,7 +317,101 @@ class WalkthroughScreen extends StatelessWidget {
             ),
           ),
 
+          if (dotenv.env['SPOTIFY_CLIENT_ID'] == "invalid") Container( //only show this screen if client id has been set to "invalid"
+            color: Colors.white,
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 50, 10, 0), // Provide some padding from the top-right edge
+                    child: TextButton(
+                      child: Text('Skip', style: TextStyle(color: Colors.blue)),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        int lastIndex = 4;  // The index of the last page
+                        _controller.animateToPage(
+                          lastIndex,
+                          duration: Duration(milliseconds: 800), // Define the duration of the animation
+                          curve: Curves.easeInOut, // Define the type of animation
+                        );
+                      },
+                    ),
+                  ),
+                ),
 
+
+                Transform.scale(
+                  scale: 0.7,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0), // Provide some padding from the top
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'One last step...',
+                            style: TextStyle(color: Colors.blue, fontSize: 45,),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            'Retro detected that it has been sideloaded. To access Spotify features within our app, please provide your own Spotify API keys. Your credentials will only be stored locally and sent to Spotify for authentication purposes.\nEnter the Client ID into the text field below.',
+                            style: TextStyle(color: Colors.blue[200], fontSize: 20,),
+                          ),
+                          TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Client ID',
+                            ),
+                            onChanged: (text) async {
+                              print(text);
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setString('clientID', text);
+                              print(prefs.getString('clientID'));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _controller.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    HapticFeedback.mediumImpact();
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_left, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    HapticFeedback.mediumImpact();
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_right, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
 
           Container(
