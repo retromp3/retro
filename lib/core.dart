@@ -473,6 +473,7 @@ class IPodState extends State<IPod> {
         ? Color.fromARGB(255, 36, 36, 37)
         : Colors.white;
         
+    var pressed = false;
  
     controlsColor = state.wheelColor == WheelColor.white
         ? Color.fromARGB(255, 185, 185, 190)
@@ -517,6 +518,27 @@ class IPodState extends State<IPod> {
               await Future.delayed(Duration(milliseconds: 100));
               HapticFeedback.lightImpact();
             },
+            onForcePressStart: (details) async {},
+              onForcePressUpdate: (details) {
+                if (details.pressure >= 0.4 && !pressed) {
+                  pressed = true;
+                  if (mainViewMode == MainViewMode.breakoutGame) {
+                    if (breakoutGame.currentState?.isBreakoutGameOver == true &&
+                        breakoutGame.currentState?.gameState == Game.fail) {
+                      breakoutGame.currentState?.restart();
+                    }
+                  } else if (popUp == true) {
+                    altMenuKey.currentState?.select();
+                  } else {
+                    menuKey.currentState?.select();
+                  }
+                  HapticFeedback.heavyImpact();
+                }
+                if (details.pressure < 0.4 && pressed) {
+                  pressed = false;
+                  HapticFeedback.lightImpact();
+                }
+              },
             child: selectButton()
           ),
         ],
