@@ -467,13 +467,13 @@ class IPodState extends State<IPod> {
       ),
     );
   }
-
+  bool clickWheelPressed = false;
   Widget clickWheel(BuildContext context, ThemeState state) {
     wheelColor = state.wheelColor == WheelColor.black
         ? Color.fromARGB(255, 36, 36, 37)
         : Colors.white;
         
-    var pressed = false;
+    
  
     controlsColor = state.wheelColor == WheelColor.white
         ? Color.fromARGB(255, 185, 185, 190)
@@ -520,8 +520,8 @@ class IPodState extends State<IPod> {
             },
             onForcePressStart: (details) async {},
               onForcePressUpdate: (details) {
-                if (details.pressure >= 0.4 && !pressed) {
-                  pressed = true;
+                if (details.pressure >= 0.4 && !clickWheelPressed) {
+                  clickWheelPressed = true;
                   if (mainViewMode == MainViewMode.breakoutGame) {
                     if (breakoutGame.currentState?.isBreakoutGameOver == true &&
                         breakoutGame.currentState?.gameState == Game.fail) {
@@ -534,9 +534,9 @@ class IPodState extends State<IPod> {
                   }
                   HapticFeedback.heavyImpact();
                 }
-                if (details.pressure < 0.4 && pressed) {
-                  pressed = false;
-                  HapticFeedback.lightImpact();
+                if (details.pressure < 0.4 && clickWheelPressed) {
+                  clickWheelPressed = false;
+                  HapticFeedback.mediumImpact();
                 }
               },
             child: selectButton()
