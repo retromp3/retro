@@ -4,9 +4,7 @@
 
 [![Discord](https://badgen.net/discord/members/6v9TEhn)](https://discord.retromusic.co/)
 
-Retro aims to bring back the iPod Classic experience to iOS and Android. I originally started working on it nearly 2 years ago and have been maintaining it myself since. I've since open-sourced it because I can't work on this as actively as I'd like, but I'm doing the best that I can :)
-
-Retro currently only works with Spotify. Apple Music support is ongoing with no planned release date.
+Retro aims to bring back the iPod Classic experience to iOS and Android. Retro currently only works with Spotify. Apple Music support is ongoing with no planned release date.
 
 # Installation
 
