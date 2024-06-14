@@ -28,4 +28,5 @@ const _$SkinThemeEnumMap = {
 const _$WheelColorEnumMap = {
   WheelColor.white: 'white',
   WheelColor.black: 'black',
+  WheelColor.blueMetal: 'blueMetal',
 };

@@ -10,6 +10,7 @@ enum SkinTheme {
 enum WheelColor {
   white,
   black,
+  blueMetal,
 }
 
 class ThemeState extends Equatable {

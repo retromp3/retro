@@ -432,6 +432,9 @@ class IPodState extends State<IPod> {
       case WheelColor.white:
         wheelColor = Colors.white;
         break;
+      case WheelColor.blueMetal:
+        wheelColor = Color(0xFFD0E6FB);
+        break;
       default:
         wheelColor = Colors.white; // Provide a default color
         break;
@@ -442,6 +445,7 @@ class IPodState extends State<IPod> {
         controlsColor = Color.fromARGB(255, 185, 185, 190);
         break;
       case WheelColor.black:
+      case WheelColor.blueMetal:
       default:
         controlsColor = Color.fromARGB(255, 185, 185, 190); // Provide a default color
         break;
@@ -555,13 +559,13 @@ class IPodState extends State<IPod> {
           },
         ),
         IPodMenuItem(
-          text: "Bay",
+          text: "Bay Blue",
           onTap: () {
             BlocProvider.of<ThemeBloc>(context).add(
               SkinThemeChanged(SkinTheme.bay),
             );
             BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.black),
+              WheelColorChanged(WheelColor.blueMetal),
             );
           },
         ),
