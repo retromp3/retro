@@ -33,8 +33,8 @@ class _SongsState extends State<Songs> {
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                        WidgetStateProperty.all<Color>(Colors.blue),
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),

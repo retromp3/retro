@@ -7,7 +7,7 @@ import 'package:retro/alt_menu/alt_sub_menu.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme.dart';
-import 'package:retro/blocs/theme/theme_event.dart'; // Import this
+// Import this
 import 'package:retro/core.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/onboarding/walkthrough.dart';
