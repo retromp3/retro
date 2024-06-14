@@ -9,6 +9,19 @@ enum SkinTheme {
   orange,
   coral,
   arcPink,
+  red3ds,
+  catFrap,
+  catLatt,
+  catMacc,
+  catMocha,
+  comfy,
+  iphGree,
+  iphYell,
+  nord,
+  mint,
+  yellow,
+  oledBlack,
+  teen,
 }
 
 enum WheelColor {
@@ -18,7 +31,21 @@ enum WheelColor {
   pink,
   gray,
   coral,
+  red3ds,
+  catFrap,
+  catLatt,
+  catMacc,
+  catMocha,
+  comfy,
+  iphGree,
+  iphYell,
+  nord,
+  mint,
+  yellow,
+  oledBlack,
+  teen,
 }
+
 
 class ThemeState extends Equatable {
   final SkinTheme? skinTheme;
