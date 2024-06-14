@@ -554,6 +554,17 @@ class IPodState extends State<IPod> {
             );
           },
         ),
+        IPodMenuItem(
+          text: "Bay",
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+              SkinThemeChanged(SkinTheme.bay),
+            );
+            BlocProvider.of<ThemeBloc>(context).add(
+              WheelColorChanged(WheelColor.black),
+            );
+          },
+        ),
       ],
     );
 

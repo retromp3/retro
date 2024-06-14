@@ -22,6 +22,7 @@ const _$SkinThemeEnumMap = {
   SkinTheme.black: 'black',
   SkinTheme.silver: 'silver',
   SkinTheme.beige: 'beige',
+  SkinTheme.bay: 'bay',
 };
 
 const _$WheelColorEnumMap = {
