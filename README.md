@@ -30,8 +30,6 @@ Install the beta from the [Google Play Store](https://play.google.com/store/apps
 
 * Download and install Flutter. You can find instructions on how to do this [here](https://flutter.dev/docs/get-started/install).
 
-**Note**: Retro has not been migrated to Dart 3 yet, so to run the app you'll have to use Flutter v3.7.12.
-
 ### iOS Setup
 1. Ensure you have an Apple Developer account (paid or free). You can find instructions on how to do this [here](https://developer.apple.com/programs/enroll/).
 2. Clone this repository.
