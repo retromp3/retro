@@ -5,6 +5,7 @@ enum SkinTheme {
   black,
   silver,
   carbonfiber,
+  beige, // Add this line
 }
 
 enum WheelColor {

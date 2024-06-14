@@ -1,8 +1,3 @@
-/*
-  
-  The actual iPod menu. List of all the menus/sub-menus, songs, tap functionality, etc.
-
-*/
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -41,7 +36,6 @@ class IPod extends StatefulWidget {
   final List<Song>? songs;
 
   IPod({Key? key, this.songs}) : super(key: key);
-  
 
   @override
   IPodState createState() => IPodState();
@@ -75,12 +69,12 @@ class IPodState extends State<IPod> {
   final PageController _pageCtrl = PageController(viewportFraction: 0.6);
 
   double? currentPage = 0.0;
-  
+
   @override
   void initState() {
     mainViewMode = MainViewMode.menu;
     menu = getIPodMenu();
-    altMenu = getAltMenu(context);
+    altMenu = getAltMenu();
     widgetSize = 300.0;
     halfSize = widgetSize / 2;
     cartesianStartX = 1;
@@ -96,7 +90,6 @@ class IPodState extends State<IPod> {
     _pageController = PageController(initialPage: 0);
 
     PerfectVolumeControl.hideUI = true;
-    
 
     _channel.setMethodCallHandler((call) async {
       final methodName = call.method;
@@ -107,12 +100,6 @@ class IPodState extends State<IPod> {
         case "prevSongFromWatch":
           musicControls.playPrevSong(context);
           return;
-        /*case "increaseVolumeFromWatch":
-          musicControls.increaseVolume();
-          return;
-        case "decreaseVolumeFromWatch":
-          musicControls.increaseVolume();
-          return;*/
         default:
           return;
       }
@@ -125,11 +112,9 @@ class IPodState extends State<IPod> {
     });
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-       homePressed(context);
+      homePressed(context);
     });
   }
-
-  
 
   Widget buildMainView() {
     switch (mainViewMode) {
@@ -139,11 +124,9 @@ class IPodState extends State<IPod> {
         return NowPlayingScreen();
       case MainViewMode.breakoutGame:
         return BreakoutGame(key: breakoutGame);
-        break;
       default:
         return buildMenu();
     }
-    return FittedBox();
   }
 
   _launchDiscord() async {
@@ -169,8 +152,6 @@ class IPodState extends State<IPod> {
       throw Exception('Could not launch $_github');
     }
   }
-  
-  
 
   // sends the user back to the menu
   void homePressed(context) {
@@ -187,7 +168,7 @@ class IPodState extends State<IPod> {
 
   // sends the user to Breakout
   void showBreakoutGame() {
-     _pageController!.animateToPage(2, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+    _pageController!.animateToPage(2, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
     setState(() {
       mainViewMode = MainViewMode.breakoutGame;
     });
@@ -220,9 +201,9 @@ class IPodState extends State<IPod> {
     List<IPodMenuItem> allPlaylists = _playlistBuilder();
     List<IPodMenuItem> songsInPlaylist = _songsInEachPlaylist();
 
-    for(var i = 0; i < allPlaylists.length; i++) {
+    for (var i = 0; i < allPlaylists.length; i++) {
       combineSongs.add(allPlaylists[i]);
-      for(var j = 0; j < songsInPlaylist.length; j++) {
+      for (var j = 0; j < songsInPlaylist.length; j++) {
         combineSongs.add(songsInPlaylist[j]);
       }
     }
@@ -231,18 +212,17 @@ class IPodState extends State<IPod> {
       return [IPodMenuItem(text: 'No songs fetched')];
     }
     List<SongModel> sortedSongs = List.from(_songs!)..sort((a, b) => a.title!.compareTo(b.title!));
-    
-    for(var i = 0; i < sortedSongs.length; i++) {
+
+    for (var i = 0; i < sortedSongs.length; i++) {
       combineSongs.add(IPodMenuItem(
-            text: '${sortedSongs[i].title}',
-            subText: '${sortedSongs[i].artistName}',
-            onTap: () => BlocProvider.of<PlayerBloc>(context)
-                .add(SetQueueItem(sortedSongs[i].songID)),
-          ));
+        text: '${sortedSongs[i].title}',
+        subText: '${sortedSongs[i].artistName}',
+        onTap: () => BlocProvider.of<PlayerBloc>(context).add(SetQueueItem(sortedSongs[i].songID)),
+      ));
     }
-    return combineSongs; //can't return null
+    return combineSongs;
   }
-  
+
   List<IPodMenuItem> _songListBuilder() {
     if (_songs == null || _songs!.isEmpty) {
       return [IPodMenuItem(text: 'No songs fetched')];
@@ -255,24 +235,19 @@ class IPodState extends State<IPod> {
           (SongModel song) => IPodMenuItem(
             text: '${song.title}',
             subText: '${song.artistName}',
-            onTap: () => BlocProvider.of<PlayerBloc>(context)
-                .add(SetQueueItem(song.songID)),
+            onTap: () => BlocProvider.of<PlayerBloc>(context).add(SetQueueItem(song.songID)),
           ),
         )
         .toList();
-}
-
+  }
 
   List<IPodMenuItem> _songsInEachPlaylist() {
-
     final List<IPodMenuItem> items = _songs!
         .map(
           (SongModel song) => IPodMenuItem(
-            //img: Image.memory(song.coverArtBytes),
             text: '${song.title}',
             subText: '${song.artistName}',
-            onTap: () => BlocProvider.of<PlayerBloc>(context)
-                .add(SetQueueItem(song.songID)),
+            onTap: () => BlocProvider.of<PlayerBloc>(context).add(SetQueueItem(song.songID)),
           ),
         )
         .toList();
@@ -284,7 +259,7 @@ class IPodState extends State<IPod> {
     if (_playlists == null || _playlists!.isEmpty) {
       return [IPodMenuItem(text: 'No playlists fetched')];
     }
-    final IPodSubMenu songsInPlaylistMenu =  IPodSubMenu(
+    final IPodSubMenu songsInPlaylistMenu = IPodSubMenu(
       caption: MenuCaption(text: "Songs"),
       itemsBuilder: _songsInEachPlaylist,
     );
@@ -294,13 +269,11 @@ class IPodState extends State<IPod> {
             text: '${playlist.name}',
             subMenu: songsInPlaylistMenu,
             onTap: () {
-              BlocProvider.of<SongListBloc>(context)
-                .add(SongListFetched(playlist.id));
-              
+              BlocProvider.of<SongListBloc>(context).add(SongListFetched(playlist.id));
               setState(() {
                 isCoverCycleVisible = false;
               });
-            }
+            },
           ),
         )
         .toList();
@@ -312,146 +285,129 @@ class IPodState extends State<IPod> {
       _artists = state.artistsList;
       songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
-       menuKey.currentState?.refresh();
+      menuKey.currentState?.refresh();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context);
     return BlocListener<SongListBloc, SongListState>(
       listener: _songStateListener,
       child: SafeArea(
         child: Column(
           children: <Widget>[
-            
             Container(
-                margin: EdgeInsets.only(top: 25, left: 8, right: 8),
-                constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
-                height: displayHeight(context) * 0.8,
-                width: displayWidth(context) * 0.96,
-                decoration: new BoxDecoration(
-                  color: const Color(0xFF1c1c1c),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
-                  ),
+              margin: EdgeInsets.only(top: 25, left: 8, right: 8),
+              constraints: BoxConstraints(minHeight: 100, maxHeight: 320),
+              height: displayHeight(context) * 0.8,
+              width: displayWidth(context) * 0.96,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1c1c1c),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
                 ),
-                child: Stack(
-                  children: [
-                    
-                    Padding(
-                      padding: EdgeInsets.all(5.8),
-                      child: Stack(
-                        children: <Widget>[
-
-                          // Position CoverCycle on the right half of the screen
-                          AnimatedPositioned(
-                            curve: Curves.easeIn,
-                            duration: const Duration(milliseconds: 200),
-                            right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
-                            top: 0,
-                            bottom: 0,
-                            width: displayWidth(context) / 2.15,
-                            child: AnimatedOpacity(
-                              opacity: isCoverCycleVisible ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 200),
-                              child: CoverCycle(autoScroll: true),
-                            ),
-                          ),
-                          // Your PageView goes here
-                          PageView(
-                            controller: _pageController,
-                            children: <Widget>[
-                              FractionallySizedBox(
-                                widthFactor: isCoverCycleVisible ? 0.5 : 1.0, 
-                                alignment: Alignment.centerLeft,
-                                child: buildMenu(),
-                              ),
-                              NowPlayingScreen(),
-                              BreakoutGame(key: breakoutGame),
-                            ],
-                          ),
-
-                          AnimatedPositioned(
-                            curve: Curves.easeIn,
-                            duration: const Duration(milliseconds: 200),
-                            right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
-                            top: 0,
-                            bottom: 0,
-                            width: displayWidth(context) / 2.15,
-                            child: AnimatedOpacity(
-                              opacity: isCoverCycleVisible ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 250),
-                              child: CoverCycle(autoScroll: true),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                   
+              ),
+              child: Stack(
+                children: [
                   Padding(
-                    padding: EdgeInsets.all(5.5), 
-                      child: AnimatedOpacity(
-                        opacity: popUp ? 1.0 : 0.0,
-                        duration: Duration(milliseconds: 200),
-                        child: Container(color: Colors.black.withOpacity(0.5)),
-                      ),
+                    padding: EdgeInsets.all(5.8),
+                    child: Stack(
+                      children: <Widget>[
+                        // Position CoverCycle on the right half of the screen
+                        AnimatedPositioned(
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 200),
+                          right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
+                          top: 0,
+                          bottom: 0,
+                          width: displayWidth(context) / 2.15,
+                          child: AnimatedOpacity(
+                            opacity: isCoverCycleVisible ? 1.0 : 0.0,
+                            duration: const Duration(milliseconds: 200),
+                            child: CoverCycle(autoScroll: true),
+                          ),
+                        ),
+                        // Your PageView goes here
+                        PageView(
+                          controller: _pageController,
+                          children: <Widget>[
+                            FractionallySizedBox(
+                              widthFactor: isCoverCycleVisible ? 0.5 : 1.0,
+                              alignment: Alignment.centerLeft,
+                              child: buildMenu(),
+                            ),
+                            NowPlayingScreen(),
+                            BreakoutGame(key: breakoutGame),
+                          ],
+                        ),
+                        AnimatedPositioned(
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 200),
+                          right: isCoverCycleVisible ? 0 : -MediaQuery.of(context).size.width / 2.15,
+                          top: 0,
+                          bottom: 0,
+                          width: displayWidth(context) / 2.15,
+                          child: AnimatedOpacity(
+                            opacity: isCoverCycleVisible ? 1.0 : 0.0,
+                            duration: const Duration(milliseconds: 250),
+                            child: CoverCycle(autoScroll: true),
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5.5),
+                    child: AnimatedOpacity(
+                      opacity: popUp ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 200),
+                      child: Container(color: Colors.black.withOpacity(0.5)),
+                    ),
+                  ),
                   altIpodMenu(context),
-                ])
-                ),
+                ],
+              ),
+            ),
             Spacer(),
             BlocBuilder<ThemeBloc, ThemeState>(
-              buildWhen: (ThemeState prev, ThemeState cur) =>
-                  prev.wheelColor != cur.wheelColor,
+              buildWhen: (ThemeState prev, ThemeState cur) => prev.wheelColor != cur.wheelColor,
               builder: clickWheel,
             ),
             Spacer(),
           ],
         ),
-      ));
+      ),
+    );
   }
 
-  /* technically this should be in wheel_content.dart but for some reason it doesn't work when its there lol */
   Widget menuButton(context) {
     return InkWell(
       onTap: () async {
-        if(mainViewMode != MainViewMode.menu) {
+        if (mainViewMode != MainViewMode.menu) {
           homePressed(context);
           _pageController!.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
         }
-        if(mainViewMode == MainViewMode.player) {
+        if (mainViewMode == MainViewMode.player) {
           setState(() {
-              isCoverCycleVisible = true;
-            });
-        }
-        else if(popUp == true) {
+            isCoverCycleVisible = true;
+          });
+        } else if (popUp == true) {
           setState(() {
             popUp = false;
           });
-        }
-        else {
-          
+        } else {
           menuKey.currentState?.back();
           _pageController!.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
-          
-          if(isCoverCycleVisible == false /*&& isNestedMenu == true*/) {
+
+          if (isCoverCycleVisible == false) {
             setState(() {
               isCoverCycleVisible = true;
             });
           }
-
-          /*if(isCoverCycleVisible == false && isNestedMenu == false) {
-            setState(() {
-              isCoverCycleVisible = true;
-            });
-          }*/
         }
         HapticFeedback.mediumImpact();
         await Future.delayed(Duration(milliseconds: 100));
-          HapticFeedback.lightImpact();
-        
+        HapticFeedback.lightImpact();
       },
       child: Container(
         child: Text(
@@ -469,14 +425,34 @@ class IPodState extends State<IPod> {
   }
 
   Widget clickWheel(BuildContext context, ThemeState state) {
-    wheelColor = state.wheelColor == WheelColor.black
-        ? Color.fromARGB(255, 36, 36, 37)
-        : Colors.white;
-        
- 
-    controlsColor = state.wheelColor == WheelColor.white
-        ? Color.fromARGB(255, 185, 185, 190)
-        : Color.fromARGB(255, 222, 222, 222);
+    switch (state.wheelColor) {
+      case WheelColor.black:
+        wheelColor = Color.fromARGB(255, 36, 36, 37);
+        break;
+      case WheelColor.white:
+        wheelColor = Colors.white;
+        break;
+      case WheelColor.red:
+        wheelColor = Colors.red; // Assuming there's a red option as well
+        break;
+      default:
+        wheelColor = Colors.white; // Provide a default color
+        break;
+    }
+
+    switch (state.wheelColor) {
+      case WheelColor.white:
+        controlsColor = Color.fromARGB(255, 185, 185, 190);
+        break;
+      case WheelColor.black:
+      case WheelColor.red:
+        controlsColor = Color.fromARGB(255, 222, 222, 222);
+        break;
+      default:
+        controlsColor = Color.fromARGB(255, 185, 185, 190); // Provide a default color
+        break;
+    }
+
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -496,104 +472,60 @@ class IPodState extends State<IPod> {
                 menuButton(context),
                 fastRewind(context),
                 fastForward(context),
-                playButton(context)
+                playButton(context),
               ]),
             ),
           ),
           GestureDetector(
             onTap: () async {
-              if(mainViewMode == MainViewMode.breakoutGame){
-                if(breakoutGame.currentState?.isBreakoutGameOver == true && breakoutGame.currentState?.gameState == Game.fail){
+              if (mainViewMode == MainViewMode.breakoutGame) {
+                if (breakoutGame.currentState?.isBreakoutGameOver == true && breakoutGame.currentState?.gameState == Game.fail) {
                   breakoutGame.currentState?.restart();
                 }
-              }
-              else if(popUp == true) {
+              } else if (popUp == true) {
                 altMenuKey.currentState?.select();
-              }
-              else {
+              } else {
                 menuKey.currentState?.select();
               }
               HapticFeedback.mediumImpact();
               await Future.delayed(Duration(milliseconds: 100));
               HapticFeedback.lightImpact();
             },
-            child: selectButton()
+            child: selectButton(),
           ),
         ],
       ),
-    );
-  }
+      );
+    }
 
-  AltSubMenu getAltMenu(context) {
+  AltSubMenu getAltMenu() {
     return AltSubMenu(
       items: [
         AltMenuItem(
           text: 'Spotify',
           onTap: () {
-              BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
-          }
+            BlocProvider.of<SongListBloc>(context).add(SpotifyConnected());
+          },
         ),
         AltMenuItem(
           text: 'Apple Music',
           onTap: () {
-              _showDialog(context);
-          }
+            _showDialog(context);
+          },
         ),
         AltMenuItem(
           text: 'Cancel',
-          onTap:() => setState(() {
-                popUp = false;
+          onTap: () => setState(() {
+            popUp = false;
           }),
         ),
-        
-      ],
-    );
-  }
-
-  AltSubMenu getAltMenu2(context) {
-    return AltSubMenu(
-      items: [
-        AltMenuItem(
-          text: 'bro',
-          onTap: () {
-              
-          }
-        ),
-        AltMenuItem(
-          text: 'Apple Music',
-        ),
-        AltMenuItem(
-          text: 'Cancel',
-          onTap:() => setState(() {
-                popUp = false;
-          }),
-        ),
-        
       ],
     );
   }
 
   IPodSubMenu getIPodMenu() {
-    final IPodSubMenu wheelMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Wheel Color"),
-      items: <IPodMenuItem>[
-        IPodMenuItem(
-          text: "White",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            WheelColorChanged(WheelColor.white),
-          ),
-        ),
-        IPodMenuItem(
-          text: "Black",
-          onTap: () => BlocProvider.of<ThemeBloc>(context).add(
-            WheelColorChanged(WheelColor.black),
-          ),
-        ),
-      ],
-    );
-
-    final IPodSubMenu presetsMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Presets"),
+    final IPodSubMenu themeMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Themes"),
       items: <IPodMenuItem>[
         IPodMenuItem(
           text: "Space Gray",
@@ -604,7 +536,7 @@ class IPodState extends State<IPod> {
             BlocProvider.of<ThemeBloc>(context).add(
               WheelColorChanged(WheelColor.black),
             );
-          }
+          },
         ),
         IPodMenuItem(
           text: "Silver",
@@ -615,95 +547,55 @@ class IPodState extends State<IPod> {
             BlocProvider.of<ThemeBloc>(context).add(
               WheelColorChanged(WheelColor.white),
             );
-          }
+          },
         ),
-      ],
-    );
-
-    final IPodSubMenu themeMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Theme"),
-      items: <IPodMenuItem>[
-        IPodMenuItem(text: "Presets", subMenu: presetsMenu),
-        //IPodMenuItem(text: "Wheel", subMenu: wheelMenu),
+        IPodMenuItem(
+          text: "Desert Beige",
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+              SkinThemeChanged(SkinTheme.beige),
+            );
+            BlocProvider.of<ThemeBloc>(context).add(
+              WheelColorChanged(WheelColor.white),
+            );
+          },
+        ),
       ],
     );
 
     final IPodSubMenu songs = IPodSubMenu(
       caption: MenuCaption(text: "Songs"),
       items: <IPodMenuItem>[],
-      itemsBuilder: _songListBuilder
+      itemsBuilder: _songListBuilder,
     );
-
-
-
-    // Music Menu
 
     final IPodSubMenu playlistMenu = IPodSubMenu(
       caption: MenuCaption(text: "Playlists"),
       itemsBuilder: _playlistBuilder,
     );
 
-
-    final IPodSubMenu musicMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Music"),
-      items: <IPodMenuItem>[
-        IPodMenuItem(text: "Sign In",
-          onTap:() => setState(() {
-                popUp = true;
-          }),),
-        IPodMenuItem(text: "Songs", subMenu: songs,
-          onTap: () => setState(() {
-                isCoverCycleVisible = false;
-          }),
-        ),
-        IPodMenuItem(
-          text: "Playlists", 
-          subMenu: playlistMenu,
-          onTap: () => setState(() {
-                isCoverCycleVisible = false;
-          }),
-        ),
-      ],
-    );
-
-    // Games Menu
-
-    final IPodSubMenu gamesMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Games"),
+    final IPodSubMenu extrasMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Extras"),
       items: <IPodMenuItem>[
         IPodMenuItem(
-          text: "Breakout", 
+          text: "Breakout",
           onTap: () {
             showBreakoutGame();
             setState(() {
               isCoverCycleVisible = false;
-          
             });
-         }),
+          },
+        ),
       ],
     );
 
-    final IPodSubMenu extrasMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Extras"),
-      items: <IPodMenuItem>[
-        IPodMenuItem(text: "Games", subMenu: gamesMenu),
-      ],
-    );
-
-    /*final IPodSubMenu resetMenu = IPodSubMenu(
-      caption: MenuCaption(text: "Reset"),
-      items: <IPodMenuItem>[
-        IPodMenuItem(text: "Reset All Settings", onTap: () {Phoenix.rebirth(context);}),
-      ],
-    );*/
-
-     final IPodSubMenu socialsMenu = IPodSubMenu(
+    final IPodSubMenu socialsMenu = IPodSubMenu(
       caption: MenuCaption(text: "About"),
       items: <IPodMenuItem>[
-        IPodMenuItem(text: "Discord", onTap: () => _launchDiscord()),
-        IPodMenuItem(text: "X (Formerly Twitter)", onTap: () => _launchTwitter()),
-        IPodMenuItem(text: "Ko-Fi", onTap: () => _launchKofi(),),
-        IPodMenuItem(text: "Github", onTap: () => _launchGithub(),)
+        IPodMenuItem(text: "Discord", onTap: _launchDiscord),
+        IPodMenuItem(text: "X (Formerly Twitter)", onTap: _launchTwitter),
+        IPodMenuItem(text: "Ko-Fi", onTap: _launchKofi),
+        IPodMenuItem(text: "Github", onTap: _launchGithub),
       ],
     );
 
@@ -712,8 +604,6 @@ class IPodState extends State<IPod> {
       items: <IPodMenuItem>[
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
         IPodMenuItem(text: "About", subMenu: socialsMenu),
-        //IPodMenuItem(text: "Themes", subMenu: themeMenu),
-        //IPodMenuItem(text: "Reset", /*onTap: () => Phoenix.rebirth(context),*/),
       ],
     );
 
@@ -721,32 +611,48 @@ class IPodState extends State<IPod> {
       caption: MenuCaption(text: "Retro"),
       items: <IPodMenuItem>[
         IPodMenuItem(
-          text: "Now Playing", 
+          text: "Now Playing",
           onTap: () {
             showPlayer();
             setState(() {
               isCoverCycleVisible = false;
             });
-          }
+          },
         ),
-        IPodMenuItem(text: "Music", subMenu: musicMenu),
-        IPodMenuItem(text: "Playlists",
+        IPodMenuItem(
+          text: "Sign In",
+          onTap: () => setState(() {
+            popUp = true;
+          }),
+        ),
+        IPodMenuItem(
+          text: "All Songs (Beta)",
+          subMenu: songs,
+          onTap: () => setState(() {
+            isCoverCycleVisible = false;
+          }),
+        ),
+        IPodMenuItem(
+          text: "Playlists",
           subMenu: playlistMenu,
-          onTap: () {
-            setState(() {
-              isCoverCycleVisible = false;
-            });
-          }
+          onTap: () => setState(() {
+            isCoverCycleVisible = false;
+          }),
         ),
-        IPodMenuItem(text: "Shuffle Songs",
+        IPodMenuItem(
+          text: "Shuffle Songs (Beta)",
           onTap: () {
             //musicControls.shuffleSongs(context);
-
-          }
+          },
         ),
-        IPodMenuItem(text: "Extras", subMenu: extrasMenu),
-        IPodMenuItem(text: "Settings", subMenu: settingsMenu),
-        //if (debugMenu) IPodMenuItem(text: "useless scroll list", subMenu: testMenu),
+        IPodMenuItem(
+          text: "Extras",
+          subMenu: extrasMenu,
+        ),
+        IPodMenuItem(
+          text: "Settings",
+          subMenu: settingsMenu,
+        ),
       ],
     );
 
