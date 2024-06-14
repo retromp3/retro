@@ -21,7 +21,6 @@ import 'package:retro/ipod_menu_widget/ipod_menu_item.dart';
 import 'package:retro/ipod_menu_widget/ipod_sub_menu.dart';
 import 'package:retro/main.dart';
 import 'package:retro/menu.dart';
-import 'package:retro/music_models/apple_music/artist/artist_model.dart';
 import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
@@ -55,7 +54,6 @@ class IPodState extends State<IPod> {
   List<String> genres = [];
   String selectedGenre = "";
   List<SongModel>? _songs;
-  List<ArtistModel>? _artists;
   List<PlaylistModel>? _playlists;
   List<SongModel>? _likedSongs; // Add this line
   bool debugMenu = false;
@@ -85,7 +83,6 @@ class IPodState extends State<IPod> {
     tickAngel = 2 * pi / ticksPerCircle;
     wasExtraRadius = false;
     _songs = [];
-    _artists = [];
     songIDs = [];
     _playlists = [];
     _likedSongs = []; // Add this line
@@ -245,7 +242,7 @@ class IPodState extends State<IPod> {
 
   List<IPodMenuItem> _likedSongsBuilder() {
     if (_likedSongs == null || _likedSongs!.isEmpty) {
-      return [IPodMenuItem(text: 'No liked songs fetched')];
+      return [IPodMenuItem(text: 'No liked songs fetched (this is a WIP)')];
     }
 
     List<SongModel> sortedLikedSongs = List.from(_likedSongs!)..sort((a, b) => a.title!.compareTo(b.title!));
@@ -302,7 +299,6 @@ class IPodState extends State<IPod> {
   void _songStateListener(BuildContext context, SongListState state) {
     if (state is SongListFetchSuccess) {
       _songs = state.songList;
-      _artists = state.artistsList;
       songIDs = state.songList.map((SongModel song) => song.songID).toList();
       _playlists = state.playlists;
       menuKey.currentState?.refresh();
@@ -685,7 +681,7 @@ class IPodState extends State<IPod> {
           }),
         ),
         IPodMenuItem(
-          text: "Liked Songs",  // Add this line
+          text: "Liked Songs (Beta)",  // Add this line
           subMenu: likedSongsMenu,  // Add this line
           onTap: () => setState(() {  // Add this block
             isCoverCycleVisible = false;
