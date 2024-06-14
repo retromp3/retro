@@ -432,9 +432,6 @@ class IPodState extends State<IPod> {
       case WheelColor.white:
         wheelColor = Colors.white;
         break;
-      case WheelColor.red:
-        wheelColor = Colors.red; // Assuming there's a red option as well
-        break;
       default:
         wheelColor = Colors.white; // Provide a default color
         break;
@@ -445,9 +442,6 @@ class IPodState extends State<IPod> {
         controlsColor = Color.fromARGB(255, 185, 185, 190);
         break;
       case WheelColor.black:
-      case WheelColor.red:
-        controlsColor = Color.fromARGB(255, 222, 222, 222);
-        break;
       default:
         controlsColor = Color.fromARGB(255, 185, 185, 190); // Provide a default color
         break;
