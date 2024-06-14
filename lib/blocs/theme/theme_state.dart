@@ -5,12 +5,16 @@ enum SkinTheme {
   silver,
   beige,
   bay,
+  pink,
+  orange, // Added Rabbit Orange theme
 }
 
 enum WheelColor {
   white,
   black,
   blueMetal,
+  pink,
+  gray, // Added Rabbit Orange wheel color
 }
 
 class ThemeState extends Equatable {

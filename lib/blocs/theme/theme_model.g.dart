@@ -23,10 +23,14 @@ const _$SkinThemeEnumMap = {
   SkinTheme.silver: 'silver',
   SkinTheme.beige: 'beige',
   SkinTheme.bay: 'bay',
+  SkinTheme.pink: 'pink',
+  SkinTheme.orange: 'orange',
 };
 
 const _$WheelColorEnumMap = {
   WheelColor.white: 'white',
   WheelColor.black: 'black',
   WheelColor.blueMetal: 'blueMetal',
+  WheelColor.pink: 'pink',
+  WheelColor.gray: 'gray',
 };
