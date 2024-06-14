@@ -1,3 +1,5 @@
+![hero](https://i.imgur.com/GFJhfkk.png)
+
 # About
 
 [![Discord](https://badgen.net/discord/members/6v9TEhn)](https://discord.retromusic.co/)
