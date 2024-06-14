@@ -16,15 +16,15 @@ class IPodSubMenu {
   final int visibleItemsCount;
 
   IPodSubMenu(
-      {List<IPodMenuItem>? items,
-      required Widget caption,
-      IPodMenuItemBuilder? itemsBuilder,
-      int? visibleItemsCount})
-      : this.items = items ?? [],
-        this.itemsBuilder = itemsBuilder,
-        this.caption = caption ?? FittedBox(),
-        this.visibleItemsCount =
-            visibleItemsCount != null && visibleItemsCount > 0
-                ? visibleItemsCount
-                : 5;
+    {List<IPodMenuItem>? items,
+    required Widget caption,
+    IPodMenuItemBuilder? itemsBuilder,
+    int? visibleItemsCount})
+    : this.items = items ?? [],
+      this.itemsBuilder = itemsBuilder,
+      this.caption = caption,
+      this.visibleItemsCount =
+          visibleItemsCount != null && visibleItemsCount > 0
+              ? visibleItemsCount
+              : 5;
 }
