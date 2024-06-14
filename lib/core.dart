@@ -785,7 +785,6 @@ class IPodState extends State<IPod> {
           popUp = true;
         })),
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
-        IPodMenuItem(text: "About", subMenu: socialsMenu),
         IPodMenuItem(
           text: "Open Onboarding", 
           onTap: () {
@@ -794,6 +793,7 @@ class IPodState extends State<IPod> {
             );
           },
         ),
+        IPodMenuItem(text: "About", subMenu: socialsMenu),
       ],
     );
 
