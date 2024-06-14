@@ -534,92 +534,60 @@ class IPodState extends State<IPod> {
     final IPodSubMenu themeMenu = IPodSubMenu(
       caption: MenuCaption(text: "Themes"),
       items: <IPodMenuItem>[
-        IPodMenuItem( // Add this new item
+        IPodMenuItem(
           text: "Arc Browser Pink",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.arcPink),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.white),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.arcPink));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.white));
           },
         ),
         IPodMenuItem(
           text: "Desert Beige",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.beige),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.white),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.beige));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.white));
           },
         ),
         IPodMenuItem(
           text: "iPod Silver",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.silver),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.white),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.silver));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.white));
           },
         ),
         IPodMenuItem(
           text: "iPod Space Gray",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.black),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.black),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.black));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.black));
           },
         ),
         IPodMenuItem(
           text: "iPhone Pink",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.pink),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.pink),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.pink));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.pink));
           },
         ),
         IPodMenuItem(
           text: "Pixel Bay",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.bay),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.blueMetal),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.bay));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.blueMetal));
           },
         ),
         IPodMenuItem(
           text: "Pixel Kinda Coral",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-                SkinThemeChanged(SkinTheme.coral),
-              );
-              BlocProvider.of<ThemeBloc>(context).add(
-                WheelColorChanged(WheelColor.coral),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.coral));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.coral));
           },
         ),
         IPodMenuItem(
-          text: "Rabbit Orange",
+          text: "Rabbit R1 Orange",
           onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.orange),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.gray),
-            );
+            BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.orange));
+            BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.gray));
           },
         ),
       ],
@@ -652,7 +620,7 @@ class IPodState extends State<IPod> {
     );
 
     final IPodSubMenu socialsMenu = IPodSubMenu(
-      caption: MenuCaption(text: "About"),
+      caption: MenuCaption(text: "About (V2.1.0)"),
       items: <IPodMenuItem>[
         IPodMenuItem(text: "Discord", onTap: _launchDiscord),
         IPodMenuItem(text: "X (Formerly Twitter)", onTap: _launchTwitter),
@@ -664,6 +632,9 @@ class IPodState extends State<IPod> {
     final IPodSubMenu settingsMenu = IPodSubMenu(
       caption: MenuCaption(text: "Settings"),
       items: <IPodMenuItem>[
+        IPodMenuItem(text: "Sign In", onTap: () => setState(() {
+          popUp = true;
+        })),
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
         IPodMenuItem(text: "About", subMenu: socialsMenu),
       ],
@@ -680,12 +651,6 @@ class IPodState extends State<IPod> {
               isCoverCycleVisible = false;
             });
           },
-        ),
-        IPodMenuItem(
-          text: "Sign In",
-          onTap: () => setState(() {
-            popUp = true;
-          }),
         ),
         IPodMenuItem(
           text: "All Songs (Beta)",
