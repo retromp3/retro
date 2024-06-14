@@ -31,8 +31,7 @@ class WalkthroughScreen extends StatelessWidget {
       body: PageView(
         controller: _controller,
         children: <Widget>[
-          // Insert your walkthrough Widgets here
-
+          // Initial page
           Container(
             color: Colors.white,
             child: Stack(
@@ -55,36 +54,32 @@ class WalkthroughScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-
-
                 Align(
                   alignment: Alignment.center,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Transform.translate(
-                          offset: Offset(0, -1), 
-                          child: Icon(
-                            SFSymbols.music_note_2, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Colors.black, // Adjust the color as needed
-                          ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Transform.translate(
+                        offset: Offset(0, -1), 
+                        child: Icon(
+                          SFSymbols.music_note_2, // Replace with your desired icon
+                          size: 35, // Adjust the size as needed
+                          color: Colors.black, // Adjust the color as needed
                         ),
-                        SizedBox(width: 5), // Creates space between the icon and the text
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: TextStyle(fontSize: 40, color: Colors.black),
-                            children: <TextSpan>[
-                              TextSpan(text: 'Retro', style: TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' Classic', style: TextStyle(fontWeight: FontWeight.w200)),
-                            ],
-                          ),
+                      ),
+                      SizedBox(width: 5), // Creates space between the icon and the text
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: TextStyle(fontSize: 40, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(text: 'Retro', style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(text: ' Classic', style: TextStyle(fontWeight: FontWeight.w200)),
+                          ],
                         ),
-                      ],
-                    )
-
+                      ),
+                    ],
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -92,22 +87,21 @@ class WalkthroughScreen extends StatelessWidget {
                     HapticFeedback.mediumImpact();
                   },
                   child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0), // Adjust the bottom padding as needed
-                        child: Text(
-                          'Let\'s Get Started!',
-                          style: TextStyle(fontSize: 24, color: Colors.blue),
-                          textAlign: TextAlign.center,
-                        ),
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0), // Adjust the bottom padding as needed
+                      child: Text(
+                        'Let\'s Get Started!',
+                        style: TextStyle(fontSize: 24, color: Colors.blue),
+                        textAlign: TextAlign.center,
                       ),
                     ),
+                  ),
                 ),
               ],
             ),
           ),
-
-
+          // First page - retro-labeled
           Container(
             color: Colors.white,
             child: Stack(
@@ -130,8 +124,6 @@ class WalkthroughScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-
                 Transform.scale(
                   scale: 0.9,
                   child: Align(
@@ -141,43 +133,25 @@ class WalkthroughScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    _controller.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-                    HapticFeedback.mediumImpact();
-                  },
-                  child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_left, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
-                      ),
-                    ),
-                ),
-                GestureDetector(
-                  onTap: () {
                     _controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                     HapticFeedback.mediumImpact();
                   },
                   child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_right, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_right, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
                       ),
                     ),
+                  ),
                 ),
               ],
             ),
           ),
-          
-
+          // Second page - retro-controls
           Container(
             color: Colors.white,
             child: Stack(
@@ -200,80 +174,8 @@ class WalkthroughScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-
                 Transform.scale(
-                  scale: 0.6,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Image.asset('assets/onboarding/retro-spotify.png')
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _controller.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-                    HapticFeedback.mediumImpact();
-                  },
-                  child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_left, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
-                      ),
-                    ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-                    HapticFeedback.mediumImpact();
-                  },
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_right, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
-                      ),
-                    ),
-                ),
-              ],
-            ),
-          ),
-
-
-          Container(
-            color: Colors.white,
-            child: Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 50, 10, 0), // Provide some padding from the top-right edge
-                    child: TextButton(
-                      child: Text('Skip', style: TextStyle(color: Colors.blue)),
-                      onPressed: () {
-                        HapticFeedback.mediumImpact();
-                        int lastIndex = 4;  // The index of the last page
-                        _controller.animateToPage(
-                          lastIndex,
-                          duration: Duration(milliseconds: 800), // Define the duration of the animation
-                          curve: Curves.easeInOut, // Define the type of animation
-                        );
-                      },
-                    ),
-                  ),
-                ),
-
-
-                Transform.scale(
-                  scale: 0.7,
+                  scale: 0.9, // Adjust scale to match retro-labeled
                   child: Align(
                     alignment: Alignment.center,
                     child: Image.asset('assets/onboarding/retro-controls.png')
@@ -285,16 +187,16 @@ class WalkthroughScreen extends StatelessWidget {
                     HapticFeedback.mediumImpact();
                   },
                   child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_left, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_left, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
                       ),
                     ),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -302,22 +204,22 @@ class WalkthroughScreen extends StatelessWidget {
                     HapticFeedback.mediumImpact();
                   },
                   child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_right, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_right, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
                       ),
                     ),
+                  ),
                 ),
               ],
             ),
           ),
-
-          if (dotenv.env['SPOTIFY_CLIENT_ID'] == "invalid") Container( //only show this screen if client id has been set to "invalid"
+          // Third page - retro-spotify
+          Container(
             color: Colors.white,
             child: Stack(
               children: <Widget>[
@@ -339,8 +241,73 @@ class WalkthroughScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-
+                Transform.scale(
+                  scale: 0.9, // Adjust scale to match retro-labeled
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Image.asset('assets/onboarding/retro-spotify.png')
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _controller.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    HapticFeedback.mediumImpact();
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_left, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    HapticFeedback.mediumImpact();
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, right: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_right, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Spotify API Key input page (conditional)
+          if (dotenv.env['SPOTIFY_CLIENT_ID'] == "invalid") Container(
+            color: Colors.white,
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 50, 10, 0), // Provide some padding from the top-right edge
+                    child: TextButton(
+                      child: Text('Skip', style: TextStyle(color: Colors.blue)),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        int lastIndex = 4;  // The index of the last page
+                        _controller.animateToPage(
+                          lastIndex,
+                          duration: Duration(milliseconds: 800), // Define the duration of the animation
+                          curve: Curves.easeInOut, // Define the type of animation
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 Transform.scale(
                   scale: 0.7,
                   child: Align(
@@ -412,8 +379,7 @@ class WalkthroughScreen extends StatelessWidget {
               ],
             ),
           ),
-
-
+          // Final page
           Container(
             color: Colors.white,
             child: Stack(
@@ -434,7 +400,6 @@ class WalkthroughScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 Transform.scale(
                   scale: 0.7,
                   child: Align(
@@ -452,7 +417,6 @@ class WalkthroughScreen extends StatelessWidget {
                             width: 125,
                           ),
                         ),
-                        
                         SizedBox(width: 20), // optional, adds space between the images
                         GestureDetector(
                           onTap: () {
@@ -465,27 +429,25 @@ class WalkthroughScreen extends StatelessWidget {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ),
                 ),
-
-
                 GestureDetector(
                   onTap: () {
                     _controller.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                     HapticFeedback.mediumImpact();
                   },
                   child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
-                        child: Icon(
-                            SFSymbols.arrow_left, // Replace with your desired icon
-                            size: 35, // Adjust the size as needed
-                            color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
-                          ),
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50.0, left: 30,), // Adjust the bottom padding as needed
+                      child: Icon(
+                        SFSymbols.arrow_left, // Replace with your desired icon
+                        size: 35, // Adjust the size as needed
+                        color: Color.fromARGB(255, 59, 59, 59), // Adjust the color as needed
                       ),
                     ),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -519,7 +481,6 @@ class WalkthroughScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),

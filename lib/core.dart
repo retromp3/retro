@@ -24,6 +24,7 @@ import 'package:retro/menu.dart';
 import 'package:retro/music_models/apple_music/song/song_model.dart';
 import 'package:retro/music_models/playlist/playlist_model.dart';
 import 'package:retro/music_player_widget/music_player_screen.dart';
+import 'package:retro/onboarding/walkthrough.dart'; // Add this line
 import 'package:url_launcher/url_launcher.dart';
 
 import 'clickwheel/pan_handlers.dart';
@@ -713,7 +714,7 @@ class IPodState extends State<IPod> {
           },
         ),
         IPodMenuItem(
-          text: "Rabbit R1 Orange",
+          text: "Rabbit R1 Leuchtorange",
           onTap: () {
             BlocProvider.of<ThemeBloc>(context).add(SkinThemeChanged(SkinTheme.orange));
             BlocProvider.of<ThemeBloc>(context).add(WheelColorChanged(WheelColor.gray));
@@ -785,6 +786,14 @@ class IPodState extends State<IPod> {
         })),
         IPodMenuItem(text: "Themes", subMenu: themeMenu),
         IPodMenuItem(text: "About", subMenu: socialsMenu),
+        IPodMenuItem(
+          text: "Open Onboarding", 
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => WalkthroughScreen()),
+            );
+          },
+        ),
       ],
     );
 
@@ -808,9 +817,9 @@ class IPodState extends State<IPod> {
           }),
         ),
         IPodMenuItem(
-          text: "Liked Songs (Beta)",  // Add this line
-          subMenu: likedSongsMenu,  // Add this line
-          onTap: () => setState(() {  // Add this block
+          text: "Liked Songs (Beta)",
+          subMenu: likedSongsMenu,
+          onTap: () => setState(() {
             isCoverCycleVisible = false;
           }),
         ),
