@@ -25,6 +25,8 @@ const _$SkinThemeEnumMap = {
   SkinTheme.bay: 'bay',
   SkinTheme.pink: 'pink',
   SkinTheme.orange: 'orange',
+  SkinTheme.coral: 'coral',
+  SkinTheme.arcPink: 'arcPink',
 };
 
 const _$WheelColorEnumMap = {
@@ -33,4 +35,5 @@ const _$WheelColorEnumMap = {
   WheelColor.blueMetal: 'blueMetal',
   WheelColor.pink: 'pink',
   WheelColor.gray: 'gray',
+  WheelColor.coral: 'coral',
 };

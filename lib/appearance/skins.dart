@@ -6,6 +6,8 @@ String customBeigeSkin = "assets/skins/custom_beige.png";
 String baySkin = "assets/skins/pixel_bay.png";
 String pinkSkin = "assets/skins/iphone_pink.png";
 String orangeSkin = "assets/skins/rabbit_orange.png";
+String coralSkin = "assets/skins/pixel_coral.png";
+String arcPinkSkin = "assets/skins/arc_pink.png";
 
 String getSkin(ThemeState state) {
   switch (state.skinTheme) {
@@ -21,6 +23,10 @@ String getSkin(ThemeState state) {
       return pinkSkin;
     case SkinTheme.orange:
       return orangeSkin;
+    case SkinTheme.coral:
+      return coralSkin;
+    case SkinTheme.arcPink:
+      return arcPinkSkin;
     default:
       return gen7BlackSkin;
   }

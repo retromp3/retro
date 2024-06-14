@@ -441,6 +441,9 @@ class IPodState extends State<IPod> {
       case WheelColor.gray:
         wheelColor = Color(0xFFA7A5A7);
         break;
+      case WheelColor.coral:
+        wheelColor = Color(0xFFE6756C);
+        break;
       default:
         wheelColor = Colors.white; // Provide a default color
         break;
@@ -531,6 +534,28 @@ class IPodState extends State<IPod> {
     final IPodSubMenu themeMenu = IPodSubMenu(
       caption: MenuCaption(text: "Themes"),
       items: <IPodMenuItem>[
+        IPodMenuItem( // Add this new item
+          text: "Arc Browser Pink",
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+              SkinThemeChanged(SkinTheme.arcPink),
+            );
+            BlocProvider.of<ThemeBloc>(context).add(
+              WheelColorChanged(WheelColor.white),
+            );
+          },
+        ),
+        IPodMenuItem(
+          text: "Desert Beige",
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+              SkinThemeChanged(SkinTheme.beige),
+            );
+            BlocProvider.of<ThemeBloc>(context).add(
+              WheelColorChanged(WheelColor.white),
+            );
+          },
+        ),
         IPodMenuItem(
           text: "iPod Silver",
           onTap: () {
@@ -576,6 +601,17 @@ class IPodState extends State<IPod> {
           },
         ),
         IPodMenuItem(
+          text: "Pixel Kinda Coral",
+          onTap: () {
+            BlocProvider.of<ThemeBloc>(context).add(
+                SkinThemeChanged(SkinTheme.coral),
+              );
+              BlocProvider.of<ThemeBloc>(context).add(
+                WheelColorChanged(WheelColor.coral),
+            );
+          },
+        ),
+        IPodMenuItem(
           text: "Rabbit Orange",
           onTap: () {
             BlocProvider.of<ThemeBloc>(context).add(
@@ -583,17 +619,6 @@ class IPodState extends State<IPod> {
             );
             BlocProvider.of<ThemeBloc>(context).add(
               WheelColorChanged(WheelColor.gray),
-            );
-          },
-        ),
-        IPodMenuItem(
-          text: "Desert Beige",
-          onTap: () {
-            BlocProvider.of<ThemeBloc>(context).add(
-              SkinThemeChanged(SkinTheme.beige),
-            );
-            BlocProvider.of<ThemeBloc>(context).add(
-              WheelColorChanged(WheelColor.white),
             );
           },
         ),
