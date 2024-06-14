@@ -425,7 +425,7 @@ class WalkthroughScreen extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Thanks for checking out Retro v2!\n\nFor assistance or more information, consider joining the Discord or following us on Twitter!',
+                          'Thanks for checking out Retro v2!\n\nFor assistance or more information, consider joining the Discord or following us on X (formerly Twitter)!',
                           style: TextStyle(color: Colors.blue, fontSize: 16,),
                           textAlign: TextAlign.center,
                         ),

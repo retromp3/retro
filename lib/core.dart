@@ -198,7 +198,7 @@ class IPodState extends State<IPod> {
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text("Apple Music is currently not supported."),
-        content: Text("Follow @retro_mp3 on Twitter/X for updates."),
+        content: Text("Follow @retro_mp3 on X (formerly Twitter) for updates."),
         actions: <Widget>[
           CupertinoDialogAction(
             child: Text("Close"),
@@ -701,7 +701,7 @@ class IPodState extends State<IPod> {
       caption: MenuCaption(text: "About"),
       items: <IPodMenuItem>[
         IPodMenuItem(text: "Discord", onTap: () => _launchDiscord()),
-        IPodMenuItem(text: "Twitter", onTap: () => _launchTwitter()),
+        IPodMenuItem(text: "X (Formerly Twitter)", onTap: () => _launchTwitter()),
         IPodMenuItem(text: "Ko-Fi", onTap: () => _launchKofi(),),
         IPodMenuItem(text: "Github", onTap: () => _launchGithub(),)
       ],
