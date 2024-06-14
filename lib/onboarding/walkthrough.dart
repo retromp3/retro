@@ -96,7 +96,7 @@ class WalkthroughScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 50.0), // Adjust the bottom padding as needed
                         child: Text(
-                          'Quick Start',
+                          'Let\'s Get Started!',
                           style: TextStyle(fontSize: 24, color: Colors.blue),
                           textAlign: TextAlign.center,
                         ),
