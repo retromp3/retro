@@ -57,6 +57,7 @@ class IPodState extends State<IPod> {
   List<SongModel>? _songs;
   List<ArtistModel>? _artists;
   List<PlaylistModel>? _playlists;
+  List<SongModel>? _likedSongs; // Add this line
   bool debugMenu = false;
   PageController? _pageController;
   bool isCoverCycleVisible = true;
@@ -87,6 +88,7 @@ class IPodState extends State<IPod> {
     _artists = [];
     songIDs = [];
     _playlists = [];
+    _likedSongs = []; // Add this line
     _pageController = PageController(initialPage: 0);
 
     PerfectVolumeControl.hideUI = true;
@@ -231,6 +233,24 @@ class IPodState extends State<IPod> {
     List<SongModel> sortedSongs = List.from(_songs!)..sort((a, b) => a.title!.compareTo(b.title!));
 
     return sortedSongs
+        .map(
+          (SongModel song) => IPodMenuItem(
+            text: '${song.title}',
+            subText: '${song.artistName}',
+            onTap: () => BlocProvider.of<PlayerBloc>(context).add(SetQueueItem(song.songID)),
+          ),
+        )
+        .toList();
+  }
+
+  List<IPodMenuItem> _likedSongsBuilder() {
+    if (_likedSongs == null || _likedSongs!.isEmpty) {
+      return [IPodMenuItem(text: 'No liked songs fetched')];
+    }
+
+    List<SongModel> sortedLikedSongs = List.from(_likedSongs!)..sort((a, b) => a.title!.compareTo(b.title!));
+
+    return sortedLikedSongs
         .map(
           (SongModel song) => IPodMenuItem(
             text: '${song.title}',
@@ -502,8 +522,8 @@ class IPodState extends State<IPod> {
           ),
         ],
       ),
-      );
-    }
+    );
+  }
 
   AltSubMenu getAltMenu() {
     return AltSubMenu(
@@ -599,6 +619,11 @@ class IPodState extends State<IPod> {
       itemsBuilder: _songListBuilder,
     );
 
+    final IPodSubMenu likedSongsMenu = IPodSubMenu(
+      caption: MenuCaption(text: "Liked Songs"),
+      itemsBuilder: _likedSongsBuilder,
+    );
+
     final IPodSubMenu playlistMenu = IPodSubMenu(
       caption: MenuCaption(text: "Playlists"),
       itemsBuilder: _playlistBuilder,
@@ -656,6 +681,13 @@ class IPodState extends State<IPod> {
           text: "All Songs (Beta)",
           subMenu: songs,
           onTap: () => setState(() {
+            isCoverCycleVisible = false;
+          }),
+        ),
+        IPodMenuItem(
+          text: "Liked Songs",  // Add this line
+          subMenu: likedSongsMenu,  // Add this line
+          onTap: () => setState(() {  // Add this block
             isCoverCycleVisible = false;
           }),
         ),
