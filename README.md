@@ -50,6 +50,7 @@ Install the beta from the [Google Play Store](https://play.google.com/store/apps
    keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
    ```
 (You will need to create one if you haven't already).
+
 5. Under 'Android packages' in your Spotify dashboard, add the corresponding package/application ID and paste the SHA1 fingerprint generated in the previous step. The android package name can be found in the AndroidManifest.xml files in the android/app/src (debug, main, profile) directories. Ideally, change the package name to something unique. Defaults to co.retromusic.app2.
 6. In the terminal, run flutter pub get && flutter run.
 7. The app should now run on your Android device in debug mode.
