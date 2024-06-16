@@ -71,10 +71,9 @@ class WalkthroughScreen extends StatelessWidget {
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: TextStyle(fontSize: 40, color: Colors.black),
+                          style: TextStyle(fontSize: 40, color: Colors.black, fontFamily: 'Heros'),
                           children: <TextSpan>[
                             TextSpan(text: 'Retro', style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' Classic', style: TextStyle(fontWeight: FontWeight.w200)),
                           ],
                         ),
                       ),
