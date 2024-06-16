@@ -6,6 +6,15 @@
 
 Retro aims to bring back the iPod Classic experience to iOS and Android. Retro currently only works with Spotify. Apple Music support is ongoing with no planned release date.
 
+## Roadmap
+
+- [X] iOS
+- [X] Android
+- [X] Spotify
+- [ ] Liked Songs (deprecate all songs)
+- [ ] Shuffle Songs
+- [ ] Apple Music
+
 # Installation
 
 ## iOS
