@@ -1,4 +1,4 @@
-![hero](https://hero.png)
+![hero](hero.png)
 
 # About
 
