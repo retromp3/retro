@@ -1,4 +1,4 @@
-![hero](https://i.imgur.com/GFJhfkk.png)
+![hero](https://hero.png)
 
 # About
 
