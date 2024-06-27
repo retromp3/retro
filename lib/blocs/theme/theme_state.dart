@@ -1,17 +1,51 @@
 import 'package:equatable/equatable.dart';
 
 enum SkinTheme {
-  retro,
   black,
   silver,
-  carbonfiber,
+  beige,
+  bay,
+  pink,
+  orange,
+  coral,
+  arcPink,
+  red3ds,
+  catFrap,
+  catLatt,
+  catMacc,
+  catMocha,
+  comfy,
+  iphGree,
+  iphYell,
+  nord,
+  mint,
+  yellow,
+  oledBlack,
+  teen,
 }
 
 enum WheelColor {
   white,
   black,
-  red
+  blueMetal,
+  pink,
+  gray,
+  coral,
+  red3ds,
+  catFrap,
+  catLatt,
+  catMacc,
+  catMocha,
+  comfy,
+  iphGree,
+  iphYell,
+  nord,
+  mint,
+  yellow,
+  oledBlack,
+  teen,
 }
+
 
 class ThemeState extends Equatable {
   final SkinTheme? skinTheme;

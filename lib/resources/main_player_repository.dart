@@ -89,7 +89,6 @@ class MainPlayerRepository implements PlayerRepository {
       default:
         return false;
     }
-    return false;
   }
 
   Future<bool> _connectToSpotify() async {

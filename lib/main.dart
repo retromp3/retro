@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +7,7 @@ import 'package:retro/alt_menu/alt_sub_menu.dart';
 import 'package:retro/blocs/player/player_bloc.dart';
 import 'package:retro/blocs/songs/song_list.dart';
 import 'package:retro/blocs/theme/theme.dart';
+// Import this
 import 'package:retro/core.dart';
 import 'package:retro/ipod_menu_widget/ipod_menu_widget.dart';
 import 'package:retro/onboarding/walkthrough.dart';
@@ -41,13 +41,13 @@ late AltSubMenu altMenu;
 List<String?>? songIDs;
 MainViewMode? mainViewMode;
 
-enum MainViewMode {menu, player, breakoutGame}
+enum MainViewMode { menu, player, breakoutGame }
 
 Future<void> main() async {
   await dotenv.load();
   runApp(Phoenix(
-      child: MyApp(playify: Playify()),
-    ));
+    child: MyApp(playify: Playify()),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(brightness: Brightness.dark),
       debugShowCheckedModeBanner: false,
-      home: CheckFirstTime(), // Change the initial widget to CheckFirstTime
+      home: CheckFirstTime(),
     );
   }
 }
@@ -98,7 +98,7 @@ class _CheckFirstTimeState extends State<CheckFirstTime> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();  // Empty container (splash screen while checking)
+    return Container(); // Empty container (splash screen while checking)
   }
 }
 
@@ -115,7 +115,9 @@ class IPodApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: MultiBlocProvider(
         providers: [
-          BlocProvider<ThemeBloc>(create: (ctx) => ThemeBloc()),
+          BlocProvider<ThemeBloc>(
+            create: (ctx) => ThemeBloc()..add(PreferencesFetched()), // Dispatch PreferencesFetched event
+          ),
           BlocProvider<SongListBloc>(
             lazy: false,
             create: (ctx) => SongListBloc(MainPlayerRepository())
@@ -126,8 +128,8 @@ class IPodApp extends StatelessWidget {
             create: (ctx) => PlayerBloc(MainPlayerRepository()),
           )
         ],
-        child: _buildBody()
-      )
+        child: _buildBody(),
+      ),
     );
   }
 
